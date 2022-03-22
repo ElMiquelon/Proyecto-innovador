@@ -8,11 +8,7 @@ const config ={
     scene:[menup],
     physics:{
         default: "arcade",
-        arcade:{
-            gravity:{
-                y:300
-            }
-        }
+        
     }
 }
 
