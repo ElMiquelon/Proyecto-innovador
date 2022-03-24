@@ -1,4 +1,6 @@
 import juego from "./juego";
+import combate_test from "./combate_test";
+
 export default class menup extends Phaser.Scene{
 
     constructor(){
@@ -15,12 +17,14 @@ export default class menup extends Phaser.Scene{
         this.mm.setOrigin(0,0);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.scene.add("juego", new juego);
+        this.scene.add("combate_test", new combate_test);
     }
 
     update(time, delta){
         if (this.cursor.space.isDown){
             this.scene.start("juego");
-            
+        } else if (this.cursor.shift.isDown) {
+            this.scene.start("combate_test");
         }
     }
 }
