@@ -10,9 +10,9 @@ constructor(){
 }
 
 preload(){
-    this.load.image("map", "./assets/mapa_c.png");
-    this.load.image("player", "./assets/player_c.png");
-    this.load.image("pew", "./assets/pew.png");
+    this.load.image("map", "./assets/combate/mapa_c.png");
+    this.load.image("player", "./assets/combate/player_c.png");
+    this.load.image("pew", "./assets/combate/pew.png");
 }
 
 create(){

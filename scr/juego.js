@@ -6,10 +6,10 @@ constructor(){
     super({key: "juego"});
 }
 preload(){
-    this.load.image("map", "./assets/mapa.jpg");
-    this.load.image("player", "./assets/player.png");
-    this.load.image("remilia", "./assets/NPC1.jpg");
-    this.load.image("flandre", "./assets/NPC2.jpg");
+    this.load.image("map", "./assets/overworld/mapa.jpg");
+    this.load.image("player", "./assets/overworld/player.png");
+    this.load.image("remilia", "./assets/overworld/NPC1.jpg");
+    this.load.image("flandre", "./assets/overworld/NPC2.jpg");
 }
 
 create(){
