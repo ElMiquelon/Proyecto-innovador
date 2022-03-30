@@ -8,7 +8,15 @@ const config ={
     scene:[menup],
     physics:{
         default: "arcade",
-        
+        arcade:{
+            debug: true,
+            debugShowBody: true,
+            debugShowStaticBody: true,
+            debugShowVelocity: true,
+            debugVelocityColor: 0xff0000,
+            debugBodyColor: 0x00000,
+            debugStaticBodyColor: 0xff00ff
+        }
     }
 }
 

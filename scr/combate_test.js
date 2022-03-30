@@ -57,20 +57,17 @@ create(){
 }
 
 update(time, delta){
+    this.jugador.body.setVelocity(0);
     if (this.movimiento.right.isDown){
         this.jugador.body.setVelocityX(150);
     }else if (this.movimiento.left.isDown){
         this.jugador.body.setVelocityX(-150);
-    }else {
-        this.jugador.body.setVelocityX(0);
     }
     
     if (this.movimiento.up.isDown){
         this.jugador.body.setVelocityY(-150);
     }else if (this.movimiento.down.isDown){
         this.jugador.body.setVelocityY(150);
-    }else {
-        this.jugador.body.setVelocityY(0);  
     }
     graphics.clear();
     path.draw(graphics);
