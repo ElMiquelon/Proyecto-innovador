@@ -18,13 +18,13 @@ create(){
     this.cameras.main.setBounds(0, 0, 500 , 480);
     this.physics.world.setBounds(0, 0, 500, 480);
     this.add.image(0, 0, 'map').setOrigin(0);
-    
+
     //cartas
     card_w = this.add.sprite(65, 50, 'card_off').setOrigin(0.5);
     card_a = this.add.image(15, 90, 'card_off').setOrigin(0.5);
     card_s = this.add.image(65, 150, 'card_off').setOrigin(0.5);
     card_d = this.add.image(115, 90, 'card_off').setOrigin(0.5);
-    
+
     //control
     keys = this.input.keyboard.addKeys('W,A,S,D');
     this.movimiento = this.input.keyboard.createCursorKeys();
