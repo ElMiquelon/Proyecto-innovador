@@ -1,6 +1,6 @@
 import playerW from "./Jugador/jugadorMA.js";
 import NPC from "./NPCMA/NPC.js";
-//import npc1dialogue from "./NPCMA/NPC1/dialogos.js";
+import dialogue1 from "./NPCMA/NPC1/dialogos.js";
 export default class juego extends Phaser.Scene{
 
 
@@ -147,35 +147,34 @@ create(){
     this.movimiento = this.input.keyboard.createCursorKeys();
 
 
-
-    let basedialogos = this.add.text(0,0,'null',{
+    //sistema de dialogos 
+    let basedialogos = this.add.text(0,0,'sample text xdxdxdddd',{
         color:'#000',
         backgroundColor: '#fff',
         fontSize: '12px',
+        padding:{
+            bottom: 5
+        }
     }).setVisible(false);
+    var mensaje;
+    //Variables universales
+    
     //esta variable es para confirmar si ya se habló por primera vez o no
     //con el proposito de tener un primer dialogo "especial" y luego "genericos"
     //se puede cambiar por un registry mas adelante
-    var RFT = false;
-    //ayuda, quisiera tener esto en dialogos.js en la ruta ./NPCMA/NPC1/dialogos.js
-    var npc1dialog = ["Hola, nos acabamos de conocer", "hay confianza, chinga tu madre", "ola eli", "son solo 3"];
+    var remiliaFT = true;
     var posicion = this.remilia.getBounds();
-    this.remilia.on('pointerdown', function(pointer){
-        var npc1random = Phaser.Math.Between(1,3);
-        if (RFT == false){
-            basedialogos.setText(npc1dialog[0]).setVisible(true).setX(posicion.right).setY(posicion.top);
-            RFT=true;
-        }else{
-            basedialogos.setText(npc1dialog[npc1random]).setVisible(true).setX(posicion.right).setY(posicion.top);
-        }
+    //variables de personaje 
+
+    this.remilia.on('pointerdown', function(){
+        mensaje = dialogue1(remiliaFT);
+        remiliaFT=false;
+        basedialogos.setText(mensaje).setVisible(true).setX(posicion.right).setY(posicion.top);
     });
-    this.remilia.on('pointerout', function(pointer){
+    this.remilia.on('pointerout', function(){
         basedialogos.setVisible(false);
     });
-    //todo esto quedaría mejor en un script aparte para que se vea mas limpio, quiza lo trabaje mañana
-
-
-
+    //eventos de personaje
 }
 
 update(time, delta){
@@ -200,3 +199,4 @@ update(time, delta){
     
 }
 }
+
