@@ -1,6 +1,7 @@
 import playerW from "./Jugador/jugadorMA.js";
 import NPC from "./NPCMA/NPC.js";
 import dialogue1 from "./NPCMA/NPC1/dialogos.js";
+import cajadialogos from "./NPCMA/cajadialogos.js";
 export default class juego extends Phaser.Scene{
 
 
@@ -28,7 +29,8 @@ create(){
 
     //detalles del sprite
     this.jugador = new playerW(this, 30, 30, "playersprite");
-    this.jugador.setOrigin(0,0)/*.setScale(.1) Puede volver a ser necesario*/;
+    this.jugador.setOrigin(0,0);
+
     this.anims.create({
         key: 'top_walk',
         frames: this.anims.generateFrameNumbers('playersprite',{
@@ -146,33 +148,30 @@ create(){
     //control
     this.movimiento = this.input.keyboard.createCursorKeys();
 
-
-    //sistema de dialogos 
-    let basedialogos = this.add.text(0,0,'sample text xdxdxdddd',{
-        color:'#000',
-        backgroundColor: '#fff',
-        fontSize: '12px',
-        padding:{
-            bottom: 5
-        }
-    }).setVisible(false);
-    var mensaje;
-    //Variables universales
     
+    //sistema de dialogos 
+
+    //aqui se crea la escena que solo agrega el texto y funciones que manejan la caja
+    this.scene.add("cajadialogo", new cajadialogos);
+    //aqui se ejecuta en segundo plano
+    this.scene.launch('cajadialogo');
+    //en esta variable se almacenará y enviará el mensaje a la escena de la caja
+    var mensaje;
+
     //esta variable es para confirmar si ya se habló por primera vez o no
     //con el proposito de tener un primer dialogo "especial" y luego "genericos"
-    //se puede cambiar por un registry mas adelante
-    var remiliaFT = true;
-    var posicion = this.remilia.getBounds();
-    //variables de personaje 
+    this.data.set('remFirstTalk', true);
 
-    this.remilia.on('pointerdown', function(){
-        mensaje = dialogue1(remiliaFT);
-        remiliaFT=false;
-        basedialogos.setText(mensaje).setVisible(true).setX(posicion.right).setY(posicion.top);
-    });
-    this.remilia.on('pointerout', function(){
-        basedialogos.setVisible(false);
+    
+
+    this.remilia.on('pointerdown', () => {
+        /*en esta línea se llama a una funcion externa que determina si ya se habló con el npc por primera
+        vez y regresa un dialogo "especial", sino, uno "generico"*/  
+        mensaje = dialogue1(this.data.get('remFirstTalk'));
+        //aqui se actualiza el boleano para que la proxima vez mande el generico
+        this.data.setValue('remFirstTalk', false);
+        //aqui se llama al evento en cajadialogos.js 
+        this.registry.events.emit('pasarInfo', mensaje);
     });
     //eventos de personaje
 }
