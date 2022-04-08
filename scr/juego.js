@@ -1,6 +1,9 @@
 import playerW from "./Jugador/jugadorMA.js";
 import NPC from "./NPCMA/NPC.js";
+import dialogue1 from "./NPCMA/NPC1/dialogos.js";
+import cajadialogos from "./NPCMA/cajadialogos.js";
 export default class juego extends Phaser.Scene{
+
 
 constructor(){
     super({key: "juego"});
@@ -14,6 +17,7 @@ preload(){
     //las medidas de la hoja de sprites dependerán del modelo final
     this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
     this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
+    //this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 }
 
 create(){
@@ -25,7 +29,8 @@ create(){
 
     //detalles del sprite
     this.jugador = new playerW(this, 30, 30, "playersprite");
-    this.jugador.setOrigin(0,0)/*.setScale(.1) Puede volver a ser necesario*/;
+    this.jugador.setOrigin(0,0);
+
     this.anims.create({
         key: 'top_walk',
         frames: this.anims.generateFrameNumbers('playersprite',{
@@ -34,7 +39,7 @@ create(){
         repeat: -1,
         frameRate:8//no se cual se vea mejor
     })
-
+    //todos los tachados son los que al final no se usarán
     /*this.anims.create({
         key: 'topright_walk',
         frames: this.anims.generateFrameNumbers('playersprite',{
@@ -96,7 +101,7 @@ create(){
         }),
         repeat: -1,
         frameRate:8//no se cual se vea mejor
-    })*/
+    })*/ 
 
     this.anims.create({
         key: 'stall',
@@ -110,7 +115,7 @@ create(){
     this.jugador.anims.play('stall');
 
     this.remilia = new NPC(this, 300, 200, "spritemilia");
-    this.remilia.setOrigin(0,0);
+    this.remilia.setOrigin(0,0).setInteractive();
     this.anims.create({
         key: 'stallmilia',
         frames: this.anims.generateFrameNumbers('spritemilia',{
@@ -132,7 +137,6 @@ create(){
         frameRate:4//no se cual se vea mejor
     })
     this.patchouli.anims.play('stallknowledge');
-    //jaja perdon, ya me dio hueva. al final solo implementé sprites de prueba
 
     //fisicas
     this.jugador.body.setCollideWorldBounds(true);
@@ -143,6 +147,33 @@ create(){
     this.cameras.main.followOffset.set(0, 0);
     //control
     this.movimiento = this.input.keyboard.createCursorKeys();
+
+    
+    //sistema de dialogos 
+
+    //aqui se crea la escena que solo agrega el texto y funciones que manejan la caja
+    this.scene.add("cajadialogo", new cajadialogos);
+    //aqui se ejecuta en segundo plano
+    this.scene.launch('cajadialogo');
+    //en esta variable se almacenará y enviará el mensaje a la escena de la caja
+    var mensaje;
+
+    //esta variable es para confirmar si ya se habló por primera vez o no
+    //con el proposito de tener un primer dialogo "especial" y luego "genericos"
+    this.data.set('remFirstTalk', true);
+
+    
+
+    this.remilia.on('pointerdown', () => {
+        /*en esta línea se llama a una funcion externa que determina si ya se habló con el npc por primera
+        vez y regresa un dialogo "especial", sino, uno "generico"*/  
+        mensaje = dialogue1(this.data.get('remFirstTalk'));
+        //aqui se actualiza el boleano para que la proxima vez mande el generico
+        this.data.setValue('remFirstTalk', false);
+        //aqui se llama al evento en cajadialogos.js 
+        this.registry.events.emit('pasarInfo', mensaje);
+    });
+    //eventos de personaje
 }
 
 update(time, delta){
@@ -167,3 +198,4 @@ update(time, delta){
     
 }
 }
+

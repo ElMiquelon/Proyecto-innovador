@@ -1,5 +1,6 @@
-export default class selector extends Phaser.GameObjects.Sprite{
-    start(){
-        //wip
+export default class select extends Phaser.Structs.Rtree{
+    constructor(){
+        var slct = new Phaser.Structs.Rtree();
     }
+    
 }
