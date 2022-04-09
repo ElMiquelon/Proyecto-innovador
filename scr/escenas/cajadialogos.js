@@ -1,7 +1,7 @@
 let basedialogos;
 export default class cajadialogos extends Phaser.Scene{
     constructor (){
-        super({key: 'cajadialogo'});
+        super({key: 'cajadialogos'});
     }
 
     preload(){
@@ -21,6 +21,7 @@ export default class cajadialogos extends Phaser.Scene{
         //aqui se crea una "plantilla" para el timer que oculta la caja nuevamente
         var eliminarCaja = this.time.delayedCall(0);
         this.registry.events.on('pasarInfo', (mensaje)=>{
+            this.scene.wake(this);
             basedialogos.setText(mensaje).setVisible(true);// pero ahora sí y se pasa el mensaje obtenido
             //de la otra función
             eliminarCaja.destroy();//aqui se cancela cualquier timer que haya quedado anteriormente

@@ -1,6 +1,5 @@
 import playerW from "../Jugador/jugadorMA";
 import NPC from "../NPCMA/NPC";
-import cajadialogos from "../NPCMA/cajadialogos";
 export default class poliprueba extends Phaser.Scene{
     constructor(){
         super({key:'poliprueba'});
@@ -23,10 +22,15 @@ export default class poliprueba extends Phaser.Scene{
             this.scene.wake(this);
         });
 
-        
+        this.movimiento = this.input.keyboard.createCursorKeys();
     }
 
     update(time, delta){
-
+        this.player.body.setVelocity(0);
+        if(this.movimiento.right.isDown){
+            this.player.body.setVelocityX(10);
+        }else if(this.movimiento.shift.isDown){
+            this.scene.switch('juego');
+        }
     }
 }

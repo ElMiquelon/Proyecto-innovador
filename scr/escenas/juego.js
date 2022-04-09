@@ -1,8 +1,6 @@
-import playerW from "./Jugador/jugadorMA.js";
-import NPC from "./NPCMA/NPC.js";
-import dialogue1 from "./NPCMA/NPC1/dialogos.js";
-import cajadialogos from "./NPCMA/cajadialogos.js";
-import poliprueba from "./escenas/poliprueba.js";
+import playerW from "../Jugador/jugadorMA.js";
+import NPC from "../NPCMA/NPC.js";
+import dialogue1 from "../NPCMA/NPC1/dialogos.js";
 export default class juego extends Phaser.Scene{
 
 
@@ -14,14 +12,18 @@ preload(){
     this.load.image("player", "./assets/overworld/player.png");
     this.load.image("remilia", "./assets/overworld/NPC1.jpg");
     this.load.image("patchouli", "./assets/overworld/NPC2.jpg");
-    this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
+
+    //por el momento lo desactivo ya que otra escena tiene exactamente lo mismo y esto redunda
+    //this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
     //las medidas de la hoja de sprites dependerán del modelo final
+    
     this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
     this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
     //this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 }
 
 create(){
+
     //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
     this.cameras.main.setBounds(0, 0, 1066 , 635);
     this.physics.world.setBounds(0, 0, 1066, 635);
@@ -151,11 +153,7 @@ create(){
 
     
     //sistema de dialogos 
-
-    //aqui se crea la escena que solo agrega el texto y funciones que manejan la caja
-    this.scene.add("cajadialogo", new cajadialogos);
-    //aqui se ejecuta en paralelo
-    this.scene.launch('cajadialogo');
+    
     //en esta variable se almacenará y enviará el mensaje a la escena de la caja
     var mensaje;
 
@@ -166,7 +164,6 @@ create(){
     
 
     this.remilia.on('pointerdown', () => {
-        this.scene.wake('cajadialogo');
         /*en esta línea se llama a una funcion externa que determina si ya se habló con el npc por primera
         vez y regresa un dialogo "especial", sino, uno "generico"*/  
         mensaje = dialogue1(this.data.get('remFirstTalk'));
@@ -183,9 +180,6 @@ create(){
     //salaberga, el acomodo de coordenadas está raro
     this.edificioAdmn = this.add.rectangle(255, 167, 179, 45, 0x00ff00).setInteractive();
     //a continuación, intentaré pasar de escena guardando datos de la anterior
-    this.scene.add('poliprueba', new poliprueba);
-    this.scene.launch('poliprueba');
-    this.scene.sleep('poliprueba');
     this.edificioAdmn.on('pointerdown', ()=> {
         this.registry.events.emit('comenzarPoliPrueba', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY);
         //this.scene.switch('poliprueba');
