@@ -32,11 +32,7 @@ export default class cajadialogos extends Phaser.Scene{
     }
 
     adioscaja(){
-        basedialogos.setVisible(false);//y ocultar otra vez la "caja"
+        basedialogos.setVisible(false);// ocultar otra vez la "caja"
+        this.scene.sleep(this);//y poner a "dormir" la escena... quiza se ahorre memoria asi
     }//me pregunto si cuando necesite revisitar esto le entenderé
-
-    update(){
-        
-    }
-    
 }
