@@ -8,7 +8,7 @@ constructor(){
     super({key: "juego"});
 }
 preload(){
-    this.load.image("map", "./assets/overworld/mapa.jpg");
+    this.load.image("polimapa", "./assets/overworld/mapa.jpg");
     this.load.image("player", "./assets/overworld/player.png");
     this.load.image("remilia", "./assets/overworld/NPC1.jpg");
     this.load.image("patchouli", "./assets/overworld/NPC2.jpg");
@@ -25,9 +25,9 @@ preload(){
 create(){
 
     //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
-    this.cameras.main.setBounds(0, 0, 1066 , 635);
+    this.camara = this.cameras.main.setBounds(0, 0, 1066 , 635);
     this.physics.world.setBounds(0, 0, 1066, 635);
-    this.add.image(0, 0, 'map').setOrigin(0);
+    this.bg = this.add.image(0, 0, 'polimapa').setOrigin(0).setInteractive();
 
 
     //detalles del sprite
@@ -148,6 +148,7 @@ create(){
     //detalles de la cámara
     this.cameras.main.startFollow(this.jugador);
     this.cameras.main.followOffset.set(0, 0);
+    this.cameras.main.setZoom(1.5);
     //control
     this.movimiento = this.input.keyboard.createCursorKeys();
 
@@ -184,16 +185,26 @@ create(){
         this.registry.events.emit('comenzarPoliPrueba', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY);
         //this.scene.switch('poliprueba');
     });
+
+
+    //ola, soy yo de nuevo cambiando la idea de exploración.
+    // cuando quieran la explicación diganme y les digo, porque tardaré en escribirla
+    this.bg.on('pointerdown', ()=>{
+        this.cameras.main.setZoom(.5);
+    });
+
+    this.bg.on('pointerup', ()=>{
+        this.cameras.main.setZoom(1.5);
+    });
 }
 
 update(time, delta){
     this.jugador.body.setVelocity(0);
-    
     //console.log('X: ' + this.input.activePointer.worldX + '\nY: ' + this.input.activePointer.worldY);
     if (this.movimiento.right.isDown ){
         this.jugador.body.setVelocityX(100);
         this.jugador.anims.play('right_walk',true);
-        console.log('se mueve');
+        //console.log('se mueve');
     }else if (this.movimiento.left.isDown){
         this.jugador.body.setVelocityX(-100);
         this.jugador.anims.play('left_walk', true);
