@@ -8,10 +8,7 @@ constructor(){
     super({key: "juego"});
 }
 preload(){
-    this.load.image("polimapa", "./assets/overworld/mapa.jpg");
-    this.load.image("player", "./assets/overworld/player.png");
-    this.load.image("remilia", "./assets/overworld/NPC1.jpg");
-    this.load.image("patchouli", "./assets/overworld/NPC2.jpg");
+    
 
     //por el momento lo desactivo ya que otra escena tiene exactamente lo mismo y esto redunda
     //this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
@@ -32,7 +29,8 @@ create(){
 
     //detalles del sprite
     this.jugador = new playerW(this, 30, 30, "playersprite");
-    this.jugador.setOrigin(0,0);
+    //creo que a partir de ahora lo mejor será mover al jugador desde el centro
+    //this.jugador.setOrigin(0,0);
 
     this.anims.create({
         key: 'top_walk',
@@ -180,11 +178,17 @@ create(){
 
     //salaberga, el acomodo de coordenadas está raro
     this.edificioAdmn = this.add.rectangle(255, 167, 179, 45, 0x00ff00).setInteractive();
+    this.pasarAedificioAdmn = this.add.zone(this.edificioAdmn.getBounds().x, this.edificioAdmn.getBounds().y -5, 178, 5);
+    this.pasarAedificioAdmn.setOrigin(0,0);
+    this.physics.world.enable(this.pasarAedificioAdmn);
+    this.pasarAedificioAdmn.body.setAllowGravity(false);
+    this.physics.add.overlap(this.jugador, this.pasarAedificioAdmn);
     //a continuación, intentaré pasar de escena guardando datos de la anterior
     this.edificioAdmn.on('pointerdown', ()=> {
-        this.registry.events.emit('comenzarPoliPrueba', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY);
-        //this.scene.switch('poliprueba');
+        this.regi
     });
+
+    
 
 
     //ola, soy yo de nuevo cambiando la idea de exploración.
@@ -217,6 +221,11 @@ update(time, delta){
     }else{
         this.jugador.anims.pause();
         //this.jugador.anims.play('stall', true); esta es una opción, principalmente en caso de tener un sprite para eso
+    }
+
+    if(!this.pasarAedificioAdmn.body.touching.none){
+        this.registry.events.emit('comenzarPoliPrueba', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY);
+        this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().top + 5);
     }
     
 }

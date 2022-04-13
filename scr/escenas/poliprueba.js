@@ -6,9 +6,7 @@ export default class poliprueba extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
-        this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
-    }
+        }
 
     create(){
         this.add.image(0,0,'polibg').setOrigin(0,0);
@@ -39,13 +37,18 @@ export default class poliprueba extends Phaser.Scene{
         }
         if(this.movimiento.right.isDown){
             this.player.body.setVelocityX(100);
+            this.player.anims.play('right_walk',true);
         }else if(this.movimiento.left.isDown){
             this.player.body.setVelocityX(-100);
         }else if(this.movimiento.up.isDown){
             this.player.body.setVelocityY(-100);
         }else if(this.movimiento.down.isDown){
             this.player.body.setVelocityY(100);
-        }else if(this.movimiento.shift.isDown){
+        }else{
+            this.player.anims.pause();
+        }
+
+        if(this.movimiento.shift.isDown){
             this.scene.switch('juego');
         }
     }
