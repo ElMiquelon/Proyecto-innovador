@@ -2,7 +2,7 @@ import menup from "./menu principal";
 
 const config ={
     width: 500,
-    height: 480,
+    height: 500,
     parent: "contenedor",
     type: Phaser.AUTO,
     scene:[menup],
@@ -14,7 +14,7 @@ const config ={
             debugShowStaticBody: true,
             debugShowVelocity: true,
             debugVelocityColor: 0xff0000,
-            debugBodyColor: 0x00000,
+            debugBodyColor: 0xff0000,
             debugStaticBodyColor: 0xff00ff
         }
     }

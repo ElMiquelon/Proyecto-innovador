@@ -1,6 +1,7 @@
 import juego from "./escenas/juego";
 import cajadialogos from "./escenas/cajadialogos";
 import poliprueba from "./escenas/poliprueba";
+import overworld from "./escenas/overworld";
 //import combate_test from "./combate_test";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
@@ -9,19 +10,26 @@ export default class pantallaDeCarga extends Phaser.Scene{
 
     preload(){
         //descubrí que desde este momento se pueden cargar todos los assets del juego.
-        //de ahora en adelante se hará aquí
+        //de ahora en adelante se hará aquí y de preferencia en el orden puesto
+
+        //esta zona carga las escenas del juego
         this.scene.add('juego', new juego);
         this.scene.add('cajadialogos', new cajadialogos);
         this.scene.add('poliprueba', new poliprueba);
+        this.scene.add('overworld', new overworld);
         //this.scene.add('combate_test', new combate_test)
+
+        
+        //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
         this.load.image('loading', './assets/mp.jpg');
-        this.load.image("polimapa", "./assets/overworld/mapa.jpg");
-        this.load.image("player", "./assets/overworld/player.png");
-        this.load.image("remilia", "./assets/overworld/NPC1.jpg");
-        this.load.image("patchouli", "./assets/overworld/NPC2.jpg");
+        this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
+
+        
+        //aquí se cargarán sprites
         this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
-    
+        this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
+        this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
     }
 
     create(){
@@ -29,7 +37,8 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('cajadialogos').sleep('cajadialogos');
         this.scene.launch('poliprueba').sleep('poliprueba');
         this.scene.launch('combate_test').sleep('combate_test');
-        this.scene.start('juego');  
+        this.scene.launch('juego').stop('juego');
+        this.scene.start('overworld');  
     }
 
     update(){

@@ -12,8 +12,7 @@ export default class poliprueba extends Phaser.Scene{
         this.add.image(0,0,'polibg').setOrigin(0,0);
         this.warZone /*e la referencia*/ = this.add.zone(30, 50, 300, 300);
         this.physics.world.enable(this.warZone);
-        this.warZone.body.setAllowGravity(false);
-        this.warZone.body.moves = false;
+        
         this.player = new playerW(this, 0,0,'playersprite').setOrigin(0,0);
         console.log('la posicion es:' + this.player.getBounds().x + ' + ' + this.player.getBounds().y)
         this.registry.events.on('comenzarPoliPrueba', (ejeX, ejeY) =>{

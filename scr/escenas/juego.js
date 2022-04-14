@@ -14,21 +14,22 @@ preload(){
     //this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
     //las medidas de la hoja de sprites dependerán del modelo final
     
-    this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
-    this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
+    //this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
+    //this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
     //this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
 }
 
 create(){
 
     //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
-    this.camara = this.cameras.main.setBounds(0, 0, 1066 , 635);
-    this.physics.world.setBounds(0, 0, 1066, 635);
+    this.camara = this.cameras.main.setBounds(0, 0, 2000 , 2000);
+    this.physics.world.setBounds(0, 0, 2000, 2000);
     this.bg = this.add.image(0, 0, 'polimapa').setOrigin(0).setInteractive();
 
 
     //detalles del sprite
     this.jugador = new playerW(this, 30, 30, "playersprite");
+    this.jugador.setSize(12,16);
     //creo que a partir de ahora lo mejor será mover al jugador desde el centro
     //this.jugador.setOrigin(0,0);
 
