@@ -2,6 +2,7 @@ import juego from "./escenas/juego";
 import cajadialogos from "./escenas/cajadialogos";
 import poliprueba from "./escenas/poliprueba";
 import overworld from "./escenas/overworld";
+import cajaDeDialogos from "./escenas/cajaDeDialogos";
 //import combate_test from "./combate_test";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
@@ -13,10 +14,12 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //de ahora en adelante se hará aquí y de preferencia en el orden puesto
 
         //esta zona carga las escenas del juego
-        this.scene.add('juego', new juego);
-        this.scene.add('cajadialogos', new cajadialogos);
-        this.scene.add('poliprueba', new poliprueba);
+        this.scene.add('juego', new juego);//este script ha quedado obsoleto, pero es usado para crear las animaciones
         this.scene.add('overworld', new overworld);
+        this.scene.add('cajadialogos', new cajadialogos);//este quedó inutil por completo. borrar luego
+        this.scene.add('poliprueba', new poliprueba);//""
+        
+        this.scene.add('cajaDeDialogos', new cajaDeDialogos);
         //this.scene.add('combate_test', new combate_test)
 
         
@@ -38,6 +41,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('poliprueba').sleep('poliprueba');
         this.scene.launch('combate_test').sleep('combate_test');
         this.scene.launch('juego').stop('juego');
+        this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos')
         this.scene.start('overworld');  
     }
 

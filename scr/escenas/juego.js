@@ -205,6 +205,7 @@ create(){
 
 update(time, delta){
     this.jugador.body.setVelocity(0);
+    console.log(this.scene.isSleeping('cajadialogos'));
     //console.log('X: ' + this.input.activePointer.worldX + '\nY: ' + this.input.activePointer.worldY);
     if (this.movimiento.right.isDown ){
         this.jugador.body.setVelocityX(100);

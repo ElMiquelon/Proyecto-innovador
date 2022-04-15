@@ -1,3 +1,4 @@
+//a partir de la creacion de cajaDeDialogos.js, este script es inutil. 
 let basedialogos;
 export default class cajadialogos extends Phaser.Scene{
     constructor (){
@@ -22,6 +23,7 @@ export default class cajadialogos extends Phaser.Scene{
         var eliminarCaja = this.time.delayedCall(0);
         this.registry.events.on('pasarInfo', (mensaje)=>{
             this.scene.wake(this);
+            console.log(this.scene.isSleeping(this));
             basedialogos.setText(mensaje).setVisible(true);// pero ahora sí y se pasa el mensaje obtenido
             //de la otra función
             eliminarCaja.destroy();//aqui se cancela cualquier timer que haya quedado anteriormente
