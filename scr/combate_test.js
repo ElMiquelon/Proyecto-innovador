@@ -1,5 +1,45 @@
-var card_w, card_a, card_s, card_d;
-var keys;
+var card_atk;
+var card_block;
+var card_rest;
+var card_strong;
+
+var Unit = new Phaser.Class({
+    Extends: Phaser.GameObjects.Sprite,
+    initialize:
+    function Unit(scene, x, y, texture, frame, type, hp, damage) {
+        Phaser.GameObjects.Sprite.call(this, scene, x, y, texture, frame)
+        this.type = type;
+        this.maxHp = this.hp = hp;
+        this.damage = damage; // default damage                
+    },
+    attack: function(target) {
+        target.takeDamage(this.damage);      
+    },
+    takeDamage: function(damage) {
+        this.hp -= damage;        
+    }
+});
+
+var Enemy = new Phaser.Class({
+    Extends: Unit,
+    initialize:
+    function Enemy(scene, x, y, texture, frame, type, hp, damage) {
+        Unit.call(this, scene, x, y, texture, frame, type, hp, damage);
+    }
+});
+
+var PlayerCharacter = new Phaser.Class({
+    Extends: Unit,
+    initialize:
+    function PlayerCharacter(scene, x, y, texture, frame, type, hp, damage) {
+        Unit.call(this, scene, x, y, texture, frame, type, hp, damage);
+        // flip the image so I don't have to edit it manually
+        this.flipX = true;
+        
+        this.setScale(2);
+    }
+});
+
 export default class combate_test extends Phaser.Scene{
 
 constructor(){
@@ -8,9 +48,13 @@ constructor(){
 
 preload(){
     this.load.image("map", "./assets/combate/mapa_c.png");
-    //this.load.image("player", "./assets/combate/player_c.png");
-    this.load.image("card_off", "./assets/combate/card_off.png")
-    this.load.image("card_on", "./assets/combate/card_off.png")
+    this.load.image("player", "./assets/combate/player_c.png");
+    this.load.image("dragonblue", "./assets/combate/pew.png");
+    this.load.spritesheet("card_atk", "./assets/combate/card_atk.png", {frameWidth: 50, frameHeight: 70});
+    this.load.spritesheet("card_block", "./assets/combate/card_block.png", {frameWidth: 50, frameHeight: 70});
+    this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", {frameWidth: 50, frameHeight: 70});
+    this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", {frameWidth: 50, frameHeight: 70});
+    
 }
 
 create(){
@@ -20,27 +64,46 @@ create(){
     this.add.image(0, 0, 'map').setOrigin(0);
 
     //cartas
-    card_w = this.add.sprite(65, 50, 'card_off').setOrigin(0.5);
-    card_a = this.add.image(15, 90, 'card_off').setOrigin(0.5);
-    card_s = this.add.image(65, 150, 'card_off').setOrigin(0.5);
-    card_d = this.add.image(115, 90, 'card_off').setOrigin(0.5);
+    card_strong = this.add.image(310, 400, 'card_strong').setOrigin(0.5);
+    card_block = this.add.image(190, 400, 'card_block').setOrigin(0.5);
+    card_atk = this.add.sprite(250, 350, 'card_atk').setOrigin(0.5);
+    card_rest = this.add.image(250, 450, 'card_rest').setOrigin(0.5);
 
     //control
-    keys = this.input.keyboard.addKeys('W,A,S,D');
-    this.movimiento = this.input.keyboard.createCursorKeys();
+    this.acc = this.input.keyboard.createCursorKeys();
+
+    //Weas
+    // player character - warrior
+    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', 100, 20);        
+    this.add.existing(warrior);       
+    
+    var dragonblue = new Enemy(this, 50, 50, 'dragonblue', null, 'Dragon', 50, 3);
+    this.add.existing(dragonblue);
+    
+    // array with heroes
+    this.heroes = [warrior];
+    // array with enemies
+    this.enemies = [dragonblue];
+    // array with both parties, who will attack
+    this.units = this.heroes.concat(this.enemies);
 }
 
 update(time, delta){
-    /*ESTO NO FUNCIONA*/
-    /*if (this.movimiento.up.isDown){
-        card_w.setTexture('card_on')
-    }else if (this.movimiento.left.isUp){
-        card_w.setTexture('card_off')
-    }*/
 
-    card_w.setAlpha((keys.W.isDown) ? 1 : 0.2)
-    card_a.setAlpha((keys.A.isDown) ? 1 : 0.2)
-    card_s.setAlpha((keys.S.isDown) ? 1 : 0.2)
-    card_d.setAlpha((keys.D.isDown) ? 1 : 0.2)
+
+    if (this.acc.right.isDown){
+        card_strong.setTexture('card_strong', 1)
+    }else if (this.acc.left.isDown){
+        card_block.setTexture('card_block', 1)
+    }else if (this.acc.up.isDown){
+        card_atk.setTexture('card_atk', 1)
+    }else if (this.acc.down.isDown){
+        card_rest.setTexture('card_rest', 1)
+    }else{
+        card_strong.setTexture('card_strong', 0)
+        card_block.setTexture('card_block', 0)
+        card_atk.setTexture('card_atk', 0)
+        card_rest.setTexture('card_rest', 0)
+    }
 }
 }
