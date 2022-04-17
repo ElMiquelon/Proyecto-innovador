@@ -4,6 +4,8 @@ import poliprueba from "./escenas/poliprueba";*/
 import overworld from "./escenas/overworld";
 import cajaDeDialogos from "./escenas/cajaDeDialogos";
 //import combate_test from "./combate_test";
+import verMapa from "./escenas/Funciones/verMapa";
+import tutorial from "./escenas/Funciones/tutorialOBienvenida";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
         super({key: 'pantallaDeCarga'});
@@ -24,6 +26,8 @@ export default class pantallaDeCarga extends Phaser.Scene{
         
         this.scene.add('cajaDeDialogos', new cajaDeDialogos);
         //this.scene.add('combate_test', new combate_test)
+        this.scene.add('verMapa', new verMapa);
+        this.scene.add('tutorial', new tutorial);
 
         
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
@@ -44,7 +48,9 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('poliprueba').sleep('poliprueba');*/
         this.scene.launch('combate_test').sleep('combate_test');
         this.scene.launch('juego').stop('juego');
-        this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos')
+        this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
+        this.scene.launch('verMapa').stop('verMapa');
+        //this.scene.start('tutorial');
         this.scene.start('overworld');  
     }
 }
