@@ -16,7 +16,7 @@ export default class overworld extends Phaser.Scene{
 
         //creacion de NPCs
         this.rem = this.physics.add.sprite(326, 1062, 'spritemilia').setOrigin(0,0).setImmovable(true).setInteractive();
-        this.patch = this.physics.add.sprite(400, 800, 'spriteknowledge').setOrigin(0,0).setImmovable(true).setInteractive();
+        this.patch = this.physics.add.sprite(454, 762, 'spriteknowledge').setOrigin(0,0).setImmovable(true).setInteractive();
 
         //interacciones de los NPCs al ser clickeados (dialogos)
         this.data.set('remFirstTalk', true);
@@ -45,14 +45,17 @@ export default class overworld extends Phaser.Scene{
             this.add.rectangle(432,927,679,103).setOrigin(0,0),
             //rectangulos del B
             this.add.rectangle(217,699,258,58).setOrigin(0,0),
-            this.add.rectangle(476,638,157,119).setOrigin(0,0),
-            this.add.rectangle(634,682,478,63).setOrigin(0,0),
+            this.add.rectangle(476,638,60,119).setOrigin(0,0),
+            this.add.rectangle(583,638,50,43).setOrigin(0,0),
+            this.add.rectangle(583,707,50,50).setOrigin(0,0),
+            this.add.rectangle(634,707,478,38).setOrigin(0,0),
             //rectangulos del C
-            this.add.rectangle(785,486,339,100).setOrigin(0,0),
+            this.add.rectangle(785,486,339,73).setOrigin(0,0),
             //rectangulos del D
-            this.add.rectangle(524,307,592,94).setOrigin(0,0),
+            this.add.rectangle(524,307,105,94).setOrigin(0,0),
+            this.add.rectangle(658,336,458,66).setOrigin(0,0),
             //rectangulos del E
-            this.add.rectangle(566,125,551,98).setOrigin(0,0),
+            this.add.rectangle(566,125,551,63).setOrigin(0,0),
             //rectangulo de P.C. (protección civil)
             this.add.rectangle(1515,663,100,75).setOrigin(0,0),
             //rectangulos no me acuerdo qué es (creo que era algo de fundición)
@@ -62,7 +65,7 @@ export default class overworld extends Phaser.Scene{
             //rectangulos de ni idea (creo que es el edificio administrativo que no han terminado)
             this.add.rectangle(1272,1121,295,111).setOrigin(0,0),
             //rectangulos de la cancha
-            this.add.rectangle(974,1165,113,210).setOrigin(0,0),
+            /*this.add.rectangle(974,1165,113,210).setOrigin(0,0), ea, esta madre no es necesaria o sí?*/
             //rectangulos de mecanicos
             this.add.rectangle(1229,446, 425,198).setOrigin(0,0),
         ],{setImmovable:true});
@@ -72,7 +75,64 @@ export default class overworld extends Phaser.Scene{
 
         //estructuracion del mapa.1 - zonas que llevarán al jugador a un escenario mas detallado del edificio.
         
-        //WIP
+        //poliplaza
+        this.aPoliplaza = this.add.zone(217,758,233,45).setOrigin(0,0);
+        this.physics.add.existing(this.aPoliplaza,true);
+        this.physics.add.collider(this.jugador, this.aPoliplaza,() =>{
+            console.log('aquí va el evento que lleva a poliplaza. WIP');
+            this.jugador.setPosition(this.jugador.getBounds().centerX + 4, this.jugador.getBounds().centerY + 4);
+        });
+
+        //edificio A
+        this.alEdificioA = this.add.zone(432, 926, 679, 2).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioA, true);
+        //modificar mañana
+        this.physics.add.collider(this.jugador, this.alEdificioA, ()=>{
+            console.log('aquí va el evento que lleva al A. WIP');
+            this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().centerY - 4);
+        });
+
+        //edificio B no se confundan porque dice "B1" o "B2", es así porque son 2 rectangulos
+        this.alEdificioB1 = this.add.rectangle(537,638,45,119,0x00ffff).setOrigin(0,0);
+        this.alEdificioB2 = this.add.rectangle(583,682,529,24,0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioB1);
+        this.physics.add.existing(this.alEdificioB2);
+        this.alEdificioB1.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al B. se puede hacer que sea al B en la parte "administrativa" (oficialia, biblioteca, la wea de abajo donde nos citó tapia etc.)');
+        });
+        this.alEdificioB2.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al B. se puede hacer que sea al B en la parte de aulas');
+        });
+
+        //edificio C
+        this.alEdificioC = this.add.rectangle(785,560, 339, 27, 0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioC);
+        this.alEdificioC.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al C. WIP');
+        });
+
+        //edificio D, misma mierda que con el B
+        this.alEdificioD1 = this.add.rectangle(630,307,27,94,0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioD1);
+        this.alEdificioD1.on('pointerdown', ()=>{
+            console.log('aqui va el evento qu te lleva al D. WIP');
+        });
+        this.alEdificioD2 = this.add.rectangle(658,307,458,28,0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioD2);
+        this.alEdificioD2.on('pointerdown', ()=>{
+            console.log('aqui va el evento qu te lleva al D. WIP');
+        });
+
+        //edificio E
+        this.alEdificioE = this.add.rectangle(566,189,551,34,0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioE);
+        this.alEdificioE.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al E. WIP');
+        });
+
+
+        this.physics.add.overlap(this.jugador,[this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE]);
+
 
         //estructuración del mapa.2 - zonas donde apareceran enemigos genericos
         this. zonasDeBatalla = this.physics.add.staticGroup([
@@ -88,12 +148,39 @@ export default class overworld extends Phaser.Scene{
             }     
         });
 
+
+        //Input jaja
         this.mov = this.input.keyboard.createCursorKeys();
-    }
+    };
 
     update(time, delta){
+        //Lineas relacionadas al transporte del jugador        
+        this.alEdificioB1.setVisible(true).setInteractive();
+        this.alEdificioB2.setVisible(true).setInteractive();
+        if(this.alEdificioB1.body.touching.none && !this.alEdificioB1.body.embedded.valueOf() && this.alEdificioB2.body.touching.none && !this.alEdificioB2.body.embedded.valueOf()){
+            this.alEdificioB1.setVisible(false).disableInteractive();
+            this.alEdificioB2.setVisible(false).disableInteractive();
+        };
+
+        this.alEdificioC.setVisible(true).setInteractive();
+        if(this.alEdificioC.body.touching.none && !this.alEdificioC.body.embedded.valueOf()){
+            this.alEdificioC.setVisible(false).disableInteractive();
+        };
+
+        this.alEdificioD1.setVisible(true).setInteractive();
+        this.alEdificioD2.setVisible(true).setInteractive();
+        if(this.alEdificioD1.body.touching.none && !this.alEdificioD1.body.embedded.valueOf() && this.alEdificioD2.body.touching.none && !this.alEdificioD2.body.embedded.valueOf()){
+            this.alEdificioD1.setVisible(false).disableInteractive();
+            this.alEdificioD2.setVisible(false).disableInteractive();
+        };
+
+        this.alEdificioE.setVisible(true).setInteractive();
+        if(this.alEdificioE.body.touching.none && !this.alEdificioE.body.embedded.valueOf()){
+            this.alEdificioE.setVisible(false).disableInteractive();
+        };
+
+        //Cosas relacionadas al movimiento del jugador
         this.jugador.body.setVelocity(0);
-        //console.log('X: ' + this.input.activePointer.worldX + '\nY: ' + this.input.activePointer.worldY);
         if (this.mov.right.isDown ){
             this.jugador.body.setVelocityX(100);
             this.jugador.anims.play('right_walk',true);
