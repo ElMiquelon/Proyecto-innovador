@@ -50,7 +50,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('juego').stop('juego');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
-        //this.scene.start('tutorial');
-        this.scene.start('overworld');  
+        this.scene.start('tutorial');
+        //this.scene.start('overworld');  
     }
 }

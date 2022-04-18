@@ -165,18 +165,15 @@ export default class overworld extends Phaser.Scene{
         
         //Detalles para abrir el mapa
         this.map = this.input.keyboard.addKey('M');
+        this.map.on('down', ()=>{
+            this.scene.transition({target:'verMapa', duration:100, sleep:true});
+        });
         /*this.events.on('transitionout', (targetScene, duration) =>{
             console.log(targetScene.scene.key);
         }); esta madre será util a la hora de transicionar a combates. primer aviso*/
     };
 
     update(time, delta){
-        if(this.map.isDown){
-            this.scene.sleep(this);
-            this.scene.transition({target:'verMapa', duration:100, sleep:true});
-            //this.scene.switch('verMapa')
-        };
-
         //Lineas relacionadas al transporte del jugador        
         this.alEdificioA1.setVisible(true).setInteractive();
         this.alEdificioA2.setVisible(true).setInteractive();
