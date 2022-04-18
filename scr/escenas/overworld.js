@@ -10,7 +10,7 @@ export default class overworld extends Phaser.Scene{
         //detalles de la camara y limites del mundo
         this.cameras.main.setBounds(0,0,2000,2000);
         this.cameras.main.setZoom(.7)
-        this.overworldBG = this.add.image(0,0, 'polimapa').setOrigin(0,0);
+        this.overworldBG = this.add.image(0,0, 'polimapa').setOrigin(0,0).setInteractive();
         this.physics.world.setBounds(0,0,2000,2000);
 
 
@@ -42,7 +42,8 @@ export default class overworld extends Phaser.Scene{
         //estructuración del mapa para evitar que salga, traspase edificios, etc.
         this.edificios = this.physics.add.staticGroup([
             //rectangulos del A
-            this.add.rectangle(432,927,679,103).setOrigin(0,0),
+            this.add.rectangle(432,927,104,104).setOrigin(0,0),
+            this.add.rectangle(591,955,521,48).setOrigin(0,0),
             //rectangulos del B
             this.add.rectangle(217,699,258,58).setOrigin(0,0),
             this.add.rectangle(476,638,60,119).setOrigin(0,0),
@@ -83,14 +84,23 @@ export default class overworld extends Phaser.Scene{
             this.jugador.setPosition(this.jugador.getBounds().centerX + 4, this.jugador.getBounds().centerY + 4);
         });
 
-        //edificio A
-        this.alEdificioA = this.add.zone(432, 926, 679, 2).setOrigin(0,0);
-        this.physics.add.existing(this.alEdificioA, true);
-        //modificar mañana
-        this.physics.add.collider(this.jugador, this.alEdificioA, ()=>{
-            console.log('aquí va el evento que lleva al A. WIP');
-            this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().centerY - 4);
+        //edificio A 
+        this.alEdificioA1 = this.add.rectangle(536, 927, 55, 104, 0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioA1);
+        this.alEdificioA1.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al A o a su cafetería.WIP');
         });
+        this.alEdificioA2 = this.add.rectangle(591, 927, 521, 28, 0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioA2);
+        this.alEdificioA2.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al A parte frontal(?.WIP');
+        });
+        this.alEdificioA3 = this.add.rectangle(591, 1003, 521, 28, 0x00ffff).setOrigin(0,0);
+        this.physics.add.existing(this.alEdificioA3);
+        this.alEdificioA3.on('pointerdown', ()=>{
+            console.log('aqui va el evento que te lleva al A parte trasera(?.WIP');
+        });
+
 
         //edificio B no se confundan porque dice "B1" o "B2", es así porque son 2 rectangulos
         this.alEdificioB1 = this.add.rectangle(537,638,45,119,0x00ffff).setOrigin(0,0);
@@ -131,7 +141,7 @@ export default class overworld extends Phaser.Scene{
         });
 
 
-        this.physics.add.overlap(this.jugador,[this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE]);
+        this.physics.add.overlap(this.jugador,[this.alEdificioA1, this.alEdificioA2, this.alEdificioA3, this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE]);
 
 
         //estructuración del mapa.2 - zonas donde apareceran enemigos genericos
@@ -151,10 +161,29 @@ export default class overworld extends Phaser.Scene{
 
         //Input jaja
         this.mov = this.input.keyboard.createCursorKeys();
+        
+        
+        //Detalles para abrir el mapa
+        this.map = this.input.keyboard.addKey('M');
+        this.map.on('down', ()=>{
+            this.scene.transition({target:'verMapa', duration:100, sleep:true});
+        });
+        /*this.events.on('transitionout', (targetScene, duration) =>{
+            console.log(targetScene.scene.key);
+        }); esta madre será util a la hora de transicionar a combates. primer aviso*/
     };
 
     update(time, delta){
         //Lineas relacionadas al transporte del jugador        
+        this.alEdificioA1.setVisible(true).setInteractive();
+        this.alEdificioA2.setVisible(true).setInteractive();
+        this.alEdificioA3.setVisible(true).setInteractive();
+        if(this.alEdificioA1.body.touching.none && !this.alEdificioA1.body.embedded.valueOf() && this.alEdificioA2.body.touching.none && !this.alEdificioA2.body.embedded.valueOf() && this.alEdificioA3.body.touching.none && !this.alEdificioA3.body.embedded.valueOf() ){
+            this.alEdificioA1.setVisible(false).disableInteractive();
+            this.alEdificioA2.setVisible(false).disableInteractive();
+            this.alEdificioA3.setVisible(false).disableInteractive();
+        };
+
         this.alEdificioB1.setVisible(true).setInteractive();
         this.alEdificioB2.setVisible(true).setInteractive();
         if(this.alEdificioB1.body.touching.none && !this.alEdificioB1.body.embedded.valueOf() && this.alEdificioB2.body.touching.none && !this.alEdificioB2.body.embedded.valueOf()){
@@ -197,6 +226,7 @@ export default class overworld extends Phaser.Scene{
         }else{
             this.jugador.anims.pause();
             //this.jugador.anims.play('stall', true); esta es una opción, principalmente en caso de tener un sprite para eso
-        }
+        };
+
     }
 }
