@@ -8,7 +8,10 @@ var playerStats = {
     hp: 100,
     atk: 7,
     def: 5,
-    res: 1.00
+    res: 1.00,
+    buffDmg: 0,
+    buffMaxhp: 0,
+    buffDef: 0
 };
 
 var enemyStats = {
@@ -26,13 +29,51 @@ var Combate = {
         if (playerStats.hp >= playerStats.hp){
             playerStats.hp = playerStats.maxhp;
         }
+    },
+    hurtPlayer : function(multi){
+        var outgoing = Math.round(multi * enemyStats.atk * enemyStats.buffDmg)
+        playerStats.hp -= outgoing;
+        if (playerStats.hp < 0){
+            playerStats.hp = 0;
+        }
+    },
+    healEnemy: function(raw){
+        enemyStats.hp += raw;
+        if (enemyStats.hp > enemyStats.maxhp){
+            enemyStats.hp = enemyStats.maxhp;
+        }
+    },
+    hurtEnemy: function(multi){
+        var incoming = Math.round(multi * playerStats.atk);
+        enemyStats.hp -= incoming ;
+        if (enemyStats.hp < 0){
+            enemyStats.hp = 0;
+        }
+    },
+    response : function(x, y){
+        var r = Phaser.Math.Between(x,y);
+        switch (r) {
+            case 1:
+                this.hurtPlayer(1);
+                break;
+            case 2:
+                this.hurtPlayer(1.5);
+                break;
+            case 3:
+                this.hurtPlayer(0.5);
+                break;
+            case 4:
+                this.healEnemy(5);
+                break;
+            case 5:
+                this.healEnemy(10);
+                break;
+            default:
+                break;
+        }
     }
 };
 
-
-/*function empezarCombate(atk, maxhp, def, res, eatk, emaxhp, eres) {
-    
-}*/
 
 export default class combate_test extends Phaser.Scene{
 
@@ -74,7 +115,22 @@ create(){
     //control
     this.acc = this.input.keyboard.createCursorKeys();
 
-    this.acc.right.on('down', ()=>{
+
+    //estos se imrpimen en la escena equivocada aaaa
+    this.acc.right.on('down', () => {
+        Combate.hurtEnemy(1.5);
+        console.log('Vida enemigo = ' + enemyStats.hp);
+        Combate.response(1,5);
+    });
+    this.acc.left.on('down', () => {
+        Combate.hurtEnemy(0.5);
+        console.log('Vida enemigo = ' + enemyStats.hp);
+    });
+    this.acc.up.on('down', () => {
+        Combate.hurtEnemy(1);
+        console.log('Vida enemigo = ' + enemyStats.hp);
+    });
+    this.acc.down.on('down', () => {
         Combate.healPlayer(10);
         console.log('Vida = ' + playerStats.hp);
     });
@@ -84,10 +140,10 @@ create(){
         //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
         this.scene.wake(this);
         this.scene.stop('menup');
-        console.log('el nivel del jugador es: ' + playerLVL);
+        console.log('El nivel del jugador es: ' + playerLVL);
         if (playerLVL == 1){
             this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1,2));/*nosotros tendremos que decir "a, los enemigos desde 
-            x a y serán para tal nivel de jugador" y los pondremos dentro del between.*/
+            x a y serán para tal nivel de jugador" y los pondremos dentro del between. voy a testar con el lvl1*/
             enemyStats.nombre = this.enemyLoader.nombre;
             enemyStats.maxhp = this.enemyLoader.maxhp[Phaser.Math.Between(0, this.enemyLoader.maxhp.length - 1)];
             enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
