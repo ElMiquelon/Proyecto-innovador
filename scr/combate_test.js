@@ -16,13 +16,14 @@ var enemyStats = {
     hp: 100,
     atk: 7,
     def: 5,
-    res: 1.00
+    res: 1.00,
+    nombre: 'elpepe'
 };
 
 var Combate = {
     healPlayer : function(raw){
         playerStats.hp += raw;
-        if (playerStats.hp > playerStats.hp){
+        if (playerStats.hp >= playerStats.hp){
             playerStats.hp = playerStats.maxhp;
         }
     }
@@ -48,6 +49,11 @@ preload(){
     this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", {frameWidth: 50, frameHeight: 70});
     this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", {frameWidth: 50, frameHeight: 70});
     
+    
+    this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
+    this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
+    this.load.json('enemigo3', './assets/combate/estadisticas/enemigo3.json');
+    this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
 }
 
 create(){
@@ -67,24 +73,55 @@ create(){
 
     //control
     this.acc = this.input.keyboard.createCursorKeys();
+
+    this.acc.right.on('down', ()=>{
+        Combate.healPlayer(10);
+        console.log('Vida = ' + playerStats.hp);
+    });
+
+    //asignación de estadisticas al enemigo
+    this.registry.events.on('comenzarBatalla', (playerLVL)=>{
+        //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
+        this.scene.wake(this);
+        this.scene.stop('menup');
+        console.log('el nivel del jugador es: ' + playerLVL);
+        if (playerLVL == 1){
+            this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1,2));/*nosotros tendremos que decir "a, los enemigos desde 
+            x a y serán para tal nivel de jugador" y los pondremos dentro del between.*/
+            enemyStats.nombre = this.enemyLoader.nombre;
+            enemyStats.maxhp = this.enemyLoader.maxhp[Phaser.Math.Between(0, this.enemyLoader.maxhp.length - 1)];
+            enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
+            enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
+            enemyStats.def = this.enemyLoader.def[Phaser.Math.Between(0, this.enemyLoader.def.length - 1)];
+            enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];            
+            console.log(enemyStats);
+        }else if(playerLVL == 2){
+            this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(3,4));
+            enemyStats.nombre = this.enemyLoader.nombre;
+            enemyStats.maxhp = this.enemyLoader.maxhp[Phaser.Math.Between(0, this.enemyLoader.maxhp.length - 1)];
+            enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
+            enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
+            enemyStats.def = this.enemyLoader.def[Phaser.Math.Between(0, this.enemyLoader.def.length - 1)];
+            enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
+            console.log(enemyStats); 
+        }
+    });
 }
 
 update(time, delta){
+    card_strong.setTexture('card_strong', 0)
+    card_block.setTexture('card_block', 0)
+    card_atk.setTexture('card_atk', 0)
+    card_rest.setTexture('card_rest', 0)
     if (this.acc.right.isDown){
         card_strong.setTexture('card_strong', 1)
-        Combate.healPlayer(10);
-        console.log('Vida = ' + playerStats.hp);
     }else if (this.acc.left.isDown){
         card_block.setTexture('card_block', 1)
     }else if (this.acc.up.isDown){
         card_atk.setTexture('card_atk', 1)
     }else if (this.acc.down.isDown){
         card_rest.setTexture('card_rest', 1)
-    }else{
-        card_strong.setTexture('card_strong', 0)
-        card_block.setTexture('card_block', 0)
-        card_atk.setTexture('card_atk', 0)
-        card_rest.setTexture('card_rest', 0)
     }
+        
 }
 }

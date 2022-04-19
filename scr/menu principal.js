@@ -17,13 +17,14 @@ export default class menup extends Phaser.Scene{
         this.cursor = this.input.keyboard.createCursorKeys();
         this.scene.add("pantallaDeCarga", new pantallaDeCarga);
         this.scene.add("combate_test", new combate_test);
+        this.scene.launch('combate_test').sleep('combate_test');
     }
 
     update(time, delta){
         if (this.cursor.space.isDown){
             this.scene.start("pantallaDeCarga");
         } else if (this.cursor.shift.isDown) {
-            this.scene.start("combate_test");
+            this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
         }
     }
 }
