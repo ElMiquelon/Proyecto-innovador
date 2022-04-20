@@ -6,6 +6,7 @@ import cajaDeDialogos from "./escenas/cajaDeDialogos";
 //import combate_test from "./combate_test";
 import verMapa from "./escenas/Funciones/verMapa";
 import tutorial from "./escenas/Funciones/tutorialOBienvenida";
+import prologo from "./escenas/Funciones/prologo";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
         super({key: 'pantallaDeCarga'});
@@ -28,12 +29,17 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //this.scene.add('combate_test', new combate_test)
         this.scene.add('verMapa', new verMapa);
         this.scene.add('tutorial', new tutorial);
+        this.scene.add('prologo', new prologo)
 
         
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
         this.load.image('loading', './assets/mp.jpg');
         this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
+
+        //aqui se cargaran imagenes de dialogos
+        this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
+        this.load.image('eliEnojado', './assets/overworld/dialogos/tutorial/eliEnojado.jpeg');
 
         
         //aquí se cargarán sprites

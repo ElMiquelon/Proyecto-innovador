@@ -11,17 +11,16 @@ export default class cajaDeDialogos extends Phaser.Scene{
     }
 
     create(){
-        dialogo = this.add.text(0,0, 'placeholder', {
+        this.caja = this.add.rectangle(0, 380, this.sys.game.config.width, 100, 0xaaaaaa, .35).setOrigin(0,0);
+        dialogo = this.add.text(this.caja.getBounds().x, this.caja.getBounds().y, 'placeholder', {
             fontSize: '15px',
-            backgroundColor: '#fff',
             color:'#000',
             padding:{
-                bottom: 5,
+                bottom: 2
             }
-        }).setVisible(false);
+        });
         this.ok = this.input.keyboard.addKey('X');
         this.ok.on('down', ()=>{
-            dialogo.setVisible(false);
             this.scene.resume('overworld');
             this.scene.sleep(this);
         });
@@ -30,9 +29,9 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.scene.wake(this);
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);
             if (FT){
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]).setVisible(true);
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);
             }else{
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]).setVisible(true);
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);
             };
             this.scene.pause('overworld');
         });
