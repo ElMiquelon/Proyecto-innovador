@@ -2,6 +2,7 @@ var card_atk;
 var card_block;
 var card_rest;
 var card_strong;
+var enemyHealthbar;
 var t = 0;
 var mirror = 0;
 import combateDialogos from "./combateDialogos";
@@ -188,6 +189,7 @@ preload(){
     this.load.spritesheet("card_block", "./assets/combate/card_block.png", {frameWidth: 50, frameHeight: 70});
     this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", {frameWidth: 50, frameHeight: 70});
     this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", {frameWidth: 50, frameHeight: 70});
+    this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", {frameWidth: 100, frameHeight: 10});
     
     
     this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
@@ -208,6 +210,9 @@ create(){
 
     //jugador
     /*var x = new PlayerStats(combate_test, 50, 50, "player_c", 100, 7, 5, 1.00);*/
+
+    //barra de vida
+    enemyHealthbar = this.add.sprite(20, 50, 'healthbar').setOrigin(0);
 
     //cartas
     card_strong = this.add.sprite(310, 400, 'card_strong').setOrigin(0.5);
@@ -366,10 +371,44 @@ update(time, delta){
         '\nAtaque: ' + enemyStats.atk +  
         '\nResistencia: ' + enemyStats.res, 
     );
+
+    if (enemyStats.hp == enemyStats.maxhp) {
+        enemyHealthbar.setTexture('healthbar', 0);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
+        enemyHealthbar.setTexture('healthbar', 1);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.8)) {
+        enemyHealthbar.setTexture('healthbar', 2);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.7)) {
+        enemyHealthbar.setTexture('healthbar', 3);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.6)) {
+        enemyHealthbar.setTexture('healthbar', 4);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.5)) {
+        enemyHealthbar.setTexture('healthbar', 5);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.4)) {
+        enemyHealthbar.setTexture('healthbar', 6);
+    }else if (enemyStats.hp >= (enemyStats.maxhp * 0.3)) {
+        enemyHealthbar.setTexture('healthbar', 7);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.2)) {
+        enemyHealthbar.setTexture('healthbar', 8);
+    } else if (enemyStats.hp >= (enemyStats.maxhp * 0.1)) {
+        enemyHealthbar.setTexture('healthbar', 9);
+    } else if (enemyStats.hp == 0) {
+        enemyHealthbar.setTexture('healthbar', 10);
+    }
     
     card_strong.setTexture('card_strong', 0);
     card_block.setTexture('card_block', 0);
     card_atk.setTexture('card_atk', 0);
     card_rest.setTexture('card_rest', 0);    
+    
+    if (this.acc.right.isDown){
+        card_strong.setTexture('card_strong', 1)
+    }else if (this.acc.left.isDown){
+        card_block.setTexture('card_block', 1)
+    }else if (this.acc.up.isDown){
+        card_atk.setTexture('card_atk', 1)
+    }else if (this.acc.down.isDown){
+        card_rest.setTexture('card_rest', 1)
+    }
 }
 }
