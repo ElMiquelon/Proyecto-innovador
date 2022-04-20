@@ -188,8 +188,8 @@ preload(){
 
 create(){
     //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
-    this.cameras.main.setBounds(0, 0, 500 , 480);
-    this.physics.world.setBounds(0, 0, 500, 480);
+    //this.cameras.main.setBounds(0, 0, 500 , 480); no veo necesaria la camara aquí
+    //this.physics.world.setBounds(0, 0, 500, 480); ni el set bounds
     this.add.image(0, 0, 'map').setOrigin(0);
 
     //jugador
@@ -279,6 +279,7 @@ create(){
         console.log('Vida = ' + playerStats.hp);
     });
 
+
     //asignación de estadisticas al enemigo
     this.registry.events.on('comenzarBatalla', (playerLVL)=>{
         //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
@@ -292,7 +293,6 @@ create(){
             enemyStats.maxhp = this.enemyLoader.maxhp[Phaser.Math.Between(0, this.enemyLoader.maxhp.length - 1)];
             enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
             enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-            enemyStats.def = this.enemyLoader.def[Phaser.Math.Between(0, this.enemyLoader.def.length - 1)];
             enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];            
             console.log(enemyStats);
         }else if(playerLVL == 2){
@@ -301,14 +301,45 @@ create(){
             enemyStats.maxhp = this.enemyLoader.maxhp[Phaser.Math.Between(0, this.enemyLoader.maxhp.length - 1)];
             enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
             enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-            enemyStats.def = this.enemyLoader.def[Phaser.Math.Between(0, this.enemyLoader.def.length - 1)];
             enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
             console.log(enemyStats); 
         }
     });
+
+    //impresion de las estadisticas del jugador y enemigo
+    this.BGPlayerStats = this.add.rectangle(0,305,0,0, 0xaaaaaa, .4).setOrigin(0);
+    this.txtPlayerstats = this.add.text(0,305,
+        'Vida: ' + playerStats.hp + 
+        '\nAtaque: ' + playerStats.atk + 
+        '\nDefensa: ' + playerStats.def + 
+        '\nResistencia: ' + playerStats.res, 
+        {color:'black', padding:{bottom:2}
+    }); 
+    this.BGPlayerStats.setSize(this.txtPlayerstats.getBounds().width, this.txtPlayerstats.getBounds().height)
+    
+    
+    this.BGEnemyStats = this.add.rectangle(0,0,0,0, 0xaaaaaa, .4).setOrigin(0);
+    this.txtEnemyStats = this.add.text(0,0,
+        'Vida: ' + enemyStats.hp + 
+        '\nAtaque: ' + enemyStats.atk +  
+        '\nResistencia: ' + enemyStats.res, 
+        {color:'black', padding:{bottom:2}
+    }); 
+    this.BGEnemyStats.setSize( this.txtPlayerstats.getBounds().width, this.txtPlayerstats.getBounds().height)
 }
 
 update(time, delta){
+    this.txtPlayerstats.setText('Vida: ' + playerStats.hp + 
+    '\nAtaque: ' + playerStats.atk + 
+    '\nDefensa: ' + playerStats.def + 
+    '\nResistencia: ' + playerStats.res);
+
+    this.txtEnemyStats.setText(
+        'Vida: ' + enemyStats.hp + 
+        '\nAtaque: ' + enemyStats.atk +  
+        '\nResistencia: ' + enemyStats.res, 
+    );
+    
     card_strong.setTexture('card_strong', 0)
     card_block.setTexture('card_block', 0)
     card_atk.setTexture('card_atk', 0)
