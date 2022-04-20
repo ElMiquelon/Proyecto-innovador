@@ -4,6 +4,7 @@ var card_rest;
 var card_strong;
 var t = 0;
 var mirror = 0;
+var elEnemigoAtaco;
 import combateDialogos from "./combateDialogos";
 var playerStats = {
     maxhp: 100,
@@ -36,26 +37,10 @@ var Combate = {
         }
     },
     hurtPlayer : function(multi){
-        var outgoing = Math.round(multi * enemyStats.atk);
-        if (enemyStats.buffDmg > 0) {
-            outgoing += enemyStats.buffDmg;
-        }
-        outgoing -= playerStats.def - playerStats.buffDef;
-        if (outgoing <= 0) {
-            outgoing = 1;
-            console.log('El daño del enemigo era muy bajo!');
-        }
-        mirror = outgoing;
-        playerStats.hp -= outgoing;
-        if (playerStats.hp < 0){
-            playerStats.hp = 0;
-        }
+        
     },
     healEnemy: function(raw){
-        enemyStats.hp += raw;
-        if (enemyStats.hp > enemyStats.maxhp){
-            enemyStats.hp = enemyStats.maxhp;
-        }
+        
     },
     hurtEnemy: function(multi){
         var incoming = Math.round(multi * playerStats.atk);
@@ -78,39 +63,6 @@ var Combate = {
         }
     },
     response : function(){
-        var r = Phaser.Math.Between(1,5);
-        switch (r) {
-            case 1:
-                this.hurtPlayer(1);
-                console.log('El enemigo escogio un ataque medio');
-                return 0;
-            case 2:
-                this.hurtPlayer(1.5);
-                console.log('El enemigo escogio un ataque fuerte');
-                return 0;
-            case 3:
-                this.hurtPlayer(0.5);
-                console.log('El enemigo escogio un ataque débil');
-                return 0;
-            case 4:
-                this.healEnemy(5);
-                console.log('El enemigo escogio curarse un poco');
-                return 1;
-            case 5:
-                if (enemyStats.penal >= 1) {
-                    this.hurtPlayer(1);
-                    console.log('El enemigo iba a curarse pero decidió no hacerlo');
-                } else {
-                    this.healEnemy(10);
-                    Combate.buffDmgEnemy(5, 1);
-                    console.log('El enemigo escogio curarse mucho');
-                    enemyStats.penal += 5;
-                    return 1;
-                }
-                break;
-            default:
-                break;
-        }
     },
     gameOver : function(v){
         switch (v) {
@@ -215,6 +167,72 @@ create(){
     card_atk = this.add.sprite(250, 350, 'card_atk').setOrigin(0.5);
     card_rest = this.add.sprite(250, 450, 'card_rest').setOrigin(0.5);
 
+    //eventos del combate
+    this.registry.events.on('response',()=>{
+        var r = Phaser.Math.Between(1,5);
+        switch (r) {
+            case 1:
+                this.registry.events.emit('hurtPlayer', 1)
+                console.log('El enemigo escogio un ataque medio');
+                elEnemigoAtaco = 0;
+                break;
+            case 2:
+                this.registry.events.emit('hurtPlayer', 1.5);
+                console.log('El enemigo escogio un ataque fuerte');
+                elEnemigoAtaco = 0;
+                break;
+            case 3:
+                this.registry.events.emit('hurtPlayer', .5)
+                console.log('El enemigo escogio un ataque débil');
+                elEnemigoAtaco = 0;
+                break;
+            case 4:
+                this.registry.events.emit('healEnemy', 5)
+                console.log('El enemigo escogio curarse un poco');
+                elEnemigoAtaco = 1;
+                break;
+            case 5:
+                if (enemyStats.penal >= 1) {
+                    this.registry.events.emit('hurtPlayer', 1)
+                    console.log('El enemigo iba a curarse pero decidió no hacerlo');
+                    elEnemigoAtaco = 0;
+                } else {
+                    this.registry.events.emit('healEnemy', 10);
+                    Combate.buffDmgEnemy(5, 1);
+                    console.log('El enemigo escogio curarse mucho');
+                    enemyStats.penal += 5;
+                    elEnemigoAtaco = 1;
+                }
+                break;
+            default:
+                break;
+        }
+    });
+
+    this.registry.events.on('hurtPlayer', (multi)=>{
+        var outgoing = Math.round(multi * enemyStats.atk);
+        if (enemyStats.buffDmg > 0) {
+            outgoing += enemyStats.buffDmg;
+        }
+        outgoing -= playerStats.def - playerStats.buffDef;
+        if (outgoing <= 0) {
+            outgoing = 1;
+            console.log('El daño del enemigo era muy bajo!');
+        }
+        mirror = outgoing;
+        playerStats.hp -= outgoing;
+        if (playerStats.hp < 0){
+            playerStats.hp = 0;
+        }
+    });
+    
+    this.registry.events.on('healEnemy', (raw)=>{
+        enemyStats.hp += raw;
+        if (enemyStats.hp > enemyStats.maxhp){
+            enemyStats.hp = enemyStats.maxhp;
+        }
+    })
+
     //control
     this.acc = this.input.keyboard.createCursorKeys();
 
@@ -226,8 +244,8 @@ create(){
         this.registry.events.emit('accionDeCombate', 'Has intentado realizar un parry');
         setTimeout(() => {
             if (enemyStats.hp > 0) {
-                var x = Combate.response();
-                if (x != 1) {
+                this.registry.events.emit('response');
+                if (elEnemigoAtaco != 1) {
                     mirror = Math.round(mirror * 0.5);
                     Combate.hurtEnemy(0.5);
                     Combate.hurtEnemyMirror(mirror);
