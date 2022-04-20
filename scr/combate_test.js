@@ -30,103 +30,6 @@ var enemyStats = {
     penal: 0
 };
 
-var Combate = {
-    healPlayer : function(raw){
-        playerStats.hp += raw;
-        if (playerStats.hp >= playerStats.hp){
-            playerStats.hp = playerStats.maxhp;
-        }
-    },
-    hurtPlayer : function(multi){
-        
-    },
-    healEnemy: function(raw){
-        
-    },
-    hurtEnemy: function(multi){
-        var incoming = Math.round(multi * playerStats.atk);
-        if (playerStats.buffDmg > 0) {
-            incoming += playerStats.buffDmg;
-        }
-        if (incoming <= 0) {
-            incoming = 1;
-            console.log('El daño del jugador era muy bajo!');
-        }
-        enemyStats.hp -= incoming ;
-        if (enemyStats.hp < 0){
-            enemyStats.hp = 0;
-        }
-    },
-    hurtEnemyMirror: function(raw){
-        enemyStats.hp -= raw;
-        if (enemyStats.hp < 0){
-            enemyStats.hp = 0;
-        }
-    },
-    response : function(){
-    },
-    gameOver : function(v){
-        switch (v) {
-            case 0: /*Perdiste*/
-                console.log('Perdiste');
-                break;
-            case 1: /*Ganaste*/
-                console.log('Ganaste');
-                this.scene
-                break;
-            default:
-                break;
-        }
-    },
-    nextTurn : function(){
-            t += 1;
-            playerStats.buffDmgT -= 1;
-            playerStats.buffDefT -= 1;
-            playerStats.res = 1.00;
-            enemyStats.res = 1.00;
-            enemyStats.buffDmgT -= 1;
-            enemyStats.penal -= 1;
-            
-            if (playerStats.buffDmgT <= 0) {
-                playerStats.buffDmgT = 0;
-                playerStats.buffDmg = 0;
-            };
-            if (playerStats.buffDefT <= 0) {
-                playerStats.buffDefT = 0;
-                playerStats.buffDef = 0;
-            };
-            if (enemyStats.buffDmgT <= 0) {
-                enemyStats.buffDmgT = 0;
-                enemyStats.buffDmg = 0;
-            };
-    },
-    buffDmgPlayer : function(buff, turns) {
-        if (playerStats.buffDmgT > 0) {
-            console.log('El jugador ya tiene un buff de daño activo');
-        } else {
-            playerStats.buffDmg = buff;
-            playerStats.buffDmgT = turns;
-        }
-    },
-    buffDefPlayer : function(buff, turns) {
-        if (playerStats.buffDefT > 0) {
-            console.log('El jugador ya tiene un buff de defensa activo');
-        } else {
-            playerStats.buffDef = buff;
-            playerStats.buffDefT = turns;
-        }
-    },
-    buffDmgEnemy : function(buff, turns) {
-        if (enemyStats.buffDmgT > 0) {
-            console.log('El jugador ya tiene un buff activo');
-        } else {
-            enemyStats.buffDmg = buff;
-            enemyStats.buffDmgT = turns;
-        }
-    },
-};
-
-
 export default class combate_test extends Phaser.Scene{
 
 constructor(){
@@ -203,7 +106,7 @@ create(){
                     elEnemigoAtaco = 0;
                 } else {
                     this.registry.events.emit('healEnemy', 10);
-                    Combate.buffDmgEnemy(5, 1);
+                    this.registry.events.emit('buffDmgEnemy',5, 1);
                     console.log('El enemigo escogio curarse mucho');
                     enemyStats.penal += 5;
                     elEnemigoAtaco = 1;
@@ -236,7 +139,100 @@ create(){
         if (enemyStats.hp > enemyStats.maxhp){
             enemyStats.hp = enemyStats.maxhp;
         }
+    });
+
+    this.registry.events.on('hurtEnemy', (multi)=>{
+        var incoming = Math.round(multi * playerStats.atk);
+        if (playerStats.buffDmg > 0) {
+            incoming += playerStats.buffDmg;
+        }
+        if (incoming <= 0) {
+            incoming = 1;
+            console.log('El daño del jugador era muy bajo!');
+        }
+        enemyStats.hp -= incoming ;
+        if (enemyStats.hp < 0){
+            enemyStats.hp = 0;
+        }
+    });
+
+    this.registry.events.on('hurtEnemyMirror', (raw)=>{
+        enemyStats.hp -= raw;
+        if (enemyStats.hp < 0){
+            enemyStats.hp = 0;
+        }
     })
+
+    this.registry.events.on('nextTurn', ()=>{
+        t += 1;
+            playerStats.buffDmgT -= 1;
+            playerStats.buffDefT -= 1;
+            playerStats.res = 1.00;
+            enemyStats.res = 1.00;
+            enemyStats.buffDmgT -= 1;
+            enemyStats.penal -= 1;
+            
+            if (playerStats.buffDmgT <= 0) {
+                playerStats.buffDmgT = 0;
+                playerStats.buffDmg = 0;
+            };
+            if (playerStats.buffDefT <= 0) {
+                playerStats.buffDefT = 0;
+                playerStats.buffDef = 0;
+            };
+            if (enemyStats.buffDmgT <= 0) {
+                enemyStats.buffDmgT = 0;
+                enemyStats.buffDmg = 0;
+            };
+    })
+
+    this.registry.events.on('healPlayer', (raw)=>{
+        playerStats.hp += raw;
+        if (playerStats.hp >= playerStats.hp){
+            playerStats.hp = playerStats.maxhp;
+        }
+    });
+
+    this.registry.events.on('gameOver', (v)=>{
+        switch (v) {
+            case 0: /*Perdiste*/
+                console.log('Perdiste');
+                break;
+            case 1: /*Ganaste*/
+                console.log('Ganaste');
+                //this.scene.switch('overworld'); tambien se puede hacer una transición
+                break;
+            default:
+                break;
+        }
+    });
+
+    this.registry.events.on('buffDmgPlayer', (buff, turns) =>{
+        if (playerStats.buffDmgT > 0) {
+            console.log('El jugador ya tiene un buff de daño activo');
+        } else {
+            playerStats.buffDmg = buff;
+            playerStats.buffDmgT = turns;
+        }
+    });
+
+    this.registry.events.on('buffDefPlayer', (buff, turns) =>{
+        if (playerStats.buffDefT > 0) {
+            console.log('El jugador ya tiene un buff de defensa activo');
+        } else {
+            playerStats.buffDef = buff;
+            playerStats.buffDefT = turns;
+        }
+    });
+
+    this.registry.events.on('buffDmgEnemy', (buff, turns) =>{
+        if (enemyStats.buffDmgT > 0) {
+            console.log('El jugador ya tiene un buff activo');
+        } else {
+            enemyStats.buffDmg = buff;
+            enemyStats.buffDmgT = turns;
+        }
+    });
 
     //control
     this.acc = this.input.keyboard.createCursorKeys();
@@ -252,8 +248,8 @@ create(){
                 this.registry.events.emit('response');
                 if (elEnemigoAtaco != 1) {
                     mirror = Math.round(mirror * 0.5);
-                    Combate.hurtEnemy(0.5);
-                    Combate.hurtEnemyMirror(mirror);
+                    this.registry.events.emit('hurtEnemy',0.5);
+                    this.registry.events.emit('hurtEnemyMirror', mirror);
                     this.registry.events.emit('accionDeCombate', 'Has ejecutado un parry exitosamente');
                     console.log('Vida enemigo = ' + enemyStats.hp);
                 } else {
@@ -262,12 +258,12 @@ create(){
                     console.log('Vida jugador = ' + playerStats.hp);
                 }
             } else {
-                Combate.gameOver(1);
+                this.registry.events.emit('gameOver', 1);
             };
             if (playerStats.hp > 0) {
-                Combate.nextTurn();
+                this.registry.events.emit('nextTurn');
             } else {
-                Combate.gameOver(0);
+                this.registry.events.emit('gameOver', 0);
             };
         }, 1500);//el tiempo debe de ser equivalente al timer de combateDialogos
         
@@ -277,17 +273,17 @@ create(){
         card_block.setTexture('card_block', 1);
         this.registry.events.emit('accionDeCombate', 'Has elejido hacer un bloqueo');
         if (enemyStats.hp > 0) {
-            var x = Combate.response();
-            if (x != 1) {
-                Combate.buffDefPlayer(10,1);
+            this.registry.events.emit('response');
+            if (elEnemigoAtaco != 1) {
+                this.registry.events.emit('buffDefPlayer', 10,1);
             }
         } else {
-            Combate.gameOver(1);
+            this.registry.events.emit('gameOver', 1);
         };
         if (playerStats.hp > 0) {
-            Combate.nextTurn();
+            this.registry.events.emit('nextTurn');
         } else {
-            Combate.gameOver(0);
+            this.registry.events.emit('gameOver', 0);
         };
         console.log('Vida enemigo = ' + enemyStats.hp);
 
@@ -295,35 +291,35 @@ create(){
     this.acc.up.on('down', () => {
         card_atk.setTexture('card_atk', 1);
         this.registry.events.emit('accionDeCombate', 'Has decidido atacar');
-        Combate.hurtEnemy(1);
+        this.registry.events.emit('hurtEnemy', 1);
         console.log('Vida enemigo = ' + enemyStats.hp);
         if (enemyStats.hp > 0) {
-            Combate.response();
+            this.registry.events.emit('response');
         } else {
-            Combate.gameOver(1);
+            this.registry.events.emit('gameOver', 1);
         };
         if (playerStats.hp > 0) {
-            Combate.nextTurn();
+            this.registry.events.emit('nextTurn');
         } else {
-            Combate.gameOver(0);
+            this.registry.events.emit('gameOver', 0);
         };
     });
     this.acc.down.on('down', () => {
         card_rest.setTexture('card_rest', 1);
         this.registry.events.emit('accionDeCombate', 'Has decidido curarte');
-        Combate.healPlayer(10);
+        this.registry.events.emit('healPlayer', 10);
         playerStats.res = 0.3;
-        Combate.buffDmgPlayer(5,1);
-        Combate.buffDefPlayer(5, 1);
+        this.registry.events.emit('buffDmgPlayer', 5,1);
+        this.registry.events.emit('buffDefPlayer', 5, 1);
         if (enemyStats.hp > 0) {
-            Combate.response();
+            this.registry.events.emit('response');
         } else {
-            Combate.gameOver(1);
+            this.registry.events.emit('gameOver', 1);
         };
         if (playerStats.hp > 0) {
-            Combate.nextTurn();
+            this.registry.events.emit('nextTurn');
         } else {
-            Combate.gameOver(0);
+            this.registry.events.emit('gameOver', 0);
         };
         console.log('Vida = ' + playerStats.hp);
     });
@@ -417,16 +413,6 @@ update(time, delta){
     card_strong.setTexture('card_strong', 0);
     card_block.setTexture('card_block', 0);
     card_atk.setTexture('card_atk', 0);
-    card_rest.setTexture('card_rest', 0);    
-    
-    if (this.acc.right.isDown){
-        card_strong.setTexture('card_strong', 1)
-    }else if (this.acc.left.isDown){
-        card_block.setTexture('card_block', 1)
-    }else if (this.acc.up.isDown){
-        card_atk.setTexture('card_atk', 1)
-    }else if (this.acc.down.isDown){
-        card_rest.setTexture('card_rest', 1)
-    }
+    card_rest.setTexture('card_rest', 0);
 }
 }
