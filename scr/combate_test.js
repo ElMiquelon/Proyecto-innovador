@@ -4,7 +4,7 @@ var card_rest;
 var card_strong;
 var t = 0;
 var mirror = 0;
-
+import combateDialogos from "./combateDialogos";
 var playerStats = {
     maxhp: 100,
     hp: 100,
@@ -194,6 +194,8 @@ preload(){
     this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
     this.load.json('enemigo3', './assets/combate/estadisticas/enemigo3.json');
     this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
+
+    this.scene.add('combateDialogos', new combateDialogos)
 }
 
 create(){
@@ -201,6 +203,8 @@ create(){
     //this.cameras.main.setBounds(0, 0, 500 , 480); no veo necesaria la camara aquí
     //this.physics.world.setBounds(0, 0, 500, 480); ni el set bounds
     this.add.image(0, 0, 'map').setOrigin(0);
+
+    this.scene.launch('combateDialogos').sleep('combateDialogos');
 
     //jugador
     /*var x = new PlayerStats(combate_test, 50, 50, "player_c", 100, 7, 5, 1.00);*/
@@ -217,31 +221,38 @@ create(){
 
     //estos se imrpimen en la escena equivocada aaaa
     this.acc.right.on('down', () => {
+        card_strong.setTexture('card_strong', 1);
         playerStats.res = 0.8;
-        if (enemyStats.hp > 0) {
-            var x = Combate.response();
-            if (x != 1) {
-                mirror = Math.round(mirror * 0.5);
-                Combate.hurtEnemy(0.5);
-                Combate.hurtEnemyMirror(mirror);
-                console.log('Se activo un parry');
-                console.log('Vida enemigo = ' + enemyStats.hp);
+        this.registry.events.emit('accionDeCombate', 'Has intentado realizar un parry');
+        setTimeout(() => {
+            if (enemyStats.hp > 0) {
+                var x = Combate.response();
+                if (x != 1) {
+                    mirror = Math.round(mirror * 0.5);
+                    Combate.hurtEnemy(0.5);
+                    Combate.hurtEnemyMirror(mirror);
+                    this.registry.events.emit('accionDeCombate', 'Has ejecutado un parry exitosamente');
+                    console.log('Vida enemigo = ' + enemyStats.hp);
+                } else {
+                    playerStats.hp -= 5;
+                    this.registry.events.emit('accionDeCombate', 'Has fallado el parry');
+                    console.log('Vida jugador = ' + playerStats.hp);
+                }
             } else {
-                playerStats.hp -= 5;
-                console.log('No se activo un parry');
-                console.log('Vida jugador = ' + playerStats.hp);
-            }
-        } else {
-            Combate.gameOver(1);
-        };
-        if (playerStats.hp > 0) {
-            Combate.nextTurn();
-        } else {
-            Combate.gameOver(0);
-        };
+                Combate.gameOver(1);
+            };
+            if (playerStats.hp > 0) {
+                Combate.nextTurn();
+            } else {
+                Combate.gameOver(0);
+            };
+        }, 1500);//el tiempo debe de ser equivalente al timer de combateDialogos
+        
     });
     this.acc.left.on('down', () => {
         playerStats.res = 0.1;
+        card_block.setTexture('card_block', 1);
+        this.registry.events.emit('accionDeCombate', 'Has elejido hacer un bloqueo');
         if (enemyStats.hp > 0) {
             var x = Combate.response();
             if (x != 1) {
@@ -256,8 +267,11 @@ create(){
             Combate.gameOver(0);
         };
         console.log('Vida enemigo = ' + enemyStats.hp);
+
     });
     this.acc.up.on('down', () => {
+        card_atk.setTexture('card_atk', 1);
+        this.registry.events.emit('accionDeCombate', 'Has decidido atacar');
         Combate.hurtEnemy(1);
         console.log('Vida enemigo = ' + enemyStats.hp);
         if (enemyStats.hp > 0) {
@@ -272,6 +286,8 @@ create(){
         };
     });
     this.acc.down.on('down', () => {
+        card_rest.setTexture('card_rest', 1);
+        this.registry.events.emit('accionDeCombate', 'Has decidido curarte');
         Combate.healPlayer(10);
         playerStats.res = 0.3;
         Combate.buffDmgPlayer(5,1);
@@ -351,19 +367,9 @@ update(time, delta){
         '\nResistencia: ' + enemyStats.res, 
     );
     
-    card_strong.setTexture('card_strong', 0)
-    card_block.setTexture('card_block', 0)
-    card_atk.setTexture('card_atk', 0)
-    card_rest.setTexture('card_rest', 0)
-    if (this.acc.right.isDown){
-        card_strong.setTexture('card_strong', 1)
-    }else if (this.acc.left.isDown){
-        card_block.setTexture('card_block', 1)
-    }else if (this.acc.up.isDown){
-        card_atk.setTexture('card_atk', 1)
-    }else if (this.acc.down.isDown){
-        card_rest.setTexture('card_rest', 1)
-    }
-        
+    card_strong.setTexture('card_strong', 0);
+    card_block.setTexture('card_block', 0);
+    card_atk.setTexture('card_atk', 0);
+    card_rest.setTexture('card_rest', 0);    
 }
 }
