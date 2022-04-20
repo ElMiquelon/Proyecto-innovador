@@ -36,9 +36,16 @@ var Combate = {
         }
     },
     hurtPlayer : function(multi){
-        var outgoing = Math.round(multi * enemyStats.atk * enemyStats.buffDmg)
-        mirror = outgoing;
+        var outgoing = Math.round(multi * enemyStats.atk);
+        if (enemyStats.buffDmg > 0) {
+            outgoing += enemyStats.buffDmg;
+        }
         outgoing -= playerStats.def - playerStats.buffDef;
+        if (outgoing <= 0) {
+            outgoing = 1;
+            console.log('El daño del enemigo era muy bajo!');
+        }
+        mirror = outgoing;
         playerStats.hp -= outgoing;
         if (playerStats.hp < 0){
             playerStats.hp = 0;
@@ -52,6 +59,13 @@ var Combate = {
     },
     hurtEnemy: function(multi){
         var incoming = Math.round(multi * playerStats.atk);
+        if (playerStats.buffDmg > 0) {
+            incoming += playerStats.buffDmg;
+        }
+        if (incoming <= 0) {
+            incoming = 1;
+            console.log('El daño del jugador era muy bajo!');
+        }
         enemyStats.hp -= incoming ;
         if (enemyStats.hp < 0){
             enemyStats.hp = 0;
@@ -70,26 +84,22 @@ var Combate = {
                 this.hurtPlayer(1);
                 console.log('El enemigo escogio un ataque medio');
                 return 0;
-                break;
             case 2:
                 this.hurtPlayer(1.5);
                 console.log('El enemigo escogio un ataque fuerte');
                 return 0;
-                break;
             case 3:
                 this.hurtPlayer(0.5);
                 console.log('El enemigo escogio un ataque débil');
                 return 0;
-                break;
             case 4:
                 this.healEnemy(5);
                 console.log('El enemigo escogio curarse un poco');
                 return 1;
-                break;
             case 5:
                 if (enemyStats.penal >= 1) {
                     this.hurtPlayer(1);
-                    console.log('El enemigo escogio un ataque medio');
+                    console.log('El enemigo iba a curarse pero decidió no hacerlo');
                 } else {
                     this.healEnemy(10);
                     Combate.buffDmgEnemy(5, 1);
@@ -309,7 +319,7 @@ create(){
     //impresion de las estadisticas del jugador y enemigo
     this.BGPlayerStats = this.add.rectangle(0,305,0,0, 0xaaaaaa, .4).setOrigin(0);
     this.txtPlayerstats = this.add.text(0,305,
-        'Vida: ' + playerStats.hp + 
+        'Vida: ' + playerStats.hp + ' / ' + playerStats.maxhp +
         '\nAtaque: ' + playerStats.atk + 
         '\nDefensa: ' + playerStats.def + 
         '\nResistencia: ' + playerStats.res, 
@@ -320,7 +330,7 @@ create(){
     
     this.BGEnemyStats = this.add.rectangle(0,0,0,0, 0xaaaaaa, .4).setOrigin(0);
     this.txtEnemyStats = this.add.text(0,0,
-        'Vida: ' + enemyStats.hp + 
+        'Vida: ' + enemyStats.hp +  ' / ' + enemyStats.maxhp +
         '\nAtaque: ' + enemyStats.atk +  
         '\nResistencia: ' + enemyStats.res, 
         {color:'black', padding:{bottom:2}
@@ -329,13 +339,14 @@ create(){
 }
 
 update(time, delta){
-    this.txtPlayerstats.setText('Vida: ' + playerStats.hp + 
+    this.txtPlayerstats.setText(
+    'Vida: ' + playerStats.hp + ' / ' + playerStats.maxhp +
     '\nAtaque: ' + playerStats.atk + 
     '\nDefensa: ' + playerStats.def + 
     '\nResistencia: ' + playerStats.res);
 
     this.txtEnemyStats.setText(
-        'Vida: ' + enemyStats.hp + 
+        'Vida: ' + enemyStats.hp + ' / ' + enemyStats.maxhp +
         '\nAtaque: ' + enemyStats.atk +  
         '\nResistencia: ' + enemyStats.res, 
     );
