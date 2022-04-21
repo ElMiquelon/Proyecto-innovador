@@ -33,7 +33,7 @@ export default class overworld extends Phaser.Scene{
 
         //creacion del this.jugador y detalles
         this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
-        this.jugador.setSize(12,16, true);
+        this.jugador.setSize(16,26, true);
         this.jugador.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);

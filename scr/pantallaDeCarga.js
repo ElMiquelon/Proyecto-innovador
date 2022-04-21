@@ -52,7 +52,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //no se como hacer para que ponga un texto de "cargando", será algo a futuro
         /*this.scene.launch('cajadialogos').sleep('cajadialogos');
         this.scene.launch('poliprueba').sleep('poliprueba');*/
-        this.scene.launch('combate_test').sleep('combate_test');
+        //this.scene.launch('combate_test').sleep('combate_test');
         this.scene.launch('juego').stop('juego');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
