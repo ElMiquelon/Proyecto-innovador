@@ -39,7 +39,7 @@ create(){
             frames: [0,1,2,3]
         }),
         repeat: -1,
-        frameRate:8//no se cual se vea mejor
+        frameRate:16//no se cual se vea mejor
     })
     //todos los tachados son los que al final no se usarán
     /*this.anims.create({
@@ -57,7 +57,7 @@ create(){
             frames: [8,9,10,11]
         }),
         repeat: -1,
-        frameRate:8//no se cual se vea mejor
+        frameRate:16//no se cual se vea mejor
     })
 
     /*this.anims.create({
@@ -75,7 +75,7 @@ create(){
             frames: [16,17,18,19]
         }),
         repeat: -1,
-        frameRate:8//no se cual se vea mejor
+        frameRate:16//no se cual se vea mejor
     })
 
     /*this.anims.create({
@@ -93,7 +93,7 @@ create(){
             frames: [24,25,26,27]
         }),
         repeat: -1,
-        frameRate:8//no se cual se vea mejor
+        frameRate:16//no se cual se vea mejor
     })
 
     /*this.anims.create({
@@ -111,7 +111,7 @@ create(){
             frames: [16,18]
         }),
         repeat: -1,
-        frameRate:8//no se cual se vea mejor
+        frameRate:16//no se cual se vea mejor
     })
 
     this.jugador.anims.play('stall');

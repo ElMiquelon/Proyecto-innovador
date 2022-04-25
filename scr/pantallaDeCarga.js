@@ -36,10 +36,22 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image('loading', './assets/mp.jpg');
         this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
+        this.load.audio('BGMOverworld', './assets/overworld/sonidos/BGMOverworld.ogg');
+        //recomiendo que el sonido que usemos final sea uno que quede en cualquier superficie
+        this.load.audio('stone1', './assets/overworld/sonidos/stone1.ogg');
+        this.load.audio('stone2', './assets/overworld/sonidos/stone2.ogg');
+        this.load.audio('stone3', './assets/overworld/sonidos/stone3.ogg');
+        this.load.audio('stone4', './assets/overworld/sonidos/stone4.ogg');
+        this.load.audio('stone5', './assets/overworld/sonidos/stone5.ogg');
+        this.load.audio('stone6', './assets/overworld/sonidos/stone6.ogg');
 
         //aqui se cargaran imagenes de dialogos
         this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
         this.load.image('eliEnojado', './assets/overworld/dialogos/tutorial/eliEnojado.jpeg');
+
+        //aqui se cargarán sonidos de dialogos
+        this.load.audio('sonidoNPC1', './assets/overworld/dialogos/npc1.wav');
+        this.load.audio('sonidoNPC2', './assets/overworld/dialogos/npc2.ogg');
 
         
         //aquí se cargarán sprites

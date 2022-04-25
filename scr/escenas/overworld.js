@@ -4,14 +4,17 @@ export default class overworld extends Phaser.Scene{
     }
     preload(){
         //no estoy seguro si los sonidos será mejor cargarlos aquí o en la pantalla de carga.
+        //por ahora estan en la pantalla de carga 24/04/22
     }
 
     create(){
-        //detalles de la camara y limites del mundo
+        //detalles de la camara, limites del mundo y BGM
         this.cameras.main.setBounds(0,0,2000,2000);
         this.cameras.main.setZoom(.7)
         this.overworldBG = this.add.image(0,0, 'polimapa').setOrigin(0,0).setInteractive();
         this.physics.world.setBounds(0,0,2000,2000);
+        this.bgm = this.sound.add('BGMOverworld', {loop:true});
+        this.bgm.play();
 
 
         //creacion de NPCs
@@ -37,6 +40,10 @@ export default class overworld extends Phaser.Scene{
         this.jugador.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);
+        this.jugador.on('animationrepeat', ()=>{
+            //esta madre es para los pasos, necesitará acomodarse según los assets finales 
+            this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
+        });
        
        
         //estructuración del mapa para evitar que salga, traspase edificios, etc.
@@ -69,7 +76,7 @@ export default class overworld extends Phaser.Scene{
             /*this.add.rectangle(974,1165,113,210).setOrigin(0,0), ea, esta madre no es necesaria o sí?*/
             //rectangulos de mecanicos
             this.add.rectangle(1229,446, 425,198).setOrigin(0,0),
-        ],{setImmovable:true});
+        ]);
 
         this.physics.add.collider(this.jugador,this.edificios);
 
@@ -168,9 +175,16 @@ export default class overworld extends Phaser.Scene{
         this.map.on('down', ()=>{
             this.scene.transition({target:'verMapa', duration:100, sleep:true});
         });
-        /*this.events.on('transitionout', (targetScene, duration) =>{
-            console.log(targetScene.scene.key);
-        }); esta madre será util a la hora de transicionar a combates. primer aviso*/
+        this.events.on('transitionout', (targetScene, duration) =>{
+            /*if(!targetScene.scene.key == 'verMapa'){
+                this.bgm.pause();
+            } se usará luego*/
+        }); 
+        this.events.on('transitioncomplete', (fromScene, duration)=>{
+            /*if(!fromScene.scene.key == 'verMapa'){
+                this.bgm.resume();
+            } se usará luego*/
+        });
     };
 
     update(time, delta){
@@ -210,10 +224,9 @@ export default class overworld extends Phaser.Scene{
 
         //Cosas relacionadas al movimiento del jugador
         this.jugador.body.setVelocity(0);
-        if (this.mov.right.isDown ){
+        if (this.mov.right.isDown){
             this.jugador.body.setVelocityX(100);
             this.jugador.anims.play('right_walk',true);
-            //console.log('se mueve');
         }else if (this.mov.left.isDown){
             this.jugador.body.setVelocityX(-100);
             this.jugador.anims.play('left_walk', true);

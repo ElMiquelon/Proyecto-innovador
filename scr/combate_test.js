@@ -470,9 +470,5 @@ export default class combate_test extends Phaser.Scene {
         card_block.setTexture('card_block', 0);
         card_atk.setTexture('card_atk', 0);
         card_rest.setTexture('card_rest', 0);
-    }
-
-    ocultarDmg(){
-
-    }
+    };
 }

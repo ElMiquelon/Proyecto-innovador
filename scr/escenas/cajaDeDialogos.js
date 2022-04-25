@@ -27,6 +27,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
 
         this.registry.events.on('dialogar', (numeroNPC, FT)=>{
             this.scene.wake(this);
+            this.sound.play('sonidoNPC' + numeroNPC);
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);
             if (FT){
                 dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);
