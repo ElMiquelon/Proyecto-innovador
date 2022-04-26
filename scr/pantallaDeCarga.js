@@ -1,4 +1,4 @@
-import juego from "./escenas/juego";
+import creacionAnimaciones from "./escenas/creacionAnimaciones";
 /*import cajadialogos from "./escenas/cajadialogos";
 import poliprueba from "./escenas/poliprueba";*/
 import overworld from "./escenas/overworld";
@@ -7,6 +7,9 @@ import cajaDeDialogos from "./escenas/cajaDeDialogos";
 import verMapa from "./escenas/Funciones/verMapa";
 import tutorial from "./escenas/Funciones/tutorialOBienvenida";
 import prologo from "./escenas/Funciones/prologo";
+import combate from "./escenas/combate";
+import combateDialogos from "./escenas/combateDialogos";
+import menup from "./menu principal";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
         super({key: 'pantallaDeCarga'});
@@ -17,7 +20,8 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //de ahora en adelante se hará aquí y de preferencia en el orden puesto
 
         //esta zona carga las escenas del juego
-        this.scene.add('juego', new juego);//este script ha quedado obsoleto, pero es usado para crear las animaciones
+        this.scene.add('menup', new menup);
+        this.scene.add('creacionAnimaciones', new creacionAnimaciones);//este script ha quedado obsoleto, pero es usado para crear las animaciones
         this.scene.add('overworld', new overworld);
         
         
@@ -29,7 +33,9 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //this.scene.add('combate_test', new combate_test)
         this.scene.add('verMapa', new verMapa);
         this.scene.add('tutorial', new tutorial);
-        this.scene.add('prologo', new prologo)
+        this.scene.add('prologo', new prologo);
+        this.scene.add('combate', combate);
+        this.scene.add('combateDialogos', new combateDialogos);
 
         
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
@@ -58,6 +64,16 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
+
+        //aqui se cargarán recursos para el combate
+        this.load.image("map", "./assets/combate/mapa_c.png");
+        this.load.image("player_c", "./assets/combate/player_c.png");
+        this.load.image("enemy_c", "./assets/combate/pew.png");
+        this.load.spritesheet("card_atk", "./assets/combate/card_atk.png", { frameWidth: 50, frameHeight: 70 });
+        this.load.spritesheet("card_block", "./assets/combate/card_block.png", { frameWidth: 50, frameHeight: 70 });
+        this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", { frameWidth: 50, frameHeight: 70 });
+        this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", { frameWidth: 50, frameHeight: 70 });
+        this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10 });
     }
 
     create(){
@@ -65,10 +81,12 @@ export default class pantallaDeCarga extends Phaser.Scene{
         /*this.scene.launch('cajadialogos').sleep('cajadialogos');
         this.scene.launch('poliprueba').sleep('poliprueba');*/
         //this.scene.launch('combate_test').sleep('combate_test');
-        this.scene.launch('juego').stop('juego');
+        this.scene.launch('creacionAnimaciones').stop('creacionAnimaciones');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
-        this.scene.start('tutorial');
+        //this.scene.launch('combate').sleep('combate');
+        this.scene.launch('combateDialogos').sleep('combateDialogos');
+        this.scene.start('menup');
         //this.scene.start('overworld');  
     }
 }

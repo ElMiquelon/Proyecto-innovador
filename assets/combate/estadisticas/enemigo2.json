@@ -17,5 +17,9 @@
     "res":[
         1.00
     ],
+    "xp":[
+        60,
+        80
+    ],
     "nombre": "duende tu sabes"
 }

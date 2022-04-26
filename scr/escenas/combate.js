@@ -10,7 +10,6 @@ var enemyHealthbar;
 var playerHealthbar;
 var mirror = 0;
 var elEnemigoAtaco;
-import combateDialogos from "./combateDialogos";
 
 var playerStats = {
     maxhp: 100,
@@ -45,31 +44,19 @@ export default class combate extends Phaser.Scene {
 
     preload() {
          /*Mover a loadingscreen(?*/
-        this.load.image("map", "./assets/combate/mapa_c.png");
-        this.load.image("player_c", "./assets/combate/player_c.png");
-        this.load.image("enemy_c", "./assets/combate/pew.png");
-        this.load.spritesheet("card_atk", "./assets/combate/card_atk.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("card_block", "./assets/combate/card_block.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10 });
-
-
         this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
         this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
         this.load.json('enemigo3', './assets/combate/estadisticas/enemigo3.json');
         this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
-
-        this.scene.add('combateDialogos', new combateDialogos)
     }
 
     create() {
         //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
-        //this.cameras.main.setBounds(0, 0, 500 , 480); no veo necesaria la camara aquí
+        this.camara = this.cameras.main.setBounds(0, 0, 1000 , 960); //al final se usó para la transición
+        this.camara.setScroll(480,0);
+
         //this.physics.world.setBounds(0, 0, 500, 480); ni el set bounds
         this.add.image(0, 0, 'map').setOrigin(0);
-
-        this.scene.launch('combateDialogos').sleep('combateDialogos');
 
         //barra de vida
         enemyHealthbar = this.add.sprite(20, 50, 'healthbar').setOrigin(0);
@@ -84,7 +71,8 @@ export default class combate extends Phaser.Scene {
         //textos de daño 
         this.BGEnemyDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
         this.enemyDmg = this.add.text(370,92,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
-        this.adiosEnemyDmg = this.time.delayedCall();
+        this.adiosEnemyDmg = this.time.delayedCall();//se crean 3 objetos, 1 rectangulo, 1 texto y 1 temporizador en blanco para poder eleminarlo al momento de 
+        //ejecutar el evento que lo hace mostrarse (esto para evitar que el tiempo se acumule y genere bugs)
 
         this.BGPlayerDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
         this.playerDmg = this.add.text(435,362,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
@@ -239,9 +227,10 @@ export default class combate extends Phaser.Scene {
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido', lngWait);
+                    //lo que se hace aquí es poner el texto "Has ganado" durante segundo y medio 
                     setTimeout(() => {
                         console.log('inserte aqui lo que pasa cuando pierdes')
-                    }, lngWait);
+                    }, lngWait); //y una vez hayan pasado esos 1500 milisegundos, se reinicia
                     break;
                 case 1: /*Ganaste*/
                     this.registry.events.emit('accionDeCombate', '¡Has ganado!', lngWait);
@@ -422,9 +411,9 @@ export default class combate extends Phaser.Scene {
         //asignación de estadisticas al enemigo
         this.registry.events.on('comenzarBatalla', (playerLVL) => {
             //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
-            this.scene.wake(this);
+            /*this.scene.wake(this);
             this.input.keyboard.enabled = true;
-            this.scene.stop('menup');
+            this.scene.stop('menup');*/
             console.log('El nivel del jugador es: ' + playerLVL);
             if (playerLVL == 1) {
                 this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, 2));/*nosotros tendremos que decir "a, los enemigos desde 
@@ -467,7 +456,20 @@ export default class combate extends Phaser.Scene {
                 color: 'black', padding: { bottom: 2 }
             });
         this.BGEnemyStats.setSize(this.txtPlayerstats.getBounds().width, this.txtPlayerstats.getBounds().height)
-    }
+        
+
+        //transiciones
+        this.events.on('transitionstart', (fromScene, duration)=>{
+            this.tweens.add({
+                targets:this.camara,
+                scrollX: 0,
+                duration: duration
+            });
+            this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
+        })
+
+        //this.events.on('transitioncomplete', (fromScene, duration)=>{});
+    };
 
     update(time, delta) {
         this.txtPlayerstats.setText(
