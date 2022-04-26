@@ -160,7 +160,7 @@ export default class overworld extends Phaser.Scene{
         ]);
         
         this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
-            if(Phaser.Math.Between(0,1500/*no se un buen numero*/) <= 2){
+            if(Phaser.Math.Between(0,100/*no se un buen numero*/) <= 2){
                this.scene.transition({target:'combate', duration:6000, sleep:true});
             };
         });
@@ -173,20 +173,23 @@ export default class overworld extends Phaser.Scene{
         //Detalles para abrir el mapa
         this.map = this.input.keyboard.addKey('M');
         this.map.on('down', ()=>{
-            this.scene.transition({target:'verMapa', duration:100, sleep:true});
+            this.scene.transition({target:'verMapa', duration:700, sleep:true});
+            this.input.keyboard.enabled = false;
         });
 
         //detalles a la hora de transicionar 
-        /*this.events.on('transitionout', (targetScene, duration) =>{
-            if(!targetScene.scene.key == 'combate'){
+        this.events.on('transitionout', (targetScene, duration) =>{
+            console.log(targetScene.scene)
+            /*if(targetScene.scene.key == 'combate'){
                 this.bgm.pause();
-            };
+                this.cameras.main.fadeIn(500, 255, 255, 255)
+            };*/
         }); 
         this.events.on('transitioncomplete', (fromScene, duration)=>{
-            if(!fromScene.scene.key == 'combate'){
+            if(fromScene.scene.key == 'combate'){
                 this.bgm.resume();
             };
-        });*/
+        });
     };
 
     update(time, delta){

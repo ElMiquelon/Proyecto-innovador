@@ -13,6 +13,20 @@ export default class menup extends Phaser.Scene{
         this.mm = this.add.image(0,0,"mm");
         this.mm.setOrigin(0,0);
         this.cursor = this.input.keyboard.createCursorKeys();
+        this.op = this.input.keyboard.addKey('P');
+        
+        var lvlup = this.cache.json.get('lvlup');
+
+        console.log(this.registry.get('playerStats'));
+        this.op.on('down', ()=>{
+            this.registry.values.playerStats.hp += lvlup.hp[Phaser.Math.Between(0, lvlup.hp.length - 1)];
+            this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
+            this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
+            this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
+            this.registry.values.playerStats.nxtlvl *= 2;
+            this.registry.values.playerStats.lvl += 1; 
+            console.log(this.registry.get('playerStats'));
+        })
     }
 
     update(time, delta){

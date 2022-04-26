@@ -19,18 +19,12 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //descubrí que desde este momento se pueden cargar todos los assets del juego.
         //de ahora en adelante se hará aquí y de preferencia en el orden puesto
 
+        //aqui se cargarán los recursos del overworld
         //esta zona carga las escenas del juego
         this.scene.add('menup', new menup);
         this.scene.add('creacionAnimaciones', new creacionAnimaciones);//este script ha quedado obsoleto, pero es usado para crear las animaciones
         this.scene.add('overworld', new overworld);
-        
-        
-        //this.scene.add('cajadialogos', new cajadialogos); este quedó inutil por completo. borrar luego
-        //this.scene.add('poliprueba', new poliprueba);//""
-        
-        
         this.scene.add('cajaDeDialogos', new cajaDeDialogos);
-        //this.scene.add('combate_test', new combate_test)
         this.scene.add('verMapa', new verMapa);
         this.scene.add('tutorial', new tutorial);
         this.scene.add('prologo', new prologo);
@@ -65,7 +59,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
 
-        //aqui se cargarán recursos para el combate
+        //aqui se cargarán recursos para el combate. eli separalos porfa
         this.load.image("map", "./assets/combate/mapa_c.png");
         this.load.image("player_c", "./assets/combate/player_c.png");
         this.load.image("enemy_c", "./assets/combate/pew.png");
@@ -74,17 +68,19 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10 });
+        this.load.json('lvlup', './assets/combate/estadisticas/jugador/lvlup.json');
+        this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
+        this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
+        this.load.json('enemigo3', './assets/combate/estadisticas/enemigo3.json');
+        this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
     }
 
     create(){
+        this.registry.set('playerStats', {hp: 100, atk: 7, def: 5, lvl: 1, xp:0, nxtlvl:100});
         //no se como hacer para que ponga un texto de "cargando", será algo a futuro
-        /*this.scene.launch('cajadialogos').sleep('cajadialogos');
-        this.scene.launch('poliprueba').sleep('poliprueba');*/
-        //this.scene.launch('combate_test').sleep('combate_test');
         this.scene.launch('creacionAnimaciones').stop('creacionAnimaciones');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
-        //this.scene.launch('combate').sleep('combate');
         this.scene.launch('combateDialogos').sleep('combateDialogos');
         this.scene.start('menup');
         //this.scene.start('overworld');  

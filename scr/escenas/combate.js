@@ -26,34 +26,27 @@ var playerStats = {
 };
 
 var enemyStats = {
-    maxhp: 200,
-    hp: 200,
-    atk: 10,
-    res: 1.00,
+    maxhp: '?',
+    hp: '?',
+    atk: '?',
+    res: '?',
     resT: 0,
     buffDmg: 0,
     nombre: 'elpepe',
     buffDmgT: 0,
-    penal: 0
+    penal: 0,
+    xp:0
 };
 
 export default class combate extends Phaser.Scene {
     constructor() {
         super({ key: "combate" });
-    }
-
-    preload() {
-         /*Mover a loadingscreen(?*/
-        this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
-        this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
-        this.load.json('enemigo3', './assets/combate/estadisticas/enemigo3.json');
-        this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
-    }
+    };
 
     create() {
         //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
-        this.camara = this.cameras.main.setBounds(0, 0, 1000 , 960); //al final se usó para la transición
-        this.camara.setScroll(480,0);
+        this.camara = this.cameras.main.setBounds(0, 0, 500, 480).setRotation(359); //al final se usó para la transición
+        this.camara.zoom = .01;
 
         //this.physics.world.setBounds(0, 0, 500, 480); ni el set bounds
         this.add.image(0, 0, 'map').setOrigin(0);
@@ -237,6 +230,17 @@ export default class combate extends Phaser.Scene {
                     break;
                 case 1: /*Ganaste*/
                     this.registry.events.emit('accionDeCombate', '¡Has ganado!', lngWait);
+                    this.registry.values.playerStats.xp += enemyStats.xp;
+                    if(this.registry.values.playerStats.xp >= this.registry.values.playerStats.nxtlvl){
+                        var lvlup = this.cache.json.get('lvlup');
+                        this.registry.values.playerStats.hp += lvlup.hp[Phaser.Math.Between(0, lvlup.hp.length - 1)];
+                        this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
+                        this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
+                        this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
+                        this.registry.values.playerStats.nxtlvl *= 2;
+                        this.registry.values.playerStats.lvl += 1; 
+                        
+                    };
                     setTimeout(() => {
                         //this.scene.switch('overworld'); tambien se puede hacer una transición
                         console.log('inserte aqui lo que pasa cuando ganas')
@@ -412,13 +416,16 @@ export default class combate extends Phaser.Scene {
 
 
         //asignación de estadisticas al enemigo
-        this.registry.events.on('comenzarBatalla', (playerLVL) => {
+        this.registry.events.on('comenzarBatalla', () => {
             //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
             /*this.scene.wake(this);
-            this.input.keyboard.enabled = true;
             this.scene.stop('menup');*/
-            console.log('El nivel del jugador es: ' + playerLVL);
-            if (playerLVL == 1) {
+            playerStats.maxhp = this.registry.values.playerStats.hp;
+            playerStats.hp = playerStats.maxhp
+            playerStats.atk = this.registry.values.playerStats.atk;
+            playerStats.def = this.registry.values.playerStats.def;
+            console.log('El nivel del jugador es: ' + this.registry.values.playerStats.lvl);
+            if (this.registry.values.playerStats.lvl == 1) {
                 this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, 2));/*nosotros tendremos que decir "a, los enemigos desde 
             x a y serán para tal nivel de jugador" y los pondremos dentro del between. voy a testar con el lvl1*/
                 enemyStats.nombre = this.enemyLoader.nombre;
@@ -426,14 +433,16 @@ export default class combate extends Phaser.Scene {
                 enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
                 enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
                 enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
+                enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
                 console.log(enemyStats);
-            } else if (playerLVL == 2) {
+            } else{ //if (this.registry.values.playerStats.lvl == 2) {
                 this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(3, 4));
                 enemyStats.nombre = this.enemyLoader.nombre;
                 enemyStats.maxhp = this.enemyLoader.maxhp[Phaser.Math.Between(0, this.enemyLoader.maxhp.length - 1)];
                 enemyStats.hp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
                 enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
                 enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
+                enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
                 console.log(enemyStats);
             }
         });
@@ -463,15 +472,24 @@ export default class combate extends Phaser.Scene {
 
         //transiciones
         this.events.on('transitionstart', (fromScene, duration)=>{
+            this.registry.events.emit('comenzarBatalla');
+            this.camara.fadeOut(duration,0,0,0);
+            this.time.delayedCall(duration + 100,()=>{
+                this.camara.fadeFrom(300,0,0,0);
+                this.time.delayedCall(400, ()=>{
+                    this.input.keyboard.enabled = true;
+                });
+            });
             this.tweens.add({
                 targets:this.camara,
-                scrollX: 0,
+                zoom:1,//quiza sea buena idea borrar el zoom no?
+                rotation:0,
                 duration: duration
             });
-            this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
         })
 
-        //this.events.on('transitioncomplete', (fromScene, duration)=>{});
+        this.events.on('transitioncomplete', (fromScene, duration)=>{
+        });
     };
 
     update(time, delta) {
