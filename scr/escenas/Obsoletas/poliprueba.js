@@ -1,5 +1,5 @@
-import playerW from "../Jugador/jugadorMA";
-import NPC from "../NPCMA/NPC";
+import playerW from "../../Jugador/jugadorMA";
+import NPC from "./NPCMA/NPC";
 export default class poliprueba extends Phaser.Scene{
     constructor(){
         super({key:'poliprueba'});

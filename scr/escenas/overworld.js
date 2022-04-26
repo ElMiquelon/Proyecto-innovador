@@ -161,8 +161,8 @@ export default class overworld extends Phaser.Scene{
         
         this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
             if(Phaser.Math.Between(0,1500/*no se un buen numero*/) <= 2){
-                console.log('aqui se pondrá el evento que inicie la batalla');
-            }     
+               this.scene.transition({target:'combate', duration:6000, sleep:true});
+            };
         });
 
 
@@ -175,16 +175,18 @@ export default class overworld extends Phaser.Scene{
         this.map.on('down', ()=>{
             this.scene.transition({target:'verMapa', duration:100, sleep:true});
         });
-        this.events.on('transitionout', (targetScene, duration) =>{
-            /*if(!targetScene.scene.key == 'verMapa'){
+
+        //detalles a la hora de transicionar 
+        /*this.events.on('transitionout', (targetScene, duration) =>{
+            if(!targetScene.scene.key == 'combate'){
                 this.bgm.pause();
-            } se usará luego*/
+            };
         }); 
         this.events.on('transitioncomplete', (fromScene, duration)=>{
-            /*if(!fromScene.scene.key == 'verMapa'){
+            if(!fromScene.scene.key == 'combate'){
                 this.bgm.resume();
-            } se usará luego*/
-        });
+            };
+        });*/
     };
 
     update(time, delta){

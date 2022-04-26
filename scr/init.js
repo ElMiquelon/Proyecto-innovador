@@ -1,11 +1,11 @@
-import menup from "./menu principal";
+import pantallaDeCarga from "./pantallaDeCarga";
 
 const config ={
     width: 500,
     height: 480,
     parent: "contenedor",
     type: Phaser.AUTO,
-    scene:[menup],
+    scene:[pantallaDeCarga],
     physics:{
         default: "arcade",
         arcade:{

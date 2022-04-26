@@ -1,15 +1,10 @@
-import playerW from "../Jugador/jugadorMA.js";
-import NPC from "../NPCMA/NPC.js";
-import dialogue1 from "../NPCMA/NPC1/dialogos.js";
-export default class juego extends Phaser.Scene{
+export default class creacionAnimaciones extends Phaser.Scene{
 
 
 constructor(){
-    super({key: "juego"});
+    super({key: "creacionAnimaciones"});
 }
 preload(){
-    
-
     //por el momento lo desactivo ya que otra escena tiene exactamente lo mismo y esto redunda
     //this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
     //las medidas de la hoja de sprites dependerán del modelo final
@@ -20,7 +15,7 @@ preload(){
 }
 
 create(){
-
+    /*
     //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
     this.camara = this.cameras.main.setBounds(0, 0, 2000 , 2000);
     this.physics.world.setBounds(0, 0, 2000, 2000);
@@ -32,7 +27,7 @@ create(){
     this.jugador.setSize(12,16);
     //creo que a partir de ahora lo mejor será mover al jugador desde el centro
     //this.jugador.setOrigin(0,0);
-
+    */
     this.anims.create({
         key: 'top_walk',
         frames: this.anims.generateFrameNumbers('playersprite',{
@@ -114,10 +109,10 @@ create(){
         frameRate:16//no se cual se vea mejor
     })
 
-    this.jugador.anims.play('stall');
+    /*this.jugador.anims.play('stall');
 
     this.remilia = new NPC(this, 300, 200, "spritemilia");
-    this.remilia.setOrigin(0,0).setInteractive();
+    this.remilia.setOrigin(0,0).setInteractive();*/
     this.anims.create({
         key: 'stallmilia',
         frames: this.anims.generateFrameNumbers('spritemilia',{
@@ -126,10 +121,10 @@ create(){
         repeat: -1,
         frameRate:4//no se cual se vea mejor
     })
-    this.remilia.anims.play('stallmilia');
+    /*this.remilia.anims.play('stallmilia');
 
     this.patchouli = new NPC(this, 800, 500, "spriteknowledge");
-    this.patchouli.setOrigin(0,0);
+    this.patchouli.setOrigin(0,0);*/
     this.anims.create({
         key: 'stallknowledge',
         frames: this.anims.generateFrameNumbers('spriteknowledge',{
@@ -138,7 +133,7 @@ create(){
         repeat: -1,
         frameRate:4//no se cual se vea mejor
     })
-    this.patchouli.anims.play('stallknowledge');
+    /*this.patchouli.anims.play('stallknowledge');
 
     //fisicas
     this.jugador.body.setCollideWorldBounds(true);
@@ -164,8 +159,8 @@ create(){
     
 
     this.remilia.on('pointerdown', () => {
-        /*en esta línea se llama a una funcion externa que determina si ya se habló con el npc por primera
-        vez y regresa un dialogo "especial", sino, uno "generico"*/  
+        en esta línea se llama a una funcion externa que determina si ya se habló con el npc por primera
+        vez y regresa un dialogo "especial", sino, uno "generico" 
         mensaje = dialogue1(this.data.get('remFirstTalk'));
         //aqui se actualiza el boleano para que la proxima vez mande el generico
         this.data.setValue('remFirstTalk', false);
@@ -200,11 +195,11 @@ create(){
 
     this.bg.on('pointerup', ()=>{
         this.cameras.main.setZoom(1.5);
-    });
+    });*/
 }
 
 update(time, delta){
-    this.jugador.body.setVelocity(0);
+    /*this.jugador.body.setVelocity(0);
     console.log(this.scene.isSleeping('cajadialogos'));
     //console.log('X: ' + this.input.activePointer.worldX + '\nY: ' + this.input.activePointer.worldY);
     if (this.movimiento.right.isDown ){
@@ -229,7 +224,7 @@ update(time, delta){
         this.registry.events.emit('comenzarPoliPrueba', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY);
         this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().top + 5);
     }
-    
+    */
 }
 }
 
