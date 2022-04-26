@@ -233,6 +233,9 @@ export default class combate extends Phaser.Scene {
             if (enemyStats.resT <= 0) {
                 enemyStats.res = 1.00;
             };
+            if (playerStats.penalHeal <= 0) {
+                playerStats.penalHeal = 0;
+            }
         })
 
         this.registry.events.on('gameOver', (v) => {
@@ -342,15 +345,16 @@ export default class combate extends Phaser.Scene {
         });
         //Bloquear
         this.acc.left.on('down', () => {
-            this.registry.events.emit('setPlayerRes', 0.1, 1);
+            this.registry.events.emit('setPlayerRes', 0.1, 2);
             card_block.setTexture('card_block', 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido hacer un bloqueo', srtWait);
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
                     this.registry.events.emit('response');
-                    if (elEnemigoAtaco != 1) {
-                        this.registry.events.emit('buffDefPlayer', 10, 2);
-                    }
+                    if (elEnemigoAtaco == 1) {
+                        this.registry.events.emit('buffDefPlayer', 10, 3);
+                        console.log('El enemigo no ataco por lo que te aumento la defensa');
+                    };
                 } else {
                     this.registry.events.emit('gameOver', 1);
                 };
@@ -386,23 +390,22 @@ export default class combate extends Phaser.Scene {
             card_rest.setTexture('card_rest', 1);
 
             if (playerStats.hp < (playerStats.maxhp * 0.5)) {
-
                 if (playerStats.penalHeal > 1) {
-                    this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .2));
+                    this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .3));
                     this.registry.events.emit('accionDeCombate', 'Te curas tantito', srtWait);
                     console.log('El jugador uso un superheal recientemente');
                 } else {
                     this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
                     this.registry.events.emit('accionDeCombate', 'Has decidido recuperarte', srtWait);
                     playerStats.penalHeal = 8;
-                }
+                };
             } else {
-                this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .05));
+                this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
                 this.registry.events.emit('playerSetRes', 0.75, 2);
                 this.registry.events.emit('buffDmgPlayer', 5, 2);
                 this.registry.events.emit('buffDefPlayer', 5, 2);
-                this.registry.events.emit('accionDeCombate', 'Has decidido descansar', srtWait);
-            }
+                this.registry.events.emit('accionDeCombate', 'Has decidido juntar fuerzas', srtWait);
+            };
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
                     this.registry.events.emit('response');
