@@ -9,13 +9,13 @@ export default class combateDialogos extends Phaser.Scene{
         this.accion = this.add.text(250,270,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5);
         this.registry.events.on('accionDeCombate', (laAccion, duracion)=>{
             this.pausa.destroy();
-            this.scene.pause('combate_test');
+            this.scene.pause('combate');
             this.scene.wake(this);
             this.accion.setText(laAccion);
             this.BGaccion.setSize(this.accion.getBounds().width, this.accion.getBounds().height).setPosition(250,270).setOrigin(.5);
             this.pausa = this.time.delayedCall(duracion, ()=>{
                 this.scene.sleep(this),
-                this.scene.resume('combate_test');
+                this.scene.resume('combate');
             }, [], this);
         });
 

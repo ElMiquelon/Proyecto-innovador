@@ -1,4 +1,4 @@
-import combate_test from "./combate_test";
+import combate from "./escenas/combate";
 import pantallaDeCarga from "./pantallaDeCarga";
 export default class menup extends Phaser.Scene{
 
@@ -16,8 +16,8 @@ export default class menup extends Phaser.Scene{
         this.mm.setOrigin(0,0);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.scene.add("pantallaDeCarga", new pantallaDeCarga);
-        this.scene.add("combate_test", new combate_test);
-        this.scene.launch('combate_test').sleep('combate_test');
+        this.scene.add("combate", new combate);
+        this.scene.launch('combate').sleep('combate');
     }
 
     update(time, delta){
@@ -25,6 +25,7 @@ export default class menup extends Phaser.Scene{
             this.scene.start("pantallaDeCarga");
         } else if (this.cursor.shift.isDown) {
             this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
+            console.log('Está es una pantalla de debug para el combate, ser removida para el final');
         }
     }
 }
