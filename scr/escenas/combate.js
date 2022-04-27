@@ -335,13 +335,13 @@ export default class combate extends Phaser.Scene {
                         this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
                         this.registry.values.playerStats.lvl += 1; 
                         //aqui falta agregar las notificaciones correspondientes
-                        this.time.delayedCall(medWait, ()=>{
+                        this.time.delayedCall(lngWait, ()=>{
                             //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
                             this.registry.events.emit('transicionaoverworld');
                         });
                     }else{
-                        this.time.delayedCall(medWait, ()=>{
+                        this.time.delayedCall(lngWait, ()=>{
                             //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
                             this.registry.events.emit('transicionaoverworld');
