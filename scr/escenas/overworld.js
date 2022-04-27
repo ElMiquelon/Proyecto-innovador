@@ -1,3 +1,4 @@
+var pelea;
 export default class overworld extends Phaser.Scene{
     constructor(){
         super({key: 'overworld'});
@@ -159,9 +160,14 @@ export default class overworld extends Phaser.Scene{
             this.add.zone(434,1091,287,15).setOrigin(0,0)
         ]);
         //aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se pasa a combate
-        this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
-            if(Phaser.Math.Between(0,500/*no se un buen numero*/) <= 2){
-               this.scene.transition({target:'combate', duration:4200, sleep:true, moveAbove:true});
+        this.aPelear = this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
+            console.log('esta contando');
+            pelea = Phaser.Math.Between(0,1500/*no se un buen numero*/) 
+            if(pelea == 2 || pelea == 485 || pelea == 314 || pelea == 842){
+                if(!this.scene.isActive('combate') == null){
+                    this.bgm.pause();
+                    this.registry.events.emit('transicionacombate');
+                }
             };
         });
 
@@ -176,28 +182,13 @@ export default class overworld extends Phaser.Scene{
             this.scene.transition({target:'verMapa', duration:100, sleep:true});
         });
 
-        //detalles a la hora de transicionar 
-        this.events.on('transitionout', (targetScene, duration) =>{
-            if(targetScene.scene.key == 'combate'){
-                console.log('a peliar');
-                this.jugador.body.setVelocity(0);
-                this.bgm.pause();
-                this.camara.fadeIn(500, 255, 255, 255)
-            };
-        }); 
-        this.events.on('transitionstart', (fromScene, duration)=>{
-            if(fromScene.scene.key == 'combate'){
-                this.time.delayedCall(duration - 200,()=>{
-                    this.scene.moveBelow('overworld', 'combate');
-                })
-            };
-        });
-
+        //detalles de las transiciones
         this.events.on('transitioncomplete', (fromScene, duration)=>{
-            if(fromScene.scene.key == 'combate'){
-                this.bgm.resume();
-                this.input.keyboard.enabled = true;
+            if(fromScene.scene.key == 'transicionACombate'){
                 this.camara.fadeFrom(400, 0, 0, 0);
+                this.bgm.resume();
+                this.scene.resume(this);
+                
             };
         });
     };

@@ -338,13 +338,13 @@ export default class combate extends Phaser.Scene {
                         this.time.delayedCall(lngWait, ()=>{
                             //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
-                            this.scene.transition({target:'overworld', duration:2000});
+                            this.registry.events.emit('transicionaoverworld');
                         });
                     }else{
                         this.time.delayedCall(lngWait, ()=>{
                             //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
-                            this.scene.transition({target:'overworld', duration:2000});
+                            this.registry.events.emit('transicionaoverworld');
                         });
                     };
                     break;
@@ -571,15 +571,10 @@ export default class combate extends Phaser.Scene {
         });
 
         this.events.on('transitioncomplete', (fromScene, duration)=>{
-            
+            this.scene.sleep('overworld');
         });
 
-        this.events.on('transitionout', (fromScene, duration)=>{
-            this.camara.fadeOut(duration, 0,0,0);
-            this.time.delayedCall(duration + 100, ()=>{
-                this.scene.restart(this);
-            })
-        });
+        
     };
 
     update(time, delta) {

@@ -19,29 +19,36 @@ export default class prologo extends Phaser.Scene{
         this.ok.X.on('down', ()=>{
             i++;
             this.texto.setText(this.prologo.dialogo[i]);
+            this.events.emit('cambiarexpresion');
         });
         this.ok.ENTER.on('down', ()=>{
-            this.scene.start('overworld')
+            this.scene.start('overworld').remove(this)
         });
+
+        this.events.on('cambiarexpresion',()=>{
+            this.reacciones.setTexture('eli');
+            if (i == 8){
+                this.reacciones.setVisible(true);
+            };
+    
+            //sí se necesita hacer manualmente
+            if (i == 24 || i == 49 || i == 50){
+                this.reacciones.setTexture('eliEnojado');
+            };
+    
+            if(i == this.prologo.dialogo.length - 1){
+                this.reacciones.setVisible(false);
+            };
+    
+            
+        });
+
+        
     }
 
     update(){
-        this.reacciones.setTexture('eli');
-        if (i == 8){
-            this.reacciones.setVisible(true);
-        }
-
-        //sí se necesita hacer manualmente
-        if (i == 24 || i == 49 || i == 50){
-            this.reacciones.setTexture('eliEnojado');
-        }
-
-        if(i == this.prologo.dialogo.length - 1){
-            this.reacciones.setVisible(false);
-        }
-
         if(i == this.prologo.dialogo.length){
-            this.scene.start('overworld')
-        }
+            this.scene.start('overworld').remove(this)
+        };
     }
 }

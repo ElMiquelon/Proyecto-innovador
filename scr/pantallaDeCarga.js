@@ -9,6 +9,7 @@ import tutorial from "./escenas/Funciones/tutorialOBienvenida";
 import prologo from "./escenas/Funciones/prologo";
 import combate from "./escenas/combate";
 import combateDialogos from "./escenas/combateDialogos";
+import transitionACombate from "./escenas/Funciones/transicionACombate";
 import menup from "./menu principal";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
@@ -30,7 +31,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.add('prologo', new prologo);
         this.scene.add('combate', combate);
         this.scene.add('combateDialogos', new combateDialogos);
-
+        this.scene.add('transicionACombate', new transitionACombate)
         
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
         this.load.image('loading', './assets/mp.jpg');
@@ -83,6 +84,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
         this.scene.launch('combateDialogos').sleep('combateDialogos');
+        this.scene.launch('transicionACombate')
         this.scene.start('menup');
         //this.scene.start('overworld');  
     }
