@@ -162,30 +162,7 @@ export default class combate extends Phaser.Scene {
             if (playerStats.hp < 0) {
                 playerStats.hp = 0;
             }
-            //Barra de jugador, va de 10% en 10%
-            if (playerStats.hp == playerStats.maxhp) {
-                playerHealthbar.setTexture('healthbar', 0);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.9)) {
-                playerHealthbar.setTexture('healthbar', 1);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.8)) {
-                playerHealthbar.setTexture('healthbar', 2);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.7)) {
-                playerHealthbar.setTexture('healthbar', 3);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.6)) {
-                playerHealthbar.setTexture('healthbar', 4);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.5)) {
-                playerHealthbar.setTexture('healthbar', 5);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.4)) {
-                playerHealthbar.setTexture('healthbar', 6);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.3)) {
-                playerHealthbar.setTexture('healthbar', 7);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.2)) {
-                playerHealthbar.setTexture('healthbar', 8);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.1)) {
-                playerHealthbar.setTexture('healthbar', 9);
-            } else if (playerStats.hp == 0) {
-                playerHealthbar.setTexture('healthbar', 10);
-            }
+            this.registry.emit('actualizarBarras');
             this.registry.events.emit('mostrarDmgAPlayer', outgoing);
         });
 
@@ -212,30 +189,7 @@ export default class combate extends Phaser.Scene {
             if (enemyStats.hp > enemyStats.maxhp) {
                 enemyStats.hp = enemyStats.maxhp;
             };
-            //Barra de enemigo, va de 10% en 10%
-            if (enemyStats.hp == enemyStats.maxhp) {
-                enemyHealthbar.setTexture('healthbar', 0);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
-                enemyHealthbar.setTexture('healthbar', 1);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.8)) {
-                enemyHealthbar.setTexture('healthbar', 2);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.7)) {
-                enemyHealthbar.setTexture('healthbar', 3);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.6)) {
-                enemyHealthbar.setTexture('healthbar', 4);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.5)) {
-                enemyHealthbar.setTexture('healthbar', 5);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.4)) {
-                enemyHealthbar.setTexture('healthbar', 6);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.3)) {
-                enemyHealthbar.setTexture('healthbar', 7);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.2)) {
-                enemyHealthbar.setTexture('healthbar', 8);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.1)) {
-                enemyHealthbar.setTexture('healthbar', 9);
-            } else if (enemyStats.hp == 0) {
-                enemyHealthbar.setTexture('healthbar', 10);
-            }
+            this.registry.emit('actualizarBarras');
         });
 
         this.registry.events.on('hurtEnemy', (multi) => {
@@ -250,29 +204,7 @@ export default class combate extends Phaser.Scene {
                 enemyStats.hp = 0;
             };
             //Barra de enemigo, va de 10% en 10%
-            if (enemyStats.hp == enemyStats.maxhp) {
-                enemyHealthbar.setTexture('healthbar', 0);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
-                enemyHealthbar.setTexture('healthbar', 1);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.8)) {
-                enemyHealthbar.setTexture('healthbar', 2);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.7)) {
-                enemyHealthbar.setTexture('healthbar', 3);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.6)) {
-                enemyHealthbar.setTexture('healthbar', 4);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.5)) {
-                enemyHealthbar.setTexture('healthbar', 5);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.4)) {
-                enemyHealthbar.setTexture('healthbar', 6);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.3)) {
-                enemyHealthbar.setTexture('healthbar', 7);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.2)) {
-                enemyHealthbar.setTexture('healthbar', 8);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.1)) {
-                enemyHealthbar.setTexture('healthbar', 9);
-            } else if (enemyStats.hp == 0) {
-                enemyHealthbar.setTexture('healthbar', 10);
-            }
+            this.registry.emit('actualizarBarras');
             this.registry.events.emit('mostrarDmgAEnemy', incoming);
         });
 
@@ -295,10 +227,34 @@ export default class combate extends Phaser.Scene {
             playerStats.penalHeal -= 1;
 
             //Reseta los buff si el contador de turnos es termina
-            this.registry.emit('actualizarBarras')
+            this.registry.emit('actualizarBarras');
         });
 
         this.registry.events.on('actualizarBarras', ()=>{
+            //barra de vida del enemigo
+            if (enemyStats.hp == enemyStats.maxhp) {
+                enemyHealthbar.setTexture('healthbar', 0);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
+                enemyHealthbar.setTexture('healthbar', 1);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.8)) {
+                enemyHealthbar.setTexture('healthbar', 2);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.7)) {
+                enemyHealthbar.setTexture('healthbar', 3);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.6)) {
+                enemyHealthbar.setTexture('healthbar', 4);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.5)) {
+                enemyHealthbar.setTexture('healthbar', 5);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.4)) {
+                enemyHealthbar.setTexture('healthbar', 6);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.3)) {
+                enemyHealthbar.setTexture('healthbar', 7);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.2)) {
+                enemyHealthbar.setTexture('healthbar', 8);
+            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.1)) {
+                enemyHealthbar.setTexture('healthbar', 9);
+            } else if (enemyStats.hp == 0) {
+                enemyHealthbar.setTexture('healthbar', 10);
+            }
             //barra de vida del jugador
             if (playerStats.buffDmgT <= 0) {
                 playerStats.buffDmgT = 0;
