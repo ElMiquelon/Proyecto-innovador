@@ -162,7 +162,7 @@ export default class combate extends Phaser.Scene {
             if (playerStats.hp < 0) {
                 playerStats.hp = 0;
             }
-            this.registry.emit('actualizarBarras');
+            this.registry.events.emit('actualizarBarras');
             this.registry.events.emit('mostrarDmgAPlayer', outgoing);
         });
 
@@ -189,7 +189,7 @@ export default class combate extends Phaser.Scene {
             if (enemyStats.hp > enemyStats.maxhp) {
                 enemyStats.hp = enemyStats.maxhp;
             };
-            this.registry.emit('actualizarBarras');
+            this.registry.events.emit('actualizarBarras');
         });
 
         this.registry.events.on('hurtEnemy', (multi) => {
@@ -204,7 +204,7 @@ export default class combate extends Phaser.Scene {
                 enemyStats.hp = 0;
             };
             //Barra de enemigo, va de 10% en 10%
-            this.registry.emit('actualizarBarras');
+            this.registry.events.emit('actualizarBarras');
             this.registry.events.emit('mostrarDmgAEnemy', incoming);
         });
 
@@ -227,7 +227,7 @@ export default class combate extends Phaser.Scene {
             playerStats.penalHeal -= 1;
 
             //Reseta los buff si el contador de turnos es termina
-            this.registry.emit('actualizarBarras');
+            this.registry.events.emit('actualizarBarras');
         });
 
         this.registry.events.on('actualizarBarras', ()=>{
