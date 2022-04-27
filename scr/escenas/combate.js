@@ -61,6 +61,9 @@ export default class combate extends Phaser.Scene {
         card_atk = this.add.sprite(250, 350, 'card_atk').setOrigin(0.5);
         card_rest = this.add.sprite(250, 450, 'card_rest').setOrigin(0.5);
 
+        //audio
+        this.bgm =this.sound.add('BGMcombate');
+
         //textos de daño 
         this.BGEnemyDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
         this.enemyDmg = this.add.text(370,92,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
@@ -229,6 +232,7 @@ export default class combate extends Phaser.Scene {
                     }, lngWait); //y una vez hayan pasado esos 1500 milisegundos, se reinicia
                     break;
                 case 1: /*Ganaste*/
+                    this.input.keyboard.enabled = false;
                     this.registry.events.emit('accionDeCombate', '¡Has ganado!', lngWait);
                     this.registry.values.playerStats.xp += enemyStats.xp;
                     if(this.registry.values.playerStats.xp >= this.registry.values.playerStats.nxtlvl){
@@ -239,12 +243,19 @@ export default class combate extends Phaser.Scene {
                         this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
                         this.registry.values.playerStats.nxtlvl *= 2;
                         this.registry.values.playerStats.lvl += 1; 
-                        
+                        //aqui falta agregar las notificaciones correspondientes
+                        this.time.delayedCall(lngWait, ()=>{
+                            //this.scene.switch('overworld'); tambien se puede hacer una transición
+                            this.bgm.stop();
+                            this.scene.transition({target:'overworld', duration:2000});
+                        });
+                    }else{
+                        this.time.delayedCall(lngWait, ()=>{
+                            //this.scene.switch('overworld'); tambien se puede hacer una transición
+                            this.bgm.stop();
+                            this.scene.transition({target:'overworld', duration:2000});
+                        });
                     };
-                    setTimeout(() => {
-                        //this.scene.switch('overworld'); tambien se puede hacer una transición
-                        console.log('inserte aqui lo que pasa cuando ganas')
-                    }, lngWait);
                     break;
                 default:
                     break;
@@ -473,6 +484,7 @@ export default class combate extends Phaser.Scene {
         //transiciones
         this.events.on('transitionstart', (fromScene, duration)=>{
             this.registry.events.emit('comenzarBatalla');
+            this.bgm.play();
             this.camara.fadeOut(duration,0,0,0);
             this.time.delayedCall(duration + 100,()=>{
                 this.camara.fadeFrom(300,0,0,0);
@@ -486,13 +498,23 @@ export default class combate extends Phaser.Scene {
                 rotation:0,
                 duration: duration
             });
-        })
+        });
 
         this.events.on('transitioncomplete', (fromScene, duration)=>{
+            
+        });
+
+        this.events.on('transitionout', (fromScene, duration)=>{
+            this.camara.fadeOut(duration, 0,0,0);
         });
     };
 
     update(time, delta) {
+        /*card_strong.setTexture('card_strong', 0);
+        card_block.setTexture('card_block', 0);
+        card_atk.setTexture('card_atk', 0);
+        card_rest.setTexture('card_rest', 0);*/
+
         this.txtPlayerstats.setText(
             'Vida: ' + playerStats.hp + ' / ' + playerStats.maxhp +
             '\nAtaque: ' + playerStats.atk + '(+' + playerStats.buffDmg + ')' +
@@ -506,7 +528,7 @@ export default class combate extends Phaser.Scene {
             '\nResistencia: ' + (enemyStats.res * -100 + 100) + '%'
         );
         //Barra de enemigo, va de 10% en 10%
-        if (enemyStats.hp == enemyStats.maxhp) {
+        /*if (enemyStats.hp == enemyStats.maxhp) {
             enemyHealthbar.setTexture('healthbar', 0);
         } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
             enemyHealthbar.setTexture('healthbar', 1);
@@ -552,14 +574,6 @@ export default class combate extends Phaser.Scene {
             playerHealthbar.setTexture('healthbar', 9);
         } else if (playerStats.hp == 0) {
             playerHealthbar.setTexture('healthbar', 10);
-        }
-        card_strong.setTexture('card_strong', 0);
-        card_block.setTexture('card_block', 0);
-        card_atk.setTexture('card_atk', 0);
-        card_rest.setTexture('card_rest', 0);
-    }
-
-    ocultarDmg(){
-
+        }*/
     }
 }

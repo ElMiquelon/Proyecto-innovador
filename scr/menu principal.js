@@ -35,7 +35,7 @@ export default class menup extends Phaser.Scene{
         } else if (this.cursor.shift.isDown) {
             /*this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
             console.log('Está es una pantalla de debug para el combate, ser removida para el final');*/
-            this.scene.transition({target:'combate', duration:6000});
+            this.scene.transition({target:'combate', duration:4200});
         }
     }
 }

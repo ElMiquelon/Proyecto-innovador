@@ -60,6 +60,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
 
         //aqui se cargarán recursos para el combate. eli separalos porfa
+        this.load.audio("BGMcombate", "./assets/combate/audio/BGMcombate.mp3");
         this.load.image("map", "./assets/combate/mapa_c.png");
         this.load.image("player_c", "./assets/combate/player_c.png");
         this.load.image("enemy_c", "./assets/combate/pew.png");
@@ -76,7 +77,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
     }
 
     create(){
-        this.registry.set('playerStats', {hp: 100, atk: 7, def: 5, lvl: 1, xp:0, nxtlvl:100});
+        this.registry.set('playerStats', {hp: 100, atk: 150, def: 5, lvl: 1, xp:0, nxtlvl:100});
         //no se como hacer para que ponga un texto de "cargando", será algo a futuro
         this.scene.launch('creacionAnimaciones').stop('creacionAnimaciones');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');

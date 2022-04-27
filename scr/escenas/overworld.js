@@ -9,8 +9,8 @@ export default class overworld extends Phaser.Scene{
 
     create(){
         //detalles de la camara, limites del mundo y BGM
-        this.cameras.main.setBounds(0,0,2000,2000);
-        this.cameras.main.setZoom(.7)
+        this.camara = this.cameras.main.setBounds(0,0,2000,2000);
+        //this.cameras.main.setZoom(.7); esta madre es mas que nada de debug
         this.overworldBG = this.add.image(0,0, 'polimapa').setOrigin(0,0).setInteractive();
         this.physics.world.setBounds(0,0,2000,2000);
         this.bgm = this.sound.add('BGMOverworld', {loop:true});
@@ -36,7 +36,7 @@ export default class overworld extends Phaser.Scene{
 
         //creacion del this.jugador y detalles
         this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
-        this.jugador.setSize(16,26, true);
+        this.jugador.setSize(12,18, true);
         this.jugador.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);
@@ -158,10 +158,10 @@ export default class overworld extends Phaser.Scene{
             //camellones(? debajo del A
             this.add.zone(434,1091,287,15).setOrigin(0,0)
         ]);
-        
+        //aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se pasa a combate
         this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
-            if(Phaser.Math.Between(0,100/*no se un buen numero*/) <= 2){
-               this.scene.transition({target:'combate', duration:6000, sleep:true});
+            if(Phaser.Math.Between(0,500/*no se un buen numero*/) <= 2){
+               this.scene.transition({target:'combate', duration:4200, sleep:true, moveAbove:true});
             };
         });
 
@@ -173,21 +173,31 @@ export default class overworld extends Phaser.Scene{
         //Detalles para abrir el mapa
         this.map = this.input.keyboard.addKey('M');
         this.map.on('down', ()=>{
-            this.scene.transition({target:'verMapa', duration:700, sleep:true});
-            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'verMapa', duration:100, sleep:true});
         });
 
         //detalles a la hora de transicionar 
         this.events.on('transitionout', (targetScene, duration) =>{
-            console.log(targetScene.scene)
-            /*if(targetScene.scene.key == 'combate'){
+            if(targetScene.scene.key == 'combate'){
+                console.log('a peliar');
+                this.jugador.body.setVelocity(0);
                 this.bgm.pause();
-                this.cameras.main.fadeIn(500, 255, 255, 255)
-            };*/
+                this.camara.fadeIn(500, 255, 255, 255)
+            };
         }); 
+        this.events.on('transitionstart', (fromScene, duration)=>{
+            if(fromScene.scene.key == 'combate'){
+                this.time.delayedCall(duration - 200,()=>{
+                    this.scene.moveBelow('overworld', 'combate');
+                })
+            };
+        });
+
         this.events.on('transitioncomplete', (fromScene, duration)=>{
             if(fromScene.scene.key == 'combate'){
                 this.bgm.resume();
+                this.input.keyboard.enabled = true;
+                this.camara.fadeFrom(400, 0, 0, 0);
             };
         });
     };
