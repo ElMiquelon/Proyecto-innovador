@@ -506,8 +506,7 @@ export default class combate extends Phaser.Scene {
             playerStats.def = this.registry.values.playerStats.def;
             console.log('El nivel del jugador es: ' + this.registry.values.playerStats.lvl);
             if (this.registry.values.playerStats.lvl == 1) {
-                this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, 2));/*nosotros tendremos que decir "a, los enemigos desde 
-            x a y serán para tal nivel de jugador" y los pondremos dentro del between. voy a testar con el lvl1*/
+                this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, 2));
                 enemyStats.nombre = this.enemyLoader.nombre;
                 enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
                 enemyStats.hp = enemyStats.maxhp;
