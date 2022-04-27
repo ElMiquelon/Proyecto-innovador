@@ -75,40 +75,40 @@ export default class combate extends Phaser.Scene {
         this.adiosPlayerDmg = this.time.delayedCall();
 
         //EVENTOS DE COMBATE
-        this.registry.events.on('response', () => {
+        this.events.on('response', () => {
             //"response" escoge un numero entre 1 y 5 para que el enemigo responda
             var r = Phaser.Math.Between(1, 5);
             switch (r) {
                 case 1:
-                    this.registry.events.emit('hurtPlayer', 1)
+                    this.events.emit('hurtPlayer', 1)
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio', srtWait);
                     elEnemigoAtaco = 0;
                     break;
                 case 2:
-                    this.registry.events.emit('hurtPlayer', 1.5);
+                    this.events.emit('hurtPlayer', 1.5);
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque fuerte', srtWait);
-                    this.registry.events.emit('playerSetRes', 1.2, 3)
+                    this.events.emit('playerSetRes', 1.2, 3)
                     elEnemigoAtaco = 0;
                     break;
                 case 3:
-                    this.registry.events.emit('hurtPlayer', .5)
+                    this.events.emit('hurtPlayer', .5)
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil', srtWait);
                     elEnemigoAtaco = 0;
                     break;
                 case 4:
-                    this.registry.events.emit('healEnemy', 5)
+                    this.events.emit('healEnemy', 5)
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse un poco', srtWait);
                     elEnemigoAtaco = 1;
                     break;
                 case 5:
                     if (enemyStats.penal >= 1) {
-                        this.registry.events.emit('hurtPlayer', 1)
+                        this.events.emit('hurtPlayer', 1)
                         this.registry.events.emit('accionDeCombate', 'El enemigo iba a curarse pero decidió atacar', srtWait);
                         elEnemigoAtaco = 0;
                     } else {
-                        this.registry.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.25));
-                        this.registry.events.emit('buffDmgEnemy', 5, 3);
-                        this.registry.events.emit('enemySetRes', 0.8, 4);
+                        this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.25));
+                        this.events.emit('buffDmgEnemy', 5, 3);
+                        this.events.emit('enemySetRes', 0.8, 4);
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse mucho', srtWait);
                         enemyStats.penal = 8;
                         elEnemigoAtaco = 1;
@@ -119,15 +119,15 @@ export default class combate extends Phaser.Scene {
             }
         });
         //Modificadores de jugador
-        this.registry.events.on('healPlayer', (raw) => {
+        this.events.on('healPlayer', (raw) => {
             playerStats.hp += raw;
             if (playerStats.hp >= playerStats.maxhp) {
                 playerStats.hp = playerStats.maxhp;
             }
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('hurtPlayer', (multi) => {
+        this.events.on('hurtPlayer', (multi) => {
             var outgoing = Math.round(multi * (enemyStats.atk + enemyStats.buffDmg)); //Obtiene un daño con un multiplicador más ataque y buffs
             outgoing = Math.round((outgoing - playerStats.def - playerStats.buffDef) * playerStats.res); //Multiplica por la resistencia del jugador
             if (outgoing <= 0) {
@@ -139,59 +139,59 @@ export default class combate extends Phaser.Scene {
             if (playerStats.hp < 0) {
                 playerStats.hp = 0;
             }
-            this.registry.events.emit('mostrarDmgAPlayer', outgoing);
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('mostrarDmgAPlayer', outgoing);
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('playerSetRes', (set, turns) => {
+        this.events.on('playerSetRes', (set, turns) => {
             if (playerStats.resT > 0) {
                 console.log('El jugador ya tiene modificaciones a su resistencia');
             } else {
                 playerStats.res = set;
                 playerStats.resT = turns;
             };
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('buffDmgPlayer', (buff, turns) => {
+        this.events.on('buffDmgPlayer', (buff, turns) => {
             if (playerStats.buffDmgT > 0) {
                 console.log('El jugador ya tiene un buff de daño activo');
             } else {
                 playerStats.buffDmg = buff;
                 playerStats.buffDmgT = turns;
             };
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('buffDefPlayer', (buff, turns) => {
+        this.events.on('buffDefPlayer', (buff, turns) => {
             if (playerStats.buffDefT > 0) {
                 console.log('El jugador ya tiene un buff de defensa activo');
             } else {
                 playerStats.buffDef = buff;
                 playerStats.buffDefT = turns;
             };
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
         //Modificadores de enemigo
-        this.registry.events.on('enemySetRes', (set, turns) => {
+        this.events.on('enemySetRes', (set, turns) => {
             if (enemyStats.resT > 0) {
                 console.log('El enemigo ya tiene modificaciones a su resistencia');
             } else {
                 enemyStats.res = set;
                 enemyStats.resT = turns;
             };
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('healEnemy', (raw) => {
+        this.events.on('healEnemy', (raw) => {
             enemyStats.hp += raw;
             if (enemyStats.hp > enemyStats.maxhp) {
                 enemyStats.hp = enemyStats.maxhp;
             };
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('hurtEnemy', (multi) => {
+        this.events.on('hurtEnemy', (multi) => {
             var incoming = Math.round(multi * (playerStats.atk + playerStats.buffDmg)); //Obtiene un daño con un multiplicador más ataque y buffs
             incoming = Math.round(incoming * enemyStats.res); //Multiplica por la resistencia del enemigo
             if (incoming <= 0) {
@@ -202,32 +202,32 @@ export default class combate extends Phaser.Scene {
             if (enemyStats.hp < 0) {
                 enemyStats.hp = 0;
             };
-            this.registry.events.emit('mostrarDmgAEnemy', incoming);
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('mostrarDmgAEnemy', incoming);
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('hurtEnemyMirror', (raw) => {
+        this.events.on('hurtEnemyMirror', (raw) => {
             enemyStats.hp -= raw;
             if (enemyStats.hp < 0) {
                 enemyStats.hp = 0;
             }
             this.enemyDmg.setText(palParry + ' & -' + raw);
             this.BGEnemyDmg.setSize(this.enemyDmg.getBounds().width, this.enemyDmg.getBounds().height).setPosition(this.enemyDmg.getBounds().centerX,this.enemyDmg.getBounds().centerY).setOrigin(.5);
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('buffDmgEnemy', (buff, turns) => {
+        this.events.on('buffDmgEnemy', (buff, turns) => {
             if (enemyStats.buffDmgT > 0) {
                 console.log('El jugador ya tiene un buff activo');
             } else {
                 enemyStats.buffDmg = buff;
                 enemyStats.buffDmgT = turns;
             };
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
         //Otros
-        this.registry.events.on('actualizarBarras', ()=>{
+        this.events.on('actualizarBarras', ()=>{
         //barra de vida del enemigo
         if (enemyStats.hp == enemyStats.maxhp) {
             enemyHealthbar.setTexture('healthbar', 0);
@@ -278,7 +278,7 @@ export default class combate extends Phaser.Scene {
             playerHealthbar.setTexture('healthbar', 10);
         };});
 
-        this.registry.events.on('nextTurn', () => {
+        this.events.on('nextTurn', () => {
             playerStats.buffDmgT -= 1;
             playerStats.buffDefT -= 1;
             playerStats.resT -= 1;
@@ -310,10 +310,10 @@ export default class combate extends Phaser.Scene {
                 playerStats.penalHeal = 0;
             };
             //Actualiza barras
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
         });
 
-        this.registry.events.on('gameOver', (v) => {
+        this.events.on('gameOver', (v) => {
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido', lngWait);
@@ -332,7 +332,7 @@ export default class combate extends Phaser.Scene {
                         this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
                         this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
                         this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
-                        this.registry.values.playerStats.nxtlvl *= 2;
+                        this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
                         this.registry.values.playerStats.lvl += 1; 
                         //aqui falta agregar las notificaciones correspondientes
                         this.time.delayedCall(lngWait, ()=>{
@@ -353,7 +353,7 @@ export default class combate extends Phaser.Scene {
             }
         });
 
-        this.registry.events.on('mostrarDmgAPlayer', (dmg)=>{
+        this.events.on('mostrarDmgAPlayer', (dmg)=>{
             this.adiosPlayerDmg.destroy();
             this.playerDmg.setText('-' + dmg).setVisible(true);
             this.BGPlayerDmg.setSize(this.playerDmg.getBounds().width, this.playerDmg.getBounds().height).setPosition(this.playerDmg.getBounds().centerX,this.playerDmg.getBounds().centerY).setOrigin(.5).setVisible(true);
@@ -363,7 +363,7 @@ export default class combate extends Phaser.Scene {
             },[], this)
         });
 
-        this.registry.events.on('mostrarDmgAEnemy', (dmg)=>{
+        this.events.on('mostrarDmgAEnemy', (dmg)=>{
             palParry = '-' + dmg;
             this.adiosEnemyDmg.destroy();
             this.enemyDmg.setText('-' + dmg).setVisible(true);
@@ -382,32 +382,32 @@ export default class combate extends Phaser.Scene {
         //BOTONES DE ACCIÓN
         //Parry
         this.acc.right.on('down', () => {
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
             card_strong.setTexture('card_strong', 1);
-            this.registry.events.emit('playerSetRes', 0.8, 1);
+            this.events.emit('playerSetRes', 0.8, 1);
             this.registry.events.emit('accionDeCombate', 'Has intentado realizar un parry', srtWait);
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
-                    this.registry.events.emit('response');
+                    this.events.emit('response');
                     setTimeout(() => {
                         if (elEnemigoAtaco != 1) {
                             mirror = Math.round(mirror * 0.5);
-                            this.registry.events.emit('hurtEnemy', 1);
-                            this.registry.events.emit('hurtEnemyMirror', mirror);
+                            this.events.emit('hurtEnemy', 1);
+                            this.events.emit('hurtEnemyMirror', mirror);
                             this.registry.events.emit('accionDeCombate', 'Has ejecutado un parry exitosamente', medWait);
                         } else {
                             playerStats.hp -= Math.round(playerStats.maxhp * 0.2);
-                            this.registry.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.2));
+                            this.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.2));
                             this.registry.events.emit('accionDeCombate', 'Has fallado el parry', medWait);
                         };
                     }, srtWait);
                 } else {
-                    this.registry.events.emit('gameOver', 1);
+                    this.events.emit('gameOver', 1);
                 };
                 if (playerStats.hp > 0) {
-                    this.registry.events.emit('nextTurn');
+                    this.events.emit('nextTurn');
                 } else {
-                    this.registry.events.emit('gameOver', 0);
+                    this.events.emit('gameOver', 0);
                 };
                 card_strong.setTexture('card_strong', 0);
             }, srtWait); //el tiempo debe de ser equivalente al timer de combateDialogos
@@ -415,24 +415,24 @@ export default class combate extends Phaser.Scene {
         });
         //Bloquear
         this.acc.left.on('down', () => {
-            this.registry.events.emit('actualizarBarras');
-            this.registry.events.emit('setPlayerRes', 0.1, 2);
+            this.events.emit('actualizarBarras');
+            this.events.emit('setPlayerRes', 0.1, 2);
             card_block.setTexture('card_block', 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido hacer un bloqueo', srtWait);
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
-                    this.registry.events.emit('response');
+                    this.events.emit('response');
                     if (elEnemigoAtaco == 1) {
-                        this.registry.events.emit('buffDefPlayer', 10, 3);
+                        this.events.emit('buffDefPlayer', 10, 3);
                         console.log('El enemigo no ataco por lo que te aumento la defensa');
                     };
                 } else {
-                    this.registry.events.emit('gameOver', 1);
+                    this.events.emit('gameOver', 1);
                 };
                 if (playerStats.hp > 0) {
-                    this.registry.events.emit('nextTurn');
+                    this.events.emit('nextTurn');
                 } else {
-                    this.registry.events.emit('gameOver', 0);
+                    this.events.emit('gameOver', 0);
                 };
                 card_block.setTexture('card_block', 0);
                 card_rest.setTexture('card_rest', 0);
@@ -442,55 +442,55 @@ export default class combate extends Phaser.Scene {
         });
         //Ataque básico
         this.acc.up.on('down', () => {
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
             card_atk.setTexture('card_atk', 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido atacar', srtWait);
-            this.registry.events.emit('hurtEnemy', 1);
+            this.events.emit('hurtEnemy', 1);
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
-                    this.registry.events.emit('response');
+                    this.events.emit('response');
                 } else {
-                    this.registry.events.emit('gameOver', 1);
+                    this.events.emit('gameOver', 1);
                 };
                 if (playerStats.hp > 0) {
-                    this.registry.events.emit('nextTurn');
+                    this.events.emit('nextTurn');
                 } else {
-                    this.registry.events.emit('gameOver', 0);
+                    this.events.emit('gameOver', 0);
                 };
                 card_atk.setTexture('card_atk', 0);
             }, srtWait);
         });
         //Descansar y buffear
         this.acc.down.on('down', () => {
-            this.registry.events.emit('actualizarBarras');
+            this.events.emit('actualizarBarras');
             card_rest.setTexture('card_rest', 1);
             if (playerStats.hp < (playerStats.maxhp * 0.5)) {
                 if (playerStats.penalHeal > 1) {
-                    this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .3));
+                    this.events.emit('healPlayer', Math.round(playerStats.maxhp * .3));
                     this.registry.events.emit('accionDeCombate', 'Te curas tantito', srtWait);
                     console.log('El jugador uso un superheal recientemente');
                 } else {
-                    this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
+                    this.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
                     this.registry.events.emit('accionDeCombate', 'Has decidido recuperarte', srtWait);
                     playerStats.penalHeal = 8;
                 };
             } else {
-                this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
-                this.registry.events.emit('playerSetRes', 0.75, 2);
-                this.registry.events.emit('buffDmgPlayer', 5, 2);
-                this.registry.events.emit('buffDefPlayer', 5, 2);
+                this.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
+                this.events.emit('playerSetRes', 0.75, 2);
+                this.events.emit('buffDmgPlayer', 5, 2);
+                this.events.emit('buffDefPlayer', 5, 2);
                 this.registry.events.emit('accionDeCombate', 'Has decidido juntar fuerzas', srtWait);
             };
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
-                    this.registry.events.emit('response');
+                    this.events.emit('response');
                 } else {
-                    this.registry.events.emit('gameOver', 1);
+                    this.events.emit('gameOver', 1);
                 };
                 if (playerStats.hp > 0) {
-                    this.registry.events.emit('nextTurn');
+                    this.events.emit('nextTurn');
                 } else {
-                    this.registry.events.emit('gameOver', 0);
+                    this.events.emit('gameOver', 0);
                 };
                 card_rest.setTexture('card_rest', 0);
             }, srtWait);
@@ -498,7 +498,7 @@ export default class combate extends Phaser.Scene {
 
 
         //asignación de estadisticas al enemigo y jugador
-        this.registry.events.on('comenzarBatalla', () => {
+        this.events.on('comenzarBatalla', () => {
             //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
             playerStats.maxhp = this.registry.values.playerStats.hp;
             playerStats.hp = playerStats.maxhp
@@ -523,7 +523,9 @@ export default class combate extends Phaser.Scene {
                 enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
                 enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
                 console.log(enemyStats);
-            }
+            };
+            console.log(playerStats);
+            console.log(this.registry.get('playerStats'))
         });
 
         //impresion de las estadisticas del jugador y enemigo
@@ -551,7 +553,7 @@ export default class combate extends Phaser.Scene {
 
         //transiciones
         this.events.on('transitionstart', (fromScene, duration)=>{
-            this.registry.events.emit('comenzarBatalla');
+            this.events.emit('comenzarBatalla');
             this.bgm.play();
             this.camara.fadeOut(duration,0,0,0);
             this.time.delayedCall(duration + 100,()=>{
@@ -574,6 +576,9 @@ export default class combate extends Phaser.Scene {
 
         this.events.on('transitionout', (fromScene, duration)=>{
             this.camara.fadeOut(duration, 0,0,0);
+            this.time.delayedCall(duration + 100, ()=>{
+                this.scene.restart(this);
+            })
         });
     };
 

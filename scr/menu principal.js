@@ -22,8 +22,7 @@ export default class menup extends Phaser.Scene{
             this.registry.values.playerStats.hp += lvlup.hp[Phaser.Math.Between(0, lvlup.hp.length - 1)];
             this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
             this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
-            this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
-            this.registry.values.playerStats.nxtlvl *= 2;
+            this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
             this.registry.values.playerStats.lvl += 1; 
             console.log(this.registry.get('playerStats'));
         })
