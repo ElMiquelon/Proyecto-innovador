@@ -159,14 +159,17 @@ export default class overworld extends Phaser.Scene{
             //camellones(? debajo del A
             this.add.zone(434,1091,287,15).setOrigin(0,0)
         ]);
-        //aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se pasa a combate
+        /*aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se verifica que la 
+        escena de combate exista, sino, llama a un evento que la crea*/
         this.aPelear = this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
             console.log('esta contando');
-            pelea = Phaser.Math.Between(0,1500/*no se un buen numero*/) 
-            if(pelea == 2 || pelea == 485 || pelea == 314 || pelea == 842){
-                if(!this.scene.isActive('combate') == null){
+            pelea = Phaser.Math.Between(0,1250/*no se un buen numero*/) 
+            if(pelea >= 40 && pelea <= 43){
+                if(this.scene.isActive('combate') != null){
                     this.bgm.pause();
                     this.registry.events.emit('transicionacombate');
+                }else{
+                    this.registry.events.emit('repararcombate')
                 }
             };
         });
