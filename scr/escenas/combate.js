@@ -32,7 +32,7 @@ var enemyStats = {
     res: '?',
     resT: 0,
     buffDmg: 0,
-    nombre: 'elpepe',
+    nombre: 'x',
     buffDmgT: 0,
     penal: 0,
     xp:0
@@ -67,14 +67,14 @@ export default class combate extends Phaser.Scene {
         //textos de daño 
         this.BGEnemyDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
         this.enemyDmg = this.add.text(370,92,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
-        this.adiosEnemyDmg = this.time.delayedCall();//se crean 3 objetos, 1 rectangulo, 1 texto y 1 temporizador en blanco para poder eleminarlo al momento de 
-        //ejecutar el evento que lo hace mostrarse (esto para evitar que el tiempo se acumule y genere bugs)
+        this.adiosEnemyDmg = this.time.delayedCall();/*se crean 3 objetos, 1 rectangulo, 1 texto y 1 temporizador en blanco para poder eleminarlo al momento de 
+        ejecutar el evento que lo hace mostrarse (esto para evitar que el tiempo se acumule y genere bugs)*/
 
         this.BGPlayerDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
         this.playerDmg = this.add.text(435,362,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
         this.adiosPlayerDmg = this.time.delayedCall();
 
-        //eventos del combate
+        //EVENTOS DE COMBATE
         this.registry.events.on('response', () => {
             //"response" escoge un numero entre 1 y 5 para que el enemigo responda
             var r = Phaser.Math.Between(1, 5);
@@ -118,36 +118,13 @@ export default class combate extends Phaser.Scene {
                     break;
             }
         });
-
+        //Modificadores de jugador
         this.registry.events.on('healPlayer', (raw) => {
             playerStats.hp += raw;
             if (playerStats.hp >= playerStats.maxhp) {
                 playerStats.hp = playerStats.maxhp;
             }
-            //Barra de jugador, va de 10% en 10%
-            if (playerStats.hp == playerStats.maxhp) {
-                playerHealthbar.setTexture('healthbar', 0);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.9)) {
-                playerHealthbar.setTexture('healthbar', 1);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.8)) {
-                playerHealthbar.setTexture('healthbar', 2);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.7)) {
-                playerHealthbar.setTexture('healthbar', 3);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.6)) {
-                playerHealthbar.setTexture('healthbar', 4);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.5)) {
-                playerHealthbar.setTexture('healthbar', 5);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.4)) {
-                playerHealthbar.setTexture('healthbar', 6);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.3)) {
-                playerHealthbar.setTexture('healthbar', 7);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.2)) {
-                playerHealthbar.setTexture('healthbar', 8);
-            } else if (playerStats.hp >= (playerStats.maxhp * 0.1)) {
-                playerHealthbar.setTexture('healthbar', 9);
-            } else if (playerStats.hp == 0) {
-                playerHealthbar.setTexture('healthbar', 10);
-            }
+            this.registry.events.emit('actualizarBarras');
         });
 
         this.registry.events.on('hurtPlayer', (multi) => {
@@ -162,8 +139,8 @@ export default class combate extends Phaser.Scene {
             if (playerStats.hp < 0) {
                 playerStats.hp = 0;
             }
-            this.registry.events.emit('actualizarBarras');
             this.registry.events.emit('mostrarDmgAPlayer', outgoing);
+            this.registry.events.emit('actualizarBarras');
         });
 
         this.registry.events.on('playerSetRes', (set, turns) => {
@@ -173,8 +150,29 @@ export default class combate extends Phaser.Scene {
                 playerStats.res = set;
                 playerStats.resT = turns;
             };
+            this.registry.events.emit('actualizarBarras');
         });
 
+        this.registry.events.on('buffDmgPlayer', (buff, turns) => {
+            if (playerStats.buffDmgT > 0) {
+                console.log('El jugador ya tiene un buff de daño activo');
+            } else {
+                playerStats.buffDmg = buff;
+                playerStats.buffDmgT = turns;
+            };
+            this.registry.events.emit('actualizarBarras');
+        });
+
+        this.registry.events.on('buffDefPlayer', (buff, turns) => {
+            if (playerStats.buffDefT > 0) {
+                console.log('El jugador ya tiene un buff de defensa activo');
+            } else {
+                playerStats.buffDef = buff;
+                playerStats.buffDefT = turns;
+            };
+            this.registry.events.emit('actualizarBarras');
+        });
+        //Modificadores de enemigo
         this.registry.events.on('enemySetRes', (set, turns) => {
             if (enemyStats.resT > 0) {
                 console.log('El enemigo ya tiene modificaciones a su resistencia');
@@ -182,6 +180,7 @@ export default class combate extends Phaser.Scene {
                 enemyStats.res = set;
                 enemyStats.resT = turns;
             };
+            this.registry.events.emit('actualizarBarras');
         });
 
         this.registry.events.on('healEnemy', (raw) => {
@@ -203,9 +202,8 @@ export default class combate extends Phaser.Scene {
             if (enemyStats.hp < 0) {
                 enemyStats.hp = 0;
             };
-            //Barra de enemigo, va de 10% en 10%
-            this.registry.events.emit('actualizarBarras');
             this.registry.events.emit('mostrarDmgAEnemy', incoming);
+            this.registry.events.emit('actualizarBarras');
         });
 
         this.registry.events.on('hurtEnemyMirror', (raw) => {
@@ -215,7 +213,70 @@ export default class combate extends Phaser.Scene {
             }
             this.enemyDmg.setText(palParry + ' & -' + raw);
             this.BGEnemyDmg.setSize(this.enemyDmg.getBounds().width, this.enemyDmg.getBounds().height).setPosition(this.enemyDmg.getBounds().centerX,this.enemyDmg.getBounds().centerY).setOrigin(.5);
-        })
+            this.registry.events.emit('actualizarBarras');
+        });
+
+        this.registry.events.on('buffDmgEnemy', (buff, turns) => {
+            if (enemyStats.buffDmgT > 0) {
+                console.log('El jugador ya tiene un buff activo');
+            } else {
+                enemyStats.buffDmg = buff;
+                enemyStats.buffDmgT = turns;
+            };
+            this.registry.events.emit('actualizarBarras');
+        });
+
+        //Otros
+        this.registry.events.on('actualizarBarras', ()=>{
+        //barra de vida del enemigo
+        if (enemyStats.hp == enemyStats.maxhp) {
+            enemyHealthbar.setTexture('healthbar', 0);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
+            enemyHealthbar.setTexture('healthbar', 1);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.8)) {
+            enemyHealthbar.setTexture('healthbar', 2);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.7)) {
+            enemyHealthbar.setTexture('healthbar', 3);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.6)) {
+            enemyHealthbar.setTexture('healthbar', 4);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.5)) {
+            enemyHealthbar.setTexture('healthbar', 5);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.4)) {
+            enemyHealthbar.setTexture('healthbar', 6);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.3)) {
+            enemyHealthbar.setTexture('healthbar', 7);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.2)) {
+            enemyHealthbar.setTexture('healthbar', 8);
+        } else if (enemyStats.hp >= (enemyStats.maxhp * 0.1)) {
+            enemyHealthbar.setTexture('healthbar', 9);
+        } else if (enemyStats.hp == 0) {
+            enemyHealthbar.setTexture('healthbar', 10);
+        };
+
+        //barra de vida del jugador
+        if (playerStats.hp == playerStats.maxhp) {
+            playerHealthbar.setTexture('healthbar', 0);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.9)) {
+            playerHealthbar.setTexture('healthbar', 1);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.8)) {
+            playerHealthbar.setTexture('healthbar', 2);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.7)) {
+            playerHealthbar.setTexture('healthbar', 3);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.6)) {
+            playerHealthbar.setTexture('healthbar', 4);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.5)) {
+            playerHealthbar.setTexture('healthbar', 5);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.4)) {
+            playerHealthbar.setTexture('healthbar', 6);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.3)) {
+            playerHealthbar.setTexture('healthbar', 7);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.2)) {
+            playerHealthbar.setTexture('healthbar', 8);
+        } else if (playerStats.hp >= (playerStats.maxhp * 0.1)) {
+            playerHealthbar.setTexture('healthbar', 9);
+        } else if (playerStats.hp == 0) {
+            playerHealthbar.setTexture('healthbar', 10);
+        };});
 
         this.registry.events.on('nextTurn', () => {
             playerStats.buffDmgT -= 1;
@@ -227,35 +288,6 @@ export default class combate extends Phaser.Scene {
             playerStats.penalHeal -= 1;
 
             //Reseta los buff si el contador de turnos es termina
-            this.registry.events.emit('actualizarBarras');
-        });
-
-        this.registry.events.on('actualizarBarras', ()=>{
-            //barra de vida del enemigo
-            if (enemyStats.hp == enemyStats.maxhp) {
-                enemyHealthbar.setTexture('healthbar', 0);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.9)) {
-                enemyHealthbar.setTexture('healthbar', 1);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.8)) {
-                enemyHealthbar.setTexture('healthbar', 2);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.7)) {
-                enemyHealthbar.setTexture('healthbar', 3);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.6)) {
-                enemyHealthbar.setTexture('healthbar', 4);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.5)) {
-                enemyHealthbar.setTexture('healthbar', 5);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.4)) {
-                enemyHealthbar.setTexture('healthbar', 6);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.3)) {
-                enemyHealthbar.setTexture('healthbar', 7);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.2)) {
-                enemyHealthbar.setTexture('healthbar', 8);
-            } else if (enemyStats.hp >= (enemyStats.maxhp * 0.1)) {
-                enemyHealthbar.setTexture('healthbar', 9);
-            } else if (enemyStats.hp == 0) {
-                enemyHealthbar.setTexture('healthbar', 10);
-            }
-            //barra de vida del jugador
             if (playerStats.buffDmgT <= 0) {
                 playerStats.buffDmgT = 0;
                 playerStats.buffDmg = 0;
@@ -276,8 +308,10 @@ export default class combate extends Phaser.Scene {
             };
             if (playerStats.penalHeal <= 0) {
                 playerStats.penalHeal = 0;
-            }
-        })
+            };
+            //Actualiza barras
+            this.registry.events.emit('actualizarBarras');
+        });
 
         this.registry.events.on('gameOver', (v) => {
             switch (v) {
@@ -319,33 +353,6 @@ export default class combate extends Phaser.Scene {
             }
         });
 
-        this.registry.events.on('buffDmgPlayer', (buff, turns) => {
-            if (playerStats.buffDmgT > 0) {
-                console.log('El jugador ya tiene un buff de daño activo');
-            } else {
-                playerStats.buffDmg = buff;
-                playerStats.buffDmgT = turns;
-            };
-        });
-
-        this.registry.events.on('buffDefPlayer', (buff, turns) => {
-            if (playerStats.buffDefT > 0) {
-                console.log('El jugador ya tiene un buff de defensa activo');
-            } else {
-                playerStats.buffDef = buff;
-                playerStats.buffDefT = turns;
-            };
-        });
-
-        this.registry.events.on('buffDmgEnemy', (buff, turns) => {
-            if (enemyStats.buffDmgT > 0) {
-                console.log('El jugador ya tiene un buff activo');
-            } else {
-                enemyStats.buffDmg = buff;
-                enemyStats.buffDmgT = turns;
-            };
-        });
-
         this.registry.events.on('mostrarDmgAPlayer', (dmg)=>{
             this.adiosPlayerDmg.destroy();
             this.playerDmg.setText('-' + dmg).setVisible(true);
@@ -375,6 +382,7 @@ export default class combate extends Phaser.Scene {
         //BOTONES DE ACCIÓN
         //Parry
         this.acc.right.on('down', () => {
+            this.registry.events.emit('actualizarBarras');
             card_strong.setTexture('card_strong', 1);
             this.registry.events.emit('playerSetRes', 0.8, 1);
             this.registry.events.emit('accionDeCombate', 'Has intentado realizar un parry', srtWait);
@@ -407,6 +415,7 @@ export default class combate extends Phaser.Scene {
         });
         //Bloquear
         this.acc.left.on('down', () => {
+            this.registry.events.emit('actualizarBarras');
             this.registry.events.emit('setPlayerRes', 0.1, 2);
             card_block.setTexture('card_block', 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido hacer un bloqueo', srtWait);
@@ -433,6 +442,7 @@ export default class combate extends Phaser.Scene {
         });
         //Ataque básico
         this.acc.up.on('down', () => {
+            this.registry.events.emit('actualizarBarras');
             card_atk.setTexture('card_atk', 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido atacar', srtWait);
             this.registry.events.emit('hurtEnemy', 1);
@@ -452,8 +462,8 @@ export default class combate extends Phaser.Scene {
         });
         //Descansar y buffear
         this.acc.down.on('down', () => {
+            this.registry.events.emit('actualizarBarras');
             card_rest.setTexture('card_rest', 1);
-
             if (playerStats.hp < (playerStats.maxhp * 0.5)) {
                 if (playerStats.penalHeal > 1) {
                     this.registry.events.emit('healPlayer', Math.round(playerStats.maxhp * .3));
@@ -482,8 +492,8 @@ export default class combate extends Phaser.Scene {
                 } else {
                     this.registry.events.emit('gameOver', 0);
                 };
+                card_rest.setTexture('card_rest', 0);
             }, srtWait);
-
         });
 
 
@@ -569,7 +579,6 @@ export default class combate extends Phaser.Scene {
     };
 
     update(time, delta) {
-
         this.txtPlayerstats.setText(
             'Vida: ' + playerStats.hp + ' / ' + playerStats.maxhp +
             '\nAtaque: ' + playerStats.atk + '(+' + playerStats.buffDmg + ')' +
