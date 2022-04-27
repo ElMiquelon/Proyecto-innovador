@@ -125,7 +125,7 @@ export default class combate extends Phaser.Scene {
 
         this.registry.events.on('hurtPlayer', (multi) => {
             var outgoing = Math.round(multi * (enemyStats.atk + enemyStats.buffDmg)); //Obtiene un daño con un multiplicador más ataque y buffs
-            outgoing = Math.round(outgoing * playerStats.res); //Multiplica por la resistencia del jugador
+            outgoing = Math.round((outgoing - playerStats.def - playerStats.buffDef) * playerStats.res); //Multiplica por la resistencia del jugador
             if (outgoing <= 0) {
                 outgoing = 1;
                 console.log('El daño del enemigo era muy bajo!');
