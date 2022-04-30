@@ -4,15 +4,6 @@ export default class creacionAnimaciones extends Phaser.Scene{
 constructor(){
     super({key: "creacionAnimaciones"});
 }
-preload(){
-    //por el momento lo desactivo ya que otra escena tiene exactamente lo mismo y esto redunda
-    //this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
-    //las medidas de la hoja de sprites dependerán del modelo final
-    
-    //this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
-    //this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
-    //this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
-}
 
 create(){
     /*
@@ -107,12 +98,10 @@ create(){
         }),
         repeat: -1,
         frameRate:16//no se cual se vea mejor
-    })
+    });
 
-    /*this.jugador.anims.play('stall');
 
-    this.remilia = new NPC(this, 300, 200, "spritemilia");
-    this.remilia.setOrigin(0,0).setInteractive();*/
+    //animaciones de NPCs
     this.anims.create({
         key: 'stallmilia',
         frames: this.anims.generateFrameNumbers('spritemilia',{
@@ -120,11 +109,8 @@ create(){
         }),
         repeat: -1,
         frameRate:4//no se cual se vea mejor
-    })
-    /*this.remilia.anims.play('stallmilia');
+    });
 
-    this.patchouli = new NPC(this, 800, 500, "spriteknowledge");
-    this.patchouli.setOrigin(0,0);*/
     this.anims.create({
         key: 'stallknowledge',
         frames: this.anims.generateFrameNumbers('spriteknowledge',{
@@ -132,10 +118,39 @@ create(){
         }),
         repeat: -1,
         frameRate:4//no se cual se vea mejor
-    })
-    /*this.patchouli.anims.play('stallknowledge');
+    });
 
-    //fisicas
+
+    //animaciones de enemigos en combate;
+    this.anims.create({
+        key: 'stallduende',
+        frames: this.anims.generateFrameNumbers('duende',{
+            frames: [0,1,2,3,4,5,6,7,8,9,10]
+        }),
+        repeat: -1,
+        frameRate:12
+    });
+
+    this.anims.create({
+        key: 'stallgusano',
+        frames: this.anims.generateFrameNumbers('gusano',{
+            frames: [0,1,2,3,4]//se que esta animacion quedará qlera, pero servirá de placeholder
+        }),
+        repeat: -1,
+        frameRate:12
+    });
+
+    this.anims.create({
+        key: 'stallvampiro',
+        frames: this.anims.generateFrameNumbers('vampiro',{
+            frames: [0,1,2,3]
+        }),
+        repeat: -1,
+        frameRate:2//no se cual se vea mejor
+    })
+
+    
+    /*fisicas
     this.jugador.body.setCollideWorldBounds(true);
     this.physics.add.collider(this.patchouli, this.jugador);
     this.physics.add.collider(this.remilia, this.jugador);
