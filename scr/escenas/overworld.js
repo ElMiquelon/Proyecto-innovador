@@ -12,7 +12,7 @@ export default class overworld extends Phaser.Scene{
         //detalles de la camara, limites del mundo y BGM
         this.camara = this.cameras.main.setBounds(0,0,2000,2000);
         //this.cameras.main.setZoom(.7); esta madre es mas que nada de debug
-        this.overworldBG = this.add.image(0,0, 'polimapa').setOrigin(0,0).setInteractive();
+        this.add.image(0,0, 'polimapa').setOrigin(0,0);
         this.physics.world.setBounds(0,0,2000,2000);
         this.bgm = this.sound.add('BGMOverworld', {loop:true});
         this.bgm.play();
@@ -101,7 +101,8 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioA2 = this.add.rectangle(591, 927, 521, 28, 0x00ffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA2);
         this.alEdificioA2.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al A parte frontal(?.WIP');
+            this.registry.events.emit('reconstruccionA');
+            this.scene.switch('edificioAP0');
         });
         this.alEdificioA3 = this.add.rectangle(591, 1003, 521, 28, 0x00ffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA3);

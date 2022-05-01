@@ -2,6 +2,7 @@ import creacionAnimaciones from "./escenas/creacionAnimaciones";
 /*import cajadialogos from "./escenas/cajadialogos";
 import poliprueba from "./escenas/poliprueba";*/
 import overworld from "./escenas/overworld";
+import reconstruirEdificios from "./escenas/Funciones/reconstruirEdificios";
 import cajaDeDialogos from "./escenas/cajaDeDialogos";
 //import combate_test from "./combate_test";
 import verMapa from "./escenas/Funciones/verMapa";
@@ -25,6 +26,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.add('menup', new menup);
         this.scene.add('creacionAnimaciones', new creacionAnimaciones);//este script ha quedado obsoleto, pero es usado para crear las animaciones
         this.scene.add('overworld', new overworld);
+        this.scene.add('reconstruirEdificios', new reconstruirEdificios)
         this.scene.add('cajaDeDialogos', new cajaDeDialogos);
         this.scene.add('verMapa', new verMapa);
         this.scene.add('tutorial', new tutorial);
@@ -37,6 +39,8 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image('loading', './assets/mp.jpg');
         this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
+        this.load.image('AP0', './assets/overworld/edificios/edificioAP0.png');
+        this.load.image('AP1', './assets/overworld/edificios/edificioAP1.png')
         this.load.audio('BGMOverworld', './assets/overworld/sonidos/BGMOverworld.ogg');
         //recomiendo que el sonido que usemos final sea uno que quede en cualquier superficie
         this.load.audio('stone1', './assets/overworld/sonidos/stone1.ogg');
@@ -87,7 +91,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
         this.scene.launch('combateDialogos').sleep('combateDialogos');
-        this.scene.launch('transicionACombate')
+        this.scene.launch('transicionACombate').launch('reconstruirEdificios');
         this.scene.start('menup');
         //this.scene.start('overworld');  
     }
