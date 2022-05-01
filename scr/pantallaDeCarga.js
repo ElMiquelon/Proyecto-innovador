@@ -70,6 +70,9 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10 });
+        this.load.spritesheet('duende', './assets/combate/sprites_enemigos/duende.png',{frameWidth:131, frameHeight:259});
+        this.load.spritesheet('gusano', './assets/combate/sprites_enemigos/gusano.png', {frameWidth:34, frameHeight:36});
+        this.load.spritesheet('vampiro', './assets/combate/sprites_enemigos/vampiro.png', {frameWidth:86, frameHeight:89});
         this.load.json('lvlup', './assets/combate/estadisticas/jugador/lvlup.json');
         this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
         this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');

@@ -10,6 +10,7 @@ var enemyHealthbar;
 var playerHealthbar;
 var mirror = 0;
 var elEnemigoAtaco;
+//var spriteEnemigo;
 
 var playerStats = {
     maxhp: 100,
@@ -47,8 +48,6 @@ export default class combate extends Phaser.Scene {
         //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
         this.camara = this.cameras.main.setBounds(0, 0, 500, 480).setRotation(359); //al final se usó para la transición
         this.camara.zoom = .01;
-
-        //this.physics.world.setBounds(0, 0, 500, 480); ni el set bounds
         this.add.image(0, 0, 'map').setOrigin(0);
 
         //barra de vida
@@ -524,8 +523,9 @@ export default class combate extends Phaser.Scene {
                 enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
                 console.log(enemyStats);
             };
-            console.log(playerStats);
-            console.log(this.registry.get('playerStats'))
+            //para que no se vea mal necesitaremos sprites del mismo tamaño, se pueden redimensionar estos no?
+            this.spriteEnemigo = this.add.sprite(249,143, this.enemyLoader.nombre)
+            this.spriteEnemigo.anims.play('stall' + this.enemyLoader.nombre)
         });
 
         //impresion de las estadisticas del jugador y enemigo
