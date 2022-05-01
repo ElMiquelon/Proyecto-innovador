@@ -153,13 +153,7 @@ export default class overworld extends Phaser.Scene{
 
 
         //estructuración del mapa.2 - zonas donde apareceran enemigos genericos
-        this. zonasDeBatalla = this.physics.add.staticGroup([
-            //zona entre el B y el A
-            this.add.zone(590,801,492,99).setOrigin(0,0), 
-            //camellones(? debajo del A
-            this.add.zone(434,1091,287,15).setOrigin(0,0)
-            //estructuración del mapa.2 - zonas donde apareceran enemigos genericos
-        this. zonasDeBatalla = this.physics.add.staticGroup([
+        this.zonasDeBatalla = this.physics.add.staticGroup([
             //zona entre el B y el A
             this.add.zone(590,801,492,99).setOrigin(0,0), 
             //camellones(? debajo del A
@@ -214,9 +208,7 @@ export default class overworld extends Phaser.Scene{
             this.add.zone(1235,663,279,101).setOrigin(0,0),
             this.add.zone(1515,739,142,29).setOrigin(0,0),
             this.add.zone(1616,663,40,75).setOrigin(0,0),
-            this.add.zone(1479,638,177,6).setOrigin(0,0),
-            this.add.zone().setOrigin(0,0),
-            this.add.zone().setOrigin(0,0),
+            this.add.zone(1479,638,177,6).setOrigin(0,0)
         ]);
         /*aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se verifica que la 
         escena de combate exista, sino, llama a un evento que la crea*/
