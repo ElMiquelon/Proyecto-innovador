@@ -12,7 +12,7 @@ export default class edificioAP0 extends Phaser.Scene{
 
         //detalles del jugador
         this.jugador = this.physics.add.sprite(575, 76, 'playersprite');
-        this.jugador.setSize(12,18, true);
+        this.jugador.setBodySize(12,18,true);
         this.jugador.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.jugador);
         this.jugador.on('animationrepeat', ()=>{
@@ -24,15 +24,27 @@ export default class edificioAP0 extends Phaser.Scene{
         this.escalera1 = this.add.zone(578,0,22,31).setOrigin(0);//esta escalera es la derecha
         this.escalera2 = this.add.zone(21,0,20,31).setOrigin(0);//esta la izquierda
         this.physics.add.staticGroup([this.escalera1, this.escalera2]);
-        this.physics.add.collider(this.jugador, this.escalera1, ()=>{
+        this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
             console.log('subiste por escalera 1');
             this.registry.events.emit('subirescalera1a');
-            this.scene.transition({target:'edificioAP1', duration:300, sleep:true})
+            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'edificioAP1', duration:300, sleep:true, moveBelow:true});
         });
-        this.physics.add.collider(this.jugador, this.escalera2, ()=>{
+        this.physics.add.overlap(this.jugador, this.escalera2, ()=>{
             console.log('subiste por escalera 2');
             this.registry.events.emit('subirescalera2a');
-            this.scene.transition({target:'edificioAP1', duration:300, sleep:true})
+            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'edificioAP1', duration:300, sleep:true, moveBelow:true});
+        });
+
+        //detalles de las transiciones
+        this.events.on('transitionout',(targetScene, duration)=>{
+            this.cameras.main.fadeOut(duration,0,0,0);
+        });
+        
+        this.events.on('transitioncomplete', (fromScene, duration)=>{
+            this.cameras.main.fadeFrom(200, 0,0,0);
+            this.input.keyboard.enabled = true;
         });
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
@@ -44,12 +56,12 @@ export default class edificioAP0 extends Phaser.Scene{
             this.jugador.setPosition(30,50);
         });
 
+        
         //input
         this.mov = this.input.keyboard.createCursorKeys();
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
-            this.scene.remove('edificioAP1');
-            this.scene.transition({target:'overworld', duration:300, remove:true});
+            this.scene.transition({target:'overworld', duration:500, remove:true});
         });
 
     }

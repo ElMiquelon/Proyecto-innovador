@@ -37,7 +37,7 @@ export default class overworld extends Phaser.Scene{
 
         //creacion del this.jugador y detalles
         this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
-        this.jugador.setSize(12,18, true);
+        this.jugador.setBodySize(12,18, true);
         this.jugador.body.setCollideWorldBounds(true);
         this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);
@@ -102,7 +102,7 @@ export default class overworld extends Phaser.Scene{
         this.physics.add.existing(this.alEdificioA2);
         this.alEdificioA2.on('pointerdown', ()=>{
             this.registry.events.emit('reconstruccionA');
-            this.scene.switch('edificioAP0');
+            this.scene.transition({target:'edificioAP0', duration:300, sleep:true, moveBelow:true});
         });
         this.alEdificioA3 = this.add.rectangle(591, 1003, 521, 28, 0x00ffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA3);
@@ -244,8 +244,17 @@ export default class overworld extends Phaser.Scene{
                 this.bgm.resume();
                 this.scene.resume(this);
                 
+            }else if(fromScene.scene.key != 'verMapa'){
+                this.registry.events.emit('destruccion' + fromScene.scene.key);
+                this.camara.fadeFrom(400, 0, 0, 0);
             };
         });
+
+        this.events.on('transitionout',(targetScene, duration)=>{
+            if (targetScene.scene.key != 'verMapa'){
+                this.cameras.main.fadeOut(duration, 0,0,0)
+            }
+        })
     };
 
     update(time, delta){

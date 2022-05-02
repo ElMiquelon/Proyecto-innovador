@@ -12,7 +12,7 @@ export default class edificioAP1 extends Phaser.Scene{
 
         //detalles del jugador
         this.jugador = this.physics.add.sprite(575, 76, 'playersprite');
-        this.jugador.setSize(12,18, true);
+        this.jugador.setBodySize(12,18,true);
         this.jugador.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.jugador);
         this.jugador.on('animationrepeat', ()=>{
@@ -24,15 +24,27 @@ export default class edificioAP1 extends Phaser.Scene{
         this.escalera1 = this.add.zone(557,0,21,19).setOrigin(0);
         this.escalera2 = this.add.zone(0,0,20,19).setOrigin(0);
         this.physics.add.staticGroup([this.escalera1, this.escalera2]);
-        this.physics.add.collider(this.jugador, this.escalera1, ()=>{
+        this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
             console.log('bajaste por escalera 1');
             this.registry.events.emit('bajarescalera1a');
-            this.scene.transition({target:'edificioAP0', duration:300, sleep:true})
+            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'edificioAP0', duration:300, sleep:true, moveBelow:true});
         });
-        this.physics.add.collider(this.jugador, this.escalera2, ()=>{
+        this.physics.add.overlap(this.jugador, this.escalera2, ()=>{
             console.log('bajaste por escalera 2');
             this.registry.events.emit('bajarescalera2a');
-            this.scene.transition({target:'edificioAP0', duration:300, sleep:true})
+            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'edificioAP0', duration:300, sleep:true, moveBelow:true});
+        });
+
+        //detalles de las transiciones
+        this.events.on('transitionout',(targetScene, duration)=>{
+            this.cameras.main.fadeOut(duration,0,0,0);
+        });
+
+        this.events.on('transitioncomplete', (fromScene, duration)=>{
+            this.cameras.main.fadeFrom(200, 0,0,0);
+            this.input.keyboard.enabled = true;
         });
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
