@@ -9,7 +9,7 @@ export default class overworld extends Phaser.Scene{
     }
 
     create(){
-        //detalles de la camara, limites del mundo y BGM
+        //detalles de la camara, limites del mundo, BG y BGM
         this.camara = this.cameras.main.setBounds(0,0,2000,2000);
         //this.cameras.main.setZoom(.7); esta madre es mas que nada de debug
         this.add.image(0,0, 'polimapa').setOrigin(0,0);
@@ -18,35 +18,6 @@ export default class overworld extends Phaser.Scene{
         this.bgm.play();
 
 
-        //creacion de NPCs
-        this.rem = this.physics.add.sprite(326, 1062, 'spritemilia').setOrigin(0,0).setImmovable(true).setInteractive();
-        this.patch = this.physics.add.sprite(454, 762, 'spriteknowledge').setOrigin(0,0).setImmovable(true).setInteractive();
-
-        //interacciones de los NPCs al ser clickeados (dialogos)
-        this.data.set('remFirstTalk', true);
-        this.rem.on('pointerdown', ()=>{
-            this.registry.events.emit('dialogar', 1, this.data.get('remFirstTalk'));
-            this.data.set('remFirstTalk', false);
-        });
-
-        this.data.set('patchFirstTalk', true);
-        this.patch.on('pointerdown',()=>{
-            this.registry.events.emit('dialogar', 2, this.data.get('patchFirstTalk'));
-            this.data.set('patchFirstTalk', false);
-        })
-
-        //creacion del this.jugador y detalles
-        this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
-        this.jugador.setBodySize(12,18, true);
-        this.jugador.body.setCollideWorldBounds(true);
-        this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
-        this.cameras.main.startFollow(this.jugador);
-        this.jugador.on('animationrepeat', ()=>{
-            //esta madre es para los pasos, necesitará acomodarse según los assets finales 
-            this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
-        });
-       
-       
         //estructuración del mapa para evitar que salga, traspase edificios, etc.
         this.edificios = this.physics.add.staticGroup([
             //rectangulos del A
@@ -79,32 +50,25 @@ export default class overworld extends Phaser.Scene{
             this.add.rectangle(1229,446, 425,198).setOrigin(0,0),
         ]);
 
-        this.physics.add.collider(this.jugador,this.edificios);
-
-
         //estructuracion del mapa.1 - zonas que llevarán al jugador a un escenario mas detallado del edificio.
         
         //poliplaza
         this.aPoliplaza = this.add.zone(217,758,233,45).setOrigin(0,0);
         this.physics.add.existing(this.aPoliplaza,true);
-        this.physics.add.collider(this.jugador, this.aPoliplaza,() =>{
-            console.log('aquí va el evento que lleva a poliplaza. WIP');
-            this.jugador.setPosition(this.jugador.getBounds().centerX + 4, this.jugador.getBounds().centerY + 4);
-        });
 
         //edificio A 
-        this.alEdificioA1 = this.add.rectangle(536, 927, 55, 104, 0x00ffff).setOrigin(0,0);
+        this.alEdificioA1 = this.add.rectangle(536, 927, 55, 104, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA1);
         this.alEdificioA1.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al A o a su cafetería.WIP');
         });
-        this.alEdificioA2 = this.add.rectangle(591, 927, 521, 28, 0x00ffff).setOrigin(0,0);
+        this.alEdificioA2 = this.add.rectangle(591, 927, 521, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA2);
         this.alEdificioA2.on('pointerdown', ()=>{
             this.registry.events.emit('reconstruccionA');
             this.scene.transition({target:'edificioAP0', duration:300, sleep:true, moveBelow:true});
         });
-        this.alEdificioA3 = this.add.rectangle(591, 1003, 521, 28, 0x00ffff).setOrigin(0,0);
+        this.alEdificioA3 = this.add.rectangle(591, 1003, 521, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA3);
         this.alEdificioA3.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al A parte trasera(?.WIP');
@@ -112,8 +76,8 @@ export default class overworld extends Phaser.Scene{
 
 
         //edificio B no se confundan porque dice "B1" o "B2", es así porque son 2 rectangulos
-        this.alEdificioB1 = this.add.rectangle(537,638,45,119,0x00ffff).setOrigin(0,0);
-        this.alEdificioB2 = this.add.rectangle(583,682,529,24,0x00ffff).setOrigin(0,0);
+        this.alEdificioB1 = this.add.rectangle(537,638,45,119,0xffffff).setOrigin(0,0);
+        this.alEdificioB2 = this.add.rectangle(583,682,529,24,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioB1);
         this.physics.add.existing(this.alEdificioB2);
         this.alEdificioB1.on('pointerdown', ()=>{
@@ -124,33 +88,30 @@ export default class overworld extends Phaser.Scene{
         });
 
         //edificio C
-        this.alEdificioC = this.add.rectangle(785,560, 339, 27, 0x00ffff).setOrigin(0,0);
+        this.alEdificioC = this.add.rectangle(785,560, 339, 27, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioC);
         this.alEdificioC.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al C. WIP');
         });
 
         //edificio D, misma mierda que con el B
-        this.alEdificioD1 = this.add.rectangle(630,307,27,94,0x00ffff).setOrigin(0,0);
+        this.alEdificioD1 = this.add.rectangle(630,307,27,94,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioD1);
         this.alEdificioD1.on('pointerdown', ()=>{
             console.log('aqui va el evento qu te lleva al D. WIP');
         });
-        this.alEdificioD2 = this.add.rectangle(658,307,458,28,0x00ffff).setOrigin(0,0);
+        this.alEdificioD2 = this.add.rectangle(658,307,458,28,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioD2);
         this.alEdificioD2.on('pointerdown', ()=>{
             console.log('aqui va el evento qu te lleva al D. WIP');
         });
 
         //edificio E
-        this.alEdificioE = this.add.rectangle(566,189,551,34,0x00ffff).setOrigin(0,0);
+        this.alEdificioE = this.add.rectangle(566,189,551,34,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioE);
         this.alEdificioE.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al E. WIP');
         });
-
-
-        this.physics.add.overlap(this.jugador,[this.alEdificioA1, this.alEdificioA2, this.alEdificioA3, this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE]);
 
 
         //estructuración del mapa.2 - zonas donde apareceran enemigos genericos
@@ -211,7 +172,46 @@ export default class overworld extends Phaser.Scene{
             this.add.zone(1616,663,40,75).setOrigin(0,0),
             this.add.zone(1479,638,177,6).setOrigin(0,0)
         ]);
-        /*aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se verifica que la 
+
+        //creacion de NPCs
+        this.rem = this.physics.add.sprite(326, 1062, 'spritemilia').setOrigin(0,0).setImmovable(true).setInteractive();
+        this.patch = this.physics.add.sprite(454, 762, 'spriteknowledge').setOrigin(0,0).setImmovable(true).setInteractive();
+
+        //interacciones de los NPCs al ser clickeados (dialogos)
+        this.data.set('remFirstTalk', true);
+        this.rem.on('pointerdown', ()=>{
+            this.registry.events.emit('dialogar', 1, this.data.get('remFirstTalk'));
+            this.data.set('remFirstTalk', false);
+        });
+
+        this.data.set('patchFirstTalk', true);
+        this.patch.on('pointerdown',()=>{
+            this.registry.events.emit('dialogar', 2, this.data.get('patchFirstTalk'));
+            this.data.set('patchFirstTalk', false);
+        })
+
+        //creacion del this.jugador y detalles
+        this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
+        this.jugador.setBodySize(12,18, true);
+        this.jugador.body.setCollideWorldBounds(true);
+        this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
+        this.cameras.main.startFollow(this.jugador);
+        this.jugador.on('animationrepeat', ()=>{
+            //esta madre es para los pasos, necesitará acomodarse según los assets finales 
+            this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
+        });
+        //estructuracion del mapa.0.1 - el COLLIDER que evitará que el jugador traspase lo que no debe
+        this.physics.add.collider(this.jugador,this.edificios);
+
+        //estructuracion del mapa.1.1 - el OVERLAP entre el jugador y los rectangulos de los edificios;
+        this.physics.add.collider(this.jugador, this.aPoliplaza,() =>{
+            console.log('aquí va el evento que lleva a poliplaza. WIP');
+            this.jugador.setPosition(this.jugador.getBounds().centerX + 4, this.jugador.getBounds().centerY + 4);
+        });
+        this.physics.add.overlap(this.jugador,[this.alEdificioA1, this.alEdificioA2, this.alEdificioA3, this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE]);
+       
+        //estructuración del mapa.2.1 - creacion del OVERLAP en las zonas de batalla y su funcion.
+        /*explicacion: aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se verifica que la 
         escena de combate exista, sino, llama a un evento que la crea*/
         this.aPelear = this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
             console.log('esta contando');
@@ -226,12 +226,14 @@ export default class overworld extends Phaser.Scene{
             };
         });
 
+        //creacion del overlay de edificios
+        this.polimapaOverlay = this.add.image(0,0,'polimapaOverlay').setOrigin(0,0);
 
         //Input jaja
         this.mov = this.input.keyboard.createCursorKeys();
         
         
-        //Detalles para abrir el mapa
+        //Tecla para abrir el mapa
         this.map = this.input.keyboard.addKey('M');
         this.map.on('down', ()=>{
             this.scene.transition({target:'verMapa', duration:100, sleep:true});
@@ -258,11 +260,16 @@ export default class overworld extends Phaser.Scene{
     };
 
     update(time, delta){
+        //overlay de edificios
+        this.polimapaOverlay.setAlpha(.3);
+        if(this.alEdificioA1.body.touching.none && !this.alEdificioA1.body.embedded.valueOf() && this.alEdificioA2.body.touching.none && !this.alEdificioA2.body.embedded.valueOf() && this.alEdificioA3.body.touching.none && !this.alEdificioA3.body.embedded.valueOf() && this.alEdificioB1.body.touching.none && !this.alEdificioB1.body.embedded.valueOf() && this.alEdificioB2.body.touching.none && !this.alEdificioB2.body.embedded.valueOf() && this.alEdificioC.body.touching.none && !this.alEdificioC.body.embedded.valueOf() && this.alEdificioD1.body.touching.none && !this.alEdificioD1.body.embedded.valueOf() && this.alEdificioD2.body.touching.none && !this.alEdificioD2.body.embedded.valueOf() && this.alEdificioE.body.touching.none && !this.alEdificioE.body.embedded.valueOf()){
+            this.polimapaOverlay.setAlpha(1);
+        };
         //Lineas relacionadas al transporte del jugador        
         this.alEdificioA1.setVisible(true).setInteractive();
         this.alEdificioA2.setVisible(true).setInteractive();
         this.alEdificioA3.setVisible(true).setInteractive();
-        if(this.alEdificioA1.body.touching.none && !this.alEdificioA1.body.embedded.valueOf() && this.alEdificioA2.body.touching.none && !this.alEdificioA2.body.embedded.valueOf() && this.alEdificioA3.body.touching.none && !this.alEdificioA3.body.embedded.valueOf() ){
+        if(this.alEdificioA1.body.touching.none && !this.alEdificioA1.body.embedded.valueOf() && this.alEdificioA2.body.touching.none && !this.alEdificioA2.body.embedded.valueOf() && this.alEdificioA3.body.touching.none && !this.alEdificioA3.body.embedded.valueOf()){
             this.alEdificioA1.setVisible(false).disableInteractive();
             this.alEdificioA2.setVisible(false).disableInteractive();
             this.alEdificioA3.setVisible(false).disableInteractive();

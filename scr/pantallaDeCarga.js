@@ -41,6 +41,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
         this.load.image('AP0', './assets/overworld/edificios/edificioAP0.png');
         this.load.image('AP1', './assets/overworld/edificios/edificioAP1.png')
+        this.load.image('polimapaOverlay', './assets/overworld/mapa-overlay.png')
         this.load.audio('BGMOverworld', './assets/overworld/sonidos/BGMOverworld.ogg');
         //recomiendo que el sonido que usemos final sea uno que quede en cualquier superficie
         this.load.audio('stone1', './assets/overworld/sonidos/stone1.ogg');
@@ -50,6 +51,11 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.audio('stone5', './assets/overworld/sonidos/stone5.ogg');
         this.load.audio('stone6', './assets/overworld/sonidos/stone6.ogg');
 
+        //aquí se cargarán sprites
+        this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
+        this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
+        this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
+
         //aqui se cargaran imagenes de dialogos
         this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
         this.load.image('eliEnojado', './assets/overworld/dialogos/tutorial/eliEnojado.jpeg');
@@ -57,12 +63,6 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //aqui se cargarán sonidos de dialogos
         this.load.audio('sonidoNPC1', './assets/overworld/dialogos/npc1.wav');
         this.load.audio('sonidoNPC2', './assets/overworld/dialogos/npc2.ogg');
-
-        
-        //aquí se cargarán sprites
-        this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
-        this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
-        this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
 
         //aqui se cargarán recursos para el combate. eli separalos porfa
         this.load.audio("BGMcombate", "./assets/combate/audio/BGMcombate.mp3");
