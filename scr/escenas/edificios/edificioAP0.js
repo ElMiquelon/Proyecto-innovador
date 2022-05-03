@@ -20,10 +20,20 @@ export default class edificioAP0 extends Phaser.Scene{
             this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
         });
 
-        //hitbox de escaleras
-        this.escalera1 = this.add.zone(578,0,22,31).setOrigin(0);//esta escalera es la derecha
-        this.escalera2 = this.add.zone(21,0,20,31).setOrigin(0);//esta la izquierda
-        this.physics.add.staticGroup([this.escalera1, this.escalera2]);
+        //hitbox del edificio
+        this.hitboxes = this.physics.add.staticGroup([
+            this.add.rectangle(538,0,40,21).setOrigin(0,0),
+            this.add.rectangle(444,0,94,3).setOrigin(0,0),
+            this.add.rectangle(42,0,402,21).setOrigin(0,0),
+            this.add.rectangle(0,0,20,21).setOrigin(0,0)
+        ]);
+        this.physics.add.collider(this.jugador, this.hitboxes);
+
+        //OVERLAP de las escaleras y la zona que lleva a cafetería
+        this.escalera1 = this.add.zone(578,0,22,21).setOrigin(0);//esta escalera es la derecha
+        this.escalera2 = this.add.zone(20,0,22,21).setOrigin(0);//esta la izquierda
+        this.aCafe = this.add.zone(444,3,94,18).setOrigin(0,0);//este es la zona para la cafetería
+        this.physics.add.staticGroup([this.escalera1, this.escalera2, this.aCafe]);
         this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
             console.log('subiste por escalera 1');
             this.registry.events.emit('subirescalera1a');
@@ -36,6 +46,35 @@ export default class edificioAP0 extends Phaser.Scene{
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioAP1', duration:300, sleep:true, moveBelow:true});
         });
+        this.physics.add.overlap(this.jugador,this.aCafe,()=>{
+            console.log('aún no hemos hecho la cafetería xd');
+        });
+
+        //detalles de las puertas de los salones (están puestas de derecha a izquierda)
+        this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+        });
+
+        this.puerta2 = this.add.rectangle(281,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+        });
+
+        this.puerta3 = this.add.rectangle(190,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+        });
+
+        this.puerta4 = this.add.rectangle(86,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta4);
+        this.puerta4.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+        });
+
 
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{

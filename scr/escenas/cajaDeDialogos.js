@@ -42,7 +42,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.scene.wake(this);
             this.desaparece.destroy();
             dialogo.setText(texto);
-            this.desaparece = this.time.delayedCall(800, ()=>{
+            this.desaparece = this.time.delayedCall(1000, ()=>{
                 this.scene.sleep(this);
             })
         });

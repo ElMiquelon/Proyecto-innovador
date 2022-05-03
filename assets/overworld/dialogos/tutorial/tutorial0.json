@@ -7,8 +7,13 @@
         "así que, quien seas: te apreciamos",
         "Controles:", 
         "Flechas direccionales: te mueves",
-        "Tecla M: abres el mapa. Las partes resaltadas \nson aquellas que puedes atravesar",
-        "Clic sobre cualquier NPC: te habla",
+        "Tecla M: abres el mapa. Las partes resaltadas \nson aquellas que puedes atravesar, su \"pasillo\"",
+        "Por ahora, puedes entrar al A, para hacerlo\ndebes ponerte sobre su \"pasillo\"",
+		"Y dar clic al que esté más arriba\n(no sé si me explique)",
+		"Estando dentro, puedes subir o bajar las escaleras\ny cliquear sobre las puertas",
+		"Sobra decir lo que te toparás cuando lo hagas.",
+		"Para salir del edificio, presiona X estando en\nla planta baja",
+		"Clic sobre cualquier NPC: te habla",
         "Mientras el dialogo esté activo, presiona X\npara cerrarlo y poder moverte",
         "Creo que es todo por ahora",
         "Cualquier sugerencia, queja, reseña, observación o\nmentada de madre es bienvenida.",
@@ -32,6 +37,7 @@
 	"Pueden recuperarse un poco",
 	"O pueden recuperar una gran parte de vida,\n y preparar su siguiente movimiento",
 	"Ellos prefieren dejarte la vida\n un poco más fácil por lo que \n este movimiento será poco frecuente",
-	"Suerte"
+	"Suerte",
+	"no mamen el eli no tabuló bien el archivo jsjs"
     ]
 }
