@@ -404,16 +404,16 @@ export default class combate extends Phaser.Scene {
             this.events.emit('playerSetRes', 0.8, 1);
             this.registry.events.emit('accionDeCombate', 'Has intentado realizar un parry', srtWait);
             setTimeout(() => {
-                if (enemyStats.hp > 0) {
+                if (enemyStats.hp > 0) { //Checa la vida del enemigo, si esta vivo procede
                     this.events.emit('response');
                     setTimeout(() => {
-                        if (elEnemigoAtaco != 1) {
+                        if (elEnemigoAtaco != 1) { //Si el enemigo ataca se activa el ataque especial
                             mirror = Math.round(mirror * 0.5);
                             this.events.emit('hurtEnemy', 1);
                             this.events.emit('hurtEnemyMirror', mirror);
                             this.cameras.main.shake(50, .08, true);
                             this.registry.events.emit('accionDeCombate', 'Has ejecutado un parry exitosamente', medWait);
-                        } else {
+                        } else { //Aqui fallo
                             playerStats.hp -= Math.round(playerStats.maxhp * 0.2);
                             this.cameras.main.shake(50, .08, true);
                             this.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.2));
@@ -421,6 +421,9 @@ export default class combate extends Phaser.Scene {
                         };
                     }, srtWait);
                 } else {
+                    this.events.emit('gameOver', 1);
+                };
+                if (enemyStats.hp == 0) { //Check para saber si el enemigo murio
                     this.events.emit('gameOver', 1);
                 };
                 if (playerStats.hp > 0) {
@@ -455,7 +458,6 @@ export default class combate extends Phaser.Scene {
                     this.events.emit('gameOver', 0);
                 };
                 card_block.setTexture('card_block', 0);
-                card_rest.setTexture('card_rest', 0);
             }, srtWait);
 
 
@@ -500,8 +502,8 @@ export default class combate extends Phaser.Scene {
             } else {
                 this.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
                 this.events.emit('playerSetRes', 0.75, 2);
-                this.events.emit('buffDmgPlayer', 5, 2);
-                this.events.emit('buffDefPlayer', 5, 2);
+                this.events.emit('buffDmgPlayer', Math.round(playerStats.atk * 0.5), 2);
+                this.events.emit('buffDefPlayer', Math.round(playerStats.def * 0.5), 2);
                 this.registry.events.emit('accionDeCombate', 'Has decidido juntar fuerzas', srtWait);
             };
             setTimeout(() => {
