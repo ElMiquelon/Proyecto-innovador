@@ -80,17 +80,20 @@ export default class combate extends Phaser.Scene {
             switch (r) {
                 case 1:
                     this.events.emit('hurtPlayer', 1)
+                    this.cameras.main.shake(50, .04, true);
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio', srtWait);
                     elEnemigoAtaco = 0;
                     break;
                 case 2:
                     this.events.emit('hurtPlayer', 1.5);
+                    this.cameras.main.shake(50, .1, true);
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque fuerte', srtWait);
                     this.events.emit('playerSetRes', 1.2, 3)
                     elEnemigoAtaco = 0;
                     break;
                 case 3:
                     this.events.emit('hurtPlayer', .5)
+                    this.cameras.main.shake(50, .01, true);
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil', srtWait);
                     elEnemigoAtaco = 0;
                     break;
@@ -102,6 +105,7 @@ export default class combate extends Phaser.Scene {
                 case 5:
                     if (enemyStats.penal >= 1) {
                         this.events.emit('hurtPlayer', 1)
+                        this.cameras.main.shake(50, .04, true);
                         this.registry.events.emit('accionDeCombate', 'El enemigo iba a curarse pero decidió atacar', srtWait);
                         elEnemigoAtaco = 0;
                     } else {
@@ -310,6 +314,7 @@ export default class combate extends Phaser.Scene {
             };
             //Actualiza barras
             this.events.emit('actualizarBarras');
+            this.input.keyboard.enabled = true;
         });
 
         this.events.on('gameOver', (v) => {
@@ -322,19 +327,31 @@ export default class combate extends Phaser.Scene {
                     }, lngWait); //y una vez hayan pasado esos 1500 milisegundos, se reinicia
                     break;
                 case 1: /*Ganaste*/
+                    this.spriteEnemigo.setVisible(false);
                     this.input.keyboard.enabled = false;
                     this.registry.events.emit('accionDeCombate', '¡Has ganado!', lngWait);
                     this.registry.values.playerStats.xp += enemyStats.xp;
                     if(this.registry.values.playerStats.xp >= this.registry.values.playerStats.nxtlvl){
                         var lvlup = this.cache.json.get('lvlup');
-                        this.registry.values.playerStats.hp += lvlup.hp[Phaser.Math.Between(0, lvlup.hp.length - 1)];
-                        this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
-                        this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
-                        this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
-                        this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
-                        this.registry.values.playerStats.lvl += 1; 
+                        this.registry.events.emit('accionDeCombate', '¡Has subido de nivel!',medWait);
+                        this.time.delayedCall(srtWait, ()=>{
+                            this.registry.values.playerStats.hp += lvlup.hp[Phaser.Math.Between(0, lvlup.hp.length - 1)];
+                            this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
+                            this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
+                            this.registry.values.playerStats.xp -= this.registry.values.playerStats.nxtlvl;
+                            this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
+                            this.registry.values.playerStats.lvl += 1; 
+                            this.registry.events.emit('accionDeCombate', 
+                            'Vida: ' + playerStats.hp + ' => ' + this.registry.values.playerStats.hp +
+                            '\nAtaque: ' + playerStats.atk + ' => ' + this.registry.values.playerStats.atk +
+                            '\nDefensa: ' + playerStats.def + ' => ' + this.registry.values.playerStats.def +
+                            '\nXP actual: ' + this.registry.values.playerStats.xp +
+                            '\nXP para el siguiente nivel: ' + this.registry.values.playerStats.nxtlvl,
+                            lngWait*2
+                            );
+                        });
                         //aqui falta agregar las notificaciones correspondientes
-                        this.time.delayedCall(medWait, ()=>{
+                        this.time.delayedCall(medWait+lngWait*2.1, ()=>{
                             //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
                             this.registry.events.emit('transicionaoverworld');
@@ -381,6 +398,7 @@ export default class combate extends Phaser.Scene {
         //BOTONES DE ACCIÓN
         //Parry
         this.acc.right.on('down', () => {
+            this.input.keyboard.enabled = false;
             this.events.emit('actualizarBarras');
             card_strong.setTexture('card_strong', 1);
             this.events.emit('playerSetRes', 0.8, 1);
@@ -393,9 +411,11 @@ export default class combate extends Phaser.Scene {
                             mirror = Math.round(mirror * 0.5);
                             this.events.emit('hurtEnemy', 1);
                             this.events.emit('hurtEnemyMirror', mirror);
+                            this.cameras.main.shake(50, .08, true);
                             this.registry.events.emit('accionDeCombate', 'Has ejecutado un parry exitosamente', medWait);
                         } else {
                             playerStats.hp -= Math.round(playerStats.maxhp * 0.2);
+                            this.cameras.main.shake(50, .08, true);
                             this.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.2));
                             this.registry.events.emit('accionDeCombate', 'Has fallado el parry', medWait);
                         };
@@ -414,6 +434,7 @@ export default class combate extends Phaser.Scene {
         });
         //Bloquear
         this.acc.left.on('down', () => {
+            this.input.keyboard.enabled = false;
             this.events.emit('actualizarBarras');
             this.events.emit('setPlayerRes', 0.1, 2);
             card_block.setTexture('card_block', 1);
@@ -441,10 +462,12 @@ export default class combate extends Phaser.Scene {
         });
         //Ataque básico
         this.acc.up.on('down', () => {
+            this.input.keyboard.enabled = false;
             this.events.emit('actualizarBarras');
             card_atk.setTexture('card_atk', 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido atacar', srtWait);
             this.events.emit('hurtEnemy', 1);
+            this.cameras.main.shake(50, .03, true);
             setTimeout(() => {
                 if (enemyStats.hp > 0) {
                     this.events.emit('response');
@@ -461,6 +484,7 @@ export default class combate extends Phaser.Scene {
         });
         //Descansar y buffear
         this.acc.down.on('down', () => {
+            this.input.keyboard.enabled = false;
             this.events.emit('actualizarBarras');
             card_rest.setTexture('card_rest', 1);
             if (playerStats.hp < (playerStats.maxhp * 0.5)) {
