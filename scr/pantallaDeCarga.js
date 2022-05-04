@@ -66,6 +66,8 @@ export default class pantallaDeCarga extends Phaser.Scene{
 
         //aqui se cargarán recursos para el combate. eli separalos porfa
         this.load.audio("BGMcombate", "./assets/combate/audio/BGMcombate.mp3");
+        this.load.audio('inicioCombateBGM', "./assets/combate/audio/combateStart.mp3");
+        this.load.audio("BGMCombateNormal", "./assets/combate/audio/BGMcombateloop.mp3");
         this.load.image("map", "./assets/combate/mapa_c.png");
         this.load.image("player_c", "./assets/combate/player_c.png");
         this.load.image("enemy_c", "./assets/combate/pew.png");

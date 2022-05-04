@@ -1,6 +1,7 @@
-const srtWait = 750;
-const medWait = 1000;
-const lngWait = 1500;
+const srtWait = 1200;
+const medWait = 1800;
+const lngWait = 2500;
+const VOLUMEN = .5;
 var palParry;
 var card_atk;
 var card_block;
@@ -61,7 +62,7 @@ export default class combate extends Phaser.Scene {
         card_rest = this.add.sprite(250, 450, 'card_rest').setOrigin(0.5);
 
         //audio
-        this.bgm =this.sound.add('BGMcombate');
+        this.inicioCombate =this.sound.add('inicioCombateBGM',{volume:VOLUMEN});
 
         //textos de daño 
         this.BGEnemyDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
@@ -320,11 +321,12 @@ export default class combate extends Phaser.Scene {
         this.events.on('gameOver', (v) => {
             switch (v) {
                 case 0: /*Perdiste*/
-                    this.registry.events.emit('accionDeCombate', 'Has perdido', lngWait);
-                    //lo que se hace aquí es poner el texto "Has ganado" durante segundo y medio 
-                    setTimeout(() => {
-                        console.log('inserte aqui lo que pasa cuando pierdes')
-                    }, lngWait); //y una vez hayan pasado esos 1500 milisegundos, se reinicia
+                    this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a overworld', lngWait);
+                    //lo que se hace aquí es poner el texto "Has ganado" durante lngwait (revisen mas arriba)
+                    this.time.delayedCall(medWait, ()=>{
+                        this.bgm.stop();
+                        this.registry.events.emit('transicionaoverworld');
+                    }); //y una vez hayan pasado el tiempo, se reinicia
                     break;
                 case 1: /*Ganaste*/
                     this.spriteEnemigo.setVisible(false);
@@ -373,7 +375,7 @@ export default class combate extends Phaser.Scene {
             this.adiosPlayerDmg.destroy();
             this.playerDmg.setText('-' + dmg).setVisible(true);
             this.BGPlayerDmg.setSize(this.playerDmg.getBounds().width, this.playerDmg.getBounds().height).setPosition(this.playerDmg.getBounds().centerX,this.playerDmg.getBounds().centerY).setOrigin(.5).setVisible(true);
-            this.adiosPlayerDmg = this.time.delayedCall(400, ()=>{
+            this.adiosPlayerDmg = this.time.delayedCall(srtWait - 400, ()=>{
                 this.playerDmg.setVisible(false);
                 this.BGPlayerDmg.setVisible(false);
             },[], this)
@@ -384,7 +386,7 @@ export default class combate extends Phaser.Scene {
             this.adiosEnemyDmg.destroy();
             this.enemyDmg.setText('-' + dmg).setVisible(true);
             this.BGEnemyDmg.setSize(this.enemyDmg.getBounds().width, this.enemyDmg.getBounds().height).setPosition(this.enemyDmg.getBounds().centerX,this.enemyDmg.getBounds().centerY).setOrigin(.5).setVisible(true);
-            this.adiosEnemyDmg = this.time.delayedCall(400, ()=>{
+            this.adiosEnemyDmg = this.time.delayedCall(srtWait - 400, ()=>{
                 this.enemyDmg.setVisible(false);
                 this.BGEnemyDmg.setVisible(false);
             },[], this)
@@ -524,13 +526,13 @@ export default class combate extends Phaser.Scene {
 
         //asignación de estadisticas al enemigo y jugador
         this.events.on('comenzarBatalla', () => {
-            //esta webada podria servir para poner enemigos de acuerdo al nivel del jugador
             playerStats.maxhp = this.registry.values.playerStats.hp;
             playerStats.hp = playerStats.maxhp
             playerStats.atk = this.registry.values.playerStats.atk;
             playerStats.def = this.registry.values.playerStats.def;
             console.log('El nivel del jugador es: ' + this.registry.values.playerStats.lvl);
-            if (this.registry.values.playerStats.lvl == 1) {
+            //esta webada es para poner enemigos de acuerdo al nivel del jugador
+            if (this.registry.values.playerStats.lvl <= 9) {
                 this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, 2));
                 enemyStats.nombre = this.enemyLoader.nombre;
                 enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
@@ -550,8 +552,9 @@ export default class combate extends Phaser.Scene {
                 console.log(enemyStats);
             };
             //para que no se vea mal necesitaremos sprites del mismo tamaño, se pueden redimensionar estos no?
-            this.spriteEnemigo = this.add.sprite(249,143, this.enemyLoader.nombre)
-            this.spriteEnemigo.anims.play('stall' + this.enemyLoader.nombre)
+            this.spriteEnemigo = this.add.sprite(249,143, this.enemyLoader.nombre);
+            this.spriteEnemigo.anims.play('stall' + this.enemyLoader.nombre);
+            this.bgm = this.sound.add('BGMCombateNormal',{loop:true, volume:VOLUMEN});
         });
 
         //impresion de las estadisticas del jugador y enemigo
@@ -580,7 +583,7 @@ export default class combate extends Phaser.Scene {
         //transiciones
         this.events.on('transitionstart', (fromScene, duration)=>{
             this.events.emit('comenzarBatalla');
-            this.bgm.play();
+            this.inicioCombate.play();
             this.camara.fadeOut(duration,0,0,0);
             this.time.delayedCall(duration + 100,()=>{
                 this.camara.fadeFrom(300,0,0,0);
@@ -598,6 +601,9 @@ export default class combate extends Phaser.Scene {
 
         this.events.on('transitioncomplete', (fromScene, duration)=>{
             this.scene.sleep('overworld');
+            this.time.delayedCall(300,()=>{
+                this.bgm.play();
+            });
         });
 
         
