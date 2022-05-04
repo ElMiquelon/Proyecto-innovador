@@ -321,11 +321,12 @@ export default class combate extends Phaser.Scene {
         this.events.on('gameOver', (v) => {
             switch (v) {
                 case 0: /*Perdiste*/
-                    this.registry.events.emit('accionDeCombate', 'Has perdido', lngWait);
-                    //lo que se hace aquí es poner el texto "Has ganado" durante segundo y medio 
-                    setTimeout(() => {
-                        console.log('inserte aqui lo que pasa cuando pierdes')
-                    }, lngWait); //y una vez hayan pasado esos 1500 milisegundos, se reinicia
+                    this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a overworld', lngWait);
+                    //lo que se hace aquí es poner el texto "Has ganado" durante lngwait (revisen mas arriba)
+                    this.time.delayedCall(medWait, ()=>{
+                        this.bgm.stop();
+                        this.registry.events.emit('transicionaoverworld');
+                    }); //y una vez hayan pasado el tiempo, se reinicia
                     break;
                 case 1: /*Ganaste*/
                     this.spriteEnemigo.setVisible(false);
