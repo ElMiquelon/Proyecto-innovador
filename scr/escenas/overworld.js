@@ -58,18 +58,18 @@ export default class overworld extends Phaser.Scene{
         this.physics.add.existing(this.aPoliplaza,true);
 
         //edificio A 
-        this.alEdificioA1 = this.add.rectangle(538, 955, 44, 48, 0x333333).setOrigin(0,0);
+        this.alEdificioA1 = this.add.rectangle(538, 955, 44, 48, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA1);
         this.alEdificioA1.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al A o a su cafetería.WIP');
         });
-        this.alEdificioA2 = this.add.rectangle(432, 927, 680, 28, 0x333333).setOrigin(0,0);
+        this.alEdificioA2 = this.add.rectangle(432, 927, 680, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA2);
         this.alEdificioA2.on('pointerdown', ()=>{
             this.registry.events.emit('reconstruccionA');
             this.scene.transition({target:'edificioAP0', duration:300, sleep:true, moveBelow:true});
         });
-        this.alEdificioA3 = this.add.rectangle(432, 1003, 680, 28, 0x333333).setOrigin(0,0);
+        this.alEdificioA3 = this.add.rectangle(432, 1003, 680, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA3);
         this.alEdificioA3.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al A parte trasera(?.WIP');
@@ -77,8 +77,8 @@ export default class overworld extends Phaser.Scene{
 
 
         //edificio B no se confundan porque dice "B1" o "B2", es así porque son 2 rectangulos
-        this.alEdificioB1 = this.add.rectangle(559,638,36,120,0x333333).setOrigin(0,0);
-        this.alEdificioB2 = this.add.rectangle(595,682,518,28,0x333333).setOrigin(0,0);
+        this.alEdificioB1 = this.add.rectangle(559,638,36,120,0xffffff).setOrigin(0,0);
+        this.alEdificioB2 = this.add.rectangle(595,682,518,28,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioB1);
         this.physics.add.existing(this.alEdificioB2);
         this.alEdificioB1.on('pointerdown', ()=>{
@@ -89,26 +89,26 @@ export default class overworld extends Phaser.Scene{
         });
 
         //edificio C
-        this.alEdificioC = this.add.rectangle(785,560, 339, 27, 0x333333).setOrigin(0,0);
+        this.alEdificioC = this.add.rectangle(785,560, 339, 27, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioC);
         this.alEdificioC.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al C. WIP');
         });
 
         //edificio D, misma mierda que con el B
-        this.alEdificioD1 = this.add.rectangle(630,307,27,94,0x333333).setOrigin(0,0);
+        this.alEdificioD1 = this.add.rectangle(630,307,27,94,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioD1);
         this.alEdificioD1.on('pointerdown', ()=>{
             console.log('aqui va el evento qu te lleva al D. WIP');
         });
-        this.alEdificioD2 = this.add.rectangle(658,307,458,28,0x333333).setOrigin(0,0);
+        this.alEdificioD2 = this.add.rectangle(658,307,458,28,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioD2);
         this.alEdificioD2.on('pointerdown', ()=>{
             console.log('aqui va el evento qu te lleva al D. WIP');
         });
 
         //edificio E
-        this.alEdificioE = this.add.rectangle(566,189,551,34,0x333333).setOrigin(0,0);
+        this.alEdificioE = this.add.rectangle(566,189,551,34,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioE);
         this.alEdificioE.on('pointerdown', ()=>{
             console.log('aqui va el evento que te lleva al E. WIP');
