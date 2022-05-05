@@ -10,8 +10,7 @@ export default class menup extends Phaser.Scene{
 
     create(){
         let graphics = this.add.graphics();
-        this.mm = this.add.image(0,0,"mm");
-        this.mm.setOrigin(0,0);
+        this.mm = this.add.image(0,0,"mm").setOrigin(0,0);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.op = this.input.keyboard.addKey('P');
         
