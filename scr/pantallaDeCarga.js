@@ -36,7 +36,6 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.add('transicionACombate', new transitionACombate)
         
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
-        this.load.image('loading', './assets/mp.jpg');
         this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
         this.load.image('AP0', './assets/overworld/edificios/edificioAP0.png');

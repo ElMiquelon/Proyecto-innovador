@@ -5,7 +5,7 @@ export default class menup extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image("mm", "./assets/mp.jpg");
+        this.load.image("mm", "./assets/mp.png");
     }
 
     create(){
