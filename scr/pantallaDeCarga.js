@@ -87,6 +87,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
 
     create(){
         this.registry.set('playerStats', {hp: 100, atk: 5, def: 5, lvl: 1, xp:0, nxtlvl:100});
+        this.registry.set('progreso', 0);
         //no se como hacer para que ponga un texto de "cargando", será algo a futuro
         this.scene.launch('creacionAnimaciones').stop('creacionAnimaciones');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');

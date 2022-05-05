@@ -92,7 +92,7 @@ create(){
     })*/ 
 
     this.anims.create({
-        key: 'stall',
+        key: 'stallplayersprite',
         frames: this.anims.generateFrameNumbers('playersprite',{
             frames: [16,18]
         }),

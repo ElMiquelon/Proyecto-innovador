@@ -31,7 +31,7 @@ var enemyStats = {
     maxhp: '?',
     hp: '?',
     atk: '?',
-    res: '?',
+    res: 1,
     resT: 0,
     buffDmg: 0,
     nombre: 'x',
@@ -538,7 +538,6 @@ export default class combate extends Phaser.Scene {
                 enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
                 enemyStats.hp = enemyStats.maxhp;
                 enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-                enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
                 enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
                 console.log(enemyStats);
             } else{ //if (this.registry.values.playerStats.lvl == 2) {
@@ -547,7 +546,6 @@ export default class combate extends Phaser.Scene {
                 enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
                 enemyStats.hp = enemyStats.maxhp;
                 enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-                enemyStats.res = this.enemyLoader.res[Phaser.Math.Between(0, this.enemyLoader.res.length - 1)];
                 enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
                 console.log(enemyStats);
             };

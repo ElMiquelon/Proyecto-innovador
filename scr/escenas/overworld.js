@@ -181,13 +181,13 @@ export default class overworld extends Phaser.Scene{
         //interacciones de los NPCs al ser clickeados (dialogos)
         this.data.set('remFirstTalk', true);
         this.rem.on('pointerdown', ()=>{
-            this.registry.events.emit('dialogar', 1, this.data.get('remFirstTalk'));
+            this.registry.events.emit('dialogar', 1, this.data.get('remFirstTalk'),this.scene.key);
             this.data.set('remFirstTalk', false);
         });
 
         this.data.set('patchFirstTalk', true);
         this.patch.on('pointerdown',()=>{
-            this.registry.events.emit('dialogar', 2, this.data.get('patchFirstTalk'));
+            this.registry.events.emit('dialogar', 2, this.data.get('patchFirstTalk'), this.scene.key);
             this.data.set('patchFirstTalk', false);
         })
 

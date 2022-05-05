@@ -30,6 +30,16 @@ export default class edificioAP1 extends Phaser.Scene{
         ]);
         this.physics.add.collider(this.jugador, this.hitboxes);
 
+        //prueba de progreso
+        this.jefePrueba = this.add.sprite(29,29,'playersprite').setInteractive();
+        this.jefePrueba.on('pointerdown',()=>{
+            if (this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 0){
+                this.registry.events.emit('aviso', 'cumples los requerimientos para peliar')
+            }else if(this.registry.values.playerStats.lvl <= 4){
+                this.registry.events.emit('aviso', 'ni te pela. mejor sube de nivel');
+            }
+        })
+
         //overlap de las escaleras
         this.escalera1 = this.add.zone(558,0,19,22).setOrigin(0);
         this.escalera2 = this.add.zone(0,0,17,22).setOrigin(0);

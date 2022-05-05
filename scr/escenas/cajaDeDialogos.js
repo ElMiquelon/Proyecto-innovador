@@ -1,5 +1,6 @@
 let dialogo;
 let textoAMostrar;
+var laEscena
 export default class cajaDeDialogos extends Phaser.Scene{
     constructor(){
         super({key: 'cajaDeDialogos'});
@@ -22,12 +23,13 @@ export default class cajaDeDialogos extends Phaser.Scene{
         this.desaparece = this.time.delayedCall();
         this.ok = this.input.keyboard.addKey('X');
         this.ok.on('down', ()=>{
-            this.scene.resume('overworld');
+            this.scene.resume(laEscena);
             this.scene.sleep(this);
         });
 
-        this.registry.events.on('dialogar', (numeroNPC, FT)=>{
+        this.registry.events.on('dialogar', (numeroNPC, FT, escenaAPausar)=>{
             this.scene.wake(this);
+            this.scene.moveBelow(this,escenaAPausar);
             this.sound.play('sonidoNPC' + numeroNPC);
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);
             if (FT){
@@ -35,7 +37,8 @@ export default class cajaDeDialogos extends Phaser.Scene{
             }else{
                 dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);
             };
-            this.scene.pause('overworld');
+            laEscena = escenaAPausar
+            this.scene.pause(laEscena);
         });
 
         this.registry.events.on('aviso', (texto)=>{
