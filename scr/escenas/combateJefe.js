@@ -322,18 +322,20 @@ export default class combateJefe extends Phaser.Scene {
         this.events.on('gameOver', (v) => {
             switch (v) {
                 case 0: /*Perdiste*/
-                    this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a overworld', lngWait);
-                    //lo que se hace aquí es poner el texto "Has ganado" durante lngwait (revisen mas arriba)
+                    this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a la escena anterior', lngWait);
+                    //lo que se hace aquí es poner el texto "Has perdido" durante lngwait (revisen mas arriba)
                     this.time.delayedCall(medWait, ()=>{
                         this.bgm.stop();
                         this.registry.events.emit('victoriajefe');
-                    }); //y una vez hayan pasado el tiempo, se reinicia
+                    }); //y una vez hayan pasado el tiempo, se envía de regreso (provisional(?)
                     break;
                 case 1: /*Ganaste*/
                     this.spriteEnemigo.setVisible(false);
                     this.input.keyboard.enabled = false;
+                    //aquí cuando ganas, te dice lo que obtuviste de la victoria
                     this.registry.events.emit('accionDeCombate', '¡Has ganado y ' + this.enemyLoader.victoria[0] + '!', lngWait);
-                    this.registry.values.progreso++;
+                    this.registry.values.progreso++;//y aumenta la bandera de progreso
+                    /*tambien debería cambiar el valor de un dato para poder entrar a un lugar especifico, pero mas adelante*/
                     this.registry.values.playerStats.xp += enemyStats.xp;
                     if(this.registry.values.playerStats.xp >= this.registry.values.playerStats.nxtlvl){
                         this.time.delayedCall(lngWait, ()=>{
@@ -356,15 +358,12 @@ export default class combateJefe extends Phaser.Scene {
                                 );
                             });
                         });
-                        //aqui falta agregar las notificaciones correspondientes
                         this.time.delayedCall(medWait+lngWait*3.1, ()=>{
-                            //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
                             this.registry.events.emit('victoriajefe');
                         });
                     }else{
                         this.time.delayedCall(lngWait + 100, ()=>{
-                            //this.scene.switch('overworld'); tambien se puede hacer una transición
                             this.bgm.stop();
                             this.registry.events.emit('victoriajefe');
                         });
@@ -529,13 +528,16 @@ export default class combateJefe extends Phaser.Scene {
 
 
         //asignación de estadisticas al enemigo y jugador
-        this.registry.events.on('comenzarBatallaJefe', (origen, id) => {
-            escenaOrigen = origen;
+        this.registry.events.on('comenzarBatallaJefe', (origen, id) => {/*cuando se llama este evento, 2 elementos son pasados:
+        el origen, de qué escena se está comenzando la Bossfight, y el id del jefe*/
+            escenaOrigen = origen;//la key de la escena origen se pasa a una variable local para usos posteriores
             playerStats.maxhp = this.registry.values.playerStats.hp;
             playerStats.hp = playerStats.maxhp
             playerStats.atk = this.registry.values.playerStats.atk;
             playerStats.def = this.registry.values.playerStats.def;
+            //esto de arriba no cambia
             console.log('El nivel del jugador es: ' + this.registry.values.playerStats.lvl);
+            //aquí, en lugar de ver el nivel del jugador, toma el JSON del jefe + id directamente y asigna las estadisticas
             this.enemyLoader = this.cache.json.get('jefe' + id);
             enemyStats.nombre = this.enemyLoader.nombre;
             enemyStats.maxhp = this.enemyLoader.hp
@@ -591,7 +593,7 @@ export default class combateJefe extends Phaser.Scene {
         });
 
         this.events.on('transitioncomplete', (fromScene, duration)=>{
-            this.scene.sleep(escenaOrigen);
+            this.scene.sleep(escenaOrigen);//aquí se usa dicha variable y se pone a dormir la escena de donde comenzó
             this.time.delayedCall(300,()=>{
                 this.bgm.play();
             });

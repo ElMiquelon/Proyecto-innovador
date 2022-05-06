@@ -51,16 +51,18 @@ export default class cajaDeDialogos extends Phaser.Scene{
         });
         
         this.registry.events.on('dialogarjefe', (escenaOrigen, vaAPeliar,id)=>{
+            /*Esta madre es un tanto diferente a un dialogo normal. primero, necesita saber de qué escena viene (aquí
+                comienza la cadena xd), después, un booleano especificando si se peleará o no y por último el ID del jefe
+                a enfrentar*/ 
             this.scene.wake(this);
-            laEscena = escenaOrigen;
-            this.scene.pause(laEscena);
-            textoAMostrar = this.cache.json.get('dialogojefe' + id);
-            console.log(textoAMostrar)
-            if(vaAPeliar == true){
-                this.registry.events.emit('repararcombatejefe');
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);
-            }else{
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);
+            laEscena = escenaOrigen;//guarda la scene key en una variable local
+            this.scene.pause(laEscena);//y pausa dicha
+            textoAMostrar = this.cache.json.get('dialogojefe' + id);//recupera el JSON con los dialogos del jefe
+            if(vaAPeliar == true){// y si habrá enfrentamiento
+                this.registry.events.emit('repararcombatejefe');//ejecuta el evento que construye la escena de combateJefe
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);//y pone el primer texto
+            }else{//sino
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);//nomas hablas y ya
             }
         });
     }

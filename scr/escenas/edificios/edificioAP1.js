@@ -34,14 +34,22 @@ export default class edificioAP1 extends Phaser.Scene{
         this.jefePrueba = this.add.sprite(29,29,'playersprite').setInteractive();
         this.jefePrueba.on('pointerdown',()=>{
             if (this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 0){
-                this.registry.events.emit('dialogarjefe',this.scene.key,true, 1)
+                /*uy. primero revisa que se cumplan 2 condiciones: que el nivel del jugador sea al menos 4
+                y que no se haya derrotado a ningún otro jefe, si se cumplen ambas condiciones*/
+                this.registry.events.emit('dialogarjefe',this.scene.key,true, 1);
+                //llama su dialogo de "desafio", dando la key de esta escena, diciendo que habrá golpes, y el ID del jefe
                 this.time.delayedCall(200, ()=>{
+                    //despues este temporizador comenzará a contar cuando el jugador presione X y cierre el dialogo
                     this.registry.events.emit('transicionacombatejefe', this.scene.key, 1);
+                    //y llama al evento que comienza la transición al combate, dando otra vez la key y el ID
                 });
             }else if(this.registry.values.playerStats.lvl <= 4){
+                //si no sos fuerte
                 this.registry.events.emit('aviso', '- No, aún no puedo enfrentarlo.');
-            }else{
-                this.registry.events.emit('dialogarjefe',this.scene.key,false, 1)
+                //decís "no soy fuerte" y ya
+            }else{// si ya lo derrotaste
+                this.registry.events.emit('dialogarjefe',this.scene.key,false, 1);
+                //lo mismo que en el dialogo de desafio, pero diciendo que no habrá golpes.
             }
         })
 
