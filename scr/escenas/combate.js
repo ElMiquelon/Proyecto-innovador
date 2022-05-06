@@ -444,6 +444,9 @@ export default class combate extends Phaser.Scene {
                             this.cameras.main.shake(50, .08, true);
                             this.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.25));
                             this.registry.events.emit('accionDeCombate', 'Has fallado el parry', medWait);
+                            if (playerStats.hp <= 0) { //Checa la muerte, esté es distinto porque la vida se resta directamente
+                                this.events.emit('gameOver', 0);
+                            };
                         };
                     }, srtWait);
                 } else {
@@ -520,7 +523,6 @@ export default class combate extends Phaser.Scene {
                 this.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
                 this.events.emit('playerSetRes', 0.75, 2);
                 this.events.emit('buffDmgPlayer', Math.round(playerStats.atk * 0.75), 2);
-                this.events.emit('buffDefPlayer', Math.round(playerStats.def * 0.75), 2);
                 this.registry.events.emit('accionDeCombate', 'Canalizas tu fuerza', srtWait);
             };
             setTimeout(() => {

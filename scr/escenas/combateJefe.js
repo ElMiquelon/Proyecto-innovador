@@ -80,30 +80,50 @@ export default class combateJefe extends Phaser.Scene {
         //EVENTOS DE COMBATE
         this.events.on('response', () => {
             //"response" escoge un numero entre 1 y 5 para que el enemigo responda
-            var r = Phaser.Math.Between(1, 5);
+            var r = Phaser.Math.Between(1, 6);
             switch (r) {
                 case 1:
                     this.events.emit('hurtPlayer', 1)
-                    this.cameras.main.shake(50, .04, true);
-                    this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio', srtWait);
+                    if (enemyStats.critVal != 1) {
+                        this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio furioso', srtWait);
+                        this.events.emit('lessCrit', 10);
+                        this.cameras.main.shake(50, .08, true);
+                    } else {
+                        this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio', srtWait);
+                        this.cameras.main.shake(50, .04, true);
+                    };
                     elEnemigoAtaco = 0;
                     break;
                 case 2:
                     this.events.emit('hurtPlayer', 1.5);
-                    this.cameras.main.shake(50, .1, true);
-                    this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque fuerte', srtWait);
+                    if (enemyStats.critVal != 1) {
+                        this.events.emit('lessCrit', 33);
+                        this.events.emit('enemySetRes', 1.5, 4)
+                        this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque fuerte furioso', srtWait);
+                        this.cameras.main.shake(50, .15, true);
+                    } else {
+                        this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque fuerte', srtWait);
+                        this.cameras.main.shake(50, .1, true);
+                    };
                     this.events.emit('playerSetRes', 1.2, 3)
                     elEnemigoAtaco = 0;
                     break;
                 case 3:
                     this.events.emit('hurtPlayer', .5)
-                    this.cameras.main.shake(50, .01, true);
-                    this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil', srtWait);
+                    if (enemyStats.critVal != 1) {
+                        this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil furioso', srtWait);
+                        this.events.emit('lessCrit', 5);
+                        this.cameras.main.shake(50, .02, true);
+                    } else {
+                        this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil', srtWait);
+                        this.cameras.main.shake(50, .01, true);
+                    };
                     elEnemigoAtaco = 0;
                     break;
                 case 4:
                     this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.05))
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse un poco', srtWait);
+                    this.events.emit('moreCrit', 2);
                     elEnemigoAtaco = 1;
                     break;
                 case 5:
@@ -116,10 +136,17 @@ export default class combateJefe extends Phaser.Scene {
                         this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.25));
                         this.events.emit('buffDmgEnemy', Math.round(enemyStats.atk * 0.5), 3);
                         this.events.emit('enemySetRes', 0.8, 4);
+                        this.events.emit('moreCrit', 10);
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse mucho', srtWait);
-                        enemyStats.penal = 10;
+                        enemyStats.penal = 15; //La penalización de jefes es más alta, checar balanceo
                         elEnemigoAtaco = 1;
                     }
+                    break;
+                case 6:
+                    this.events.emit('moreCrit', 6);
+                    this.events.emit('enemySetRes', 1.25, 2);
+                    this.registry.events.emit('accionDeCombate', 'El enemigo se está enfurecido', srtWait);
+                    elEnemigoAtaco = 1;
                     break;
                 default:
                     break;
@@ -338,7 +365,7 @@ export default class combateJefe extends Phaser.Scene {
             enemyStats.buffDmgT -= 1;
             enemyStats.penal -= 1;
             playerStats.penalHeal -= 1;
-            this.events.emit('moreCrit', 1);
+            this.events.emit('moreCrit', 3);
 
             //Reseta los buff si el contador de turnos es termina
             if (playerStats.buffDmgT <= 0) {
@@ -474,6 +501,9 @@ export default class combateJefe extends Phaser.Scene {
                             this.cameras.main.shake(50, .08, true);
                             this.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.25));
                             this.registry.events.emit('accionDeCombate', 'Has fallado el parry', medWait);
+                            if (playerStats.hp <= 0) { //Checa la muerte, esté es distinto porque la vida se resta directamente
+                                this.events.emit('gameOver', 0);
+                            };
                         };
                     }, srtWait);
                 } else {
@@ -550,7 +580,6 @@ export default class combateJefe extends Phaser.Scene {
                 this.events.emit('healPlayer', Math.round(playerStats.maxhp * .1));
                 this.events.emit('playerSetRes', 0.75, 2);
                 this.events.emit('buffDmgPlayer', Math.round(playerStats.atk * 0.75), 2);
-                this.events.emit('buffDefPlayer', Math.round(playerStats.def * 0.75), 2);
                 this.registry.events.emit('accionDeCombate', 'Canalizas tu fuerza', srtWait);
             };
             setTimeout(() => {
