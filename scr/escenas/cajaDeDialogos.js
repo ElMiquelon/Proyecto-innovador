@@ -9,6 +9,8 @@ export default class cajaDeDialogos extends Phaser.Scene{
     preload(){
         this.load.json('NPC1', './assets/overworld/dialogos/dialogosnpc1.json');
         this.load.json('NPC2', './assets/overworld/dialogos/dialogosnpc2.json');
+        this.load.json('dialogoeli0', './assets/overworld/dialogos/dialogoseli0.json');
+        this.load.json('dialogoeli1', './assets/overworld/dialogos/dialogoseli1.json');
         this.load.json('dialogojefe1', './assets/overworld/dialogos/dialogosjefe1.json');
     }
 
@@ -65,5 +67,17 @@ export default class cajaDeDialogos extends Phaser.Scene{
                 dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);//nomas hablas y ya
             }
         });
+
+        this.registry.events.on('dialogareli', (pollo, escena)=>{
+            this.scene.wake(this);
+            laEscena = escena;
+            this.scene.pause(laEscena);
+            textoAMostrar = this.cache.json.get('dialogoeli' + this.registry.values.progreso);
+            if(pollo == true){
+                dialogo.setText('E: Un pollo')
+            }else{
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(0,textoAMostrar.dialogo.length-1)]);
+            }
+        })
     }
 }

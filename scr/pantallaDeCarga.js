@@ -54,6 +54,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
+        this.load.spritesheet('eliSprite', './assets/overworld/eliSprite.png',{frameWidth:18, frameHeight:31});
 
         //aqui se cargaran imagenes de dialogos
         this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');

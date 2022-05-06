@@ -120,6 +120,24 @@ create(){
         frameRate:4//no se cual se vea mejor
     });
 
+    this.anims.create({
+        key:'stalleli',
+        frames:this.anims.generateFrameNumbers('eliSprite',{
+            frames:[0,2,1,3]
+        }),
+        repeat:-1,
+        frameRate:1
+    });
+
+    this.anims.create({
+        key:'polloeli',
+        frames:this.anims.generateFrameNumbers('eliSprite',{
+            frames:[4]
+        }),
+        repeat:-1,
+        frameRate:1
+    });
+
 
     //animaciones de enemigos en combate;
     this.anims.create({

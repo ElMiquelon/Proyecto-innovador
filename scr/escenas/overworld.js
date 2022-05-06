@@ -178,6 +178,8 @@ export default class overworld extends Phaser.Scene{
         //creacion de NPCs
         this.rem = this.physics.add.sprite(326, 1062, 'spritemilia').setOrigin(0,0).setImmovable(true).setInteractive();
         this.patch = this.physics.add.sprite(454, 762, 'spriteknowledge').setOrigin(0,0).setImmovable(true).setInteractive();
+        this.eli = this.physics.add.sprite(1194,914,'eliSprite',4).setInteractive().setImmovable(true);
+        this.eli.anims.play('stalleli');
 
         //interacciones de los NPCs al ser clickeados (dialogos)
         this.data.set('remFirstTalk', true);
@@ -190,13 +192,25 @@ export default class overworld extends Phaser.Scene{
         this.patch.on('pointerdown',()=>{
             this.registry.events.emit('dialogar', 2, this.data.get('patchFirstTalk'), this.scene.key);
             this.data.set('patchFirstTalk', false);
-        })
+        });
+
+        this.eli.on('pointerdown', ()=>{
+            if(Phaser.Math.Between(0,50) == 1){
+                this.registry.events.emit('dialogareli', true, this.scene.key);
+                this.eli.anims.play('polloeli');
+                this.time.delayedCall(150,()=>{
+                    this.eli.anims.play('stalleli');
+                })
+            }else{
+                this.registry.events.emit('dialogareli', false, this.scene.key);
+            }
+        });
 
         //creacion del this.jugador y detalles
         this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
         this.jugador.setBodySize(12,18, true);
         this.jugador.body.setCollideWorldBounds(true);
-        this.physics.add.collider(this.jugador,[this.rem, this.patch/*y todos los demas objetos/personajes que se agreguen*/]);
+        this.physics.add.collider(this.jugador,[this.rem, this.patch, this.eli/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);
         this.jugador.on('animationrepeat', ()=>{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
