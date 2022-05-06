@@ -1,8 +1,8 @@
 {
     "hp":[
-        500,
-        550,
-        600
+        100,
+        110,
+        115
     ],
     "atk":[
         12,
@@ -13,5 +13,5 @@
         1000,
         1500
     ],
-    "nombre": "Jefe Pimienta"
+    "nombre": "No-jefe Pimienta"
 }

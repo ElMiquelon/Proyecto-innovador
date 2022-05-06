@@ -1,6 +1,6 @@
 {
-    "hp":90,
-    "atk": 10,
+    "hp":200,
+    "atk": 17,
     "xp":350,
     "nombre":"playersprite",
     "victoria":[
