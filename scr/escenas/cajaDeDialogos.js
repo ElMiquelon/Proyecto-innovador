@@ -1,6 +1,6 @@
 let dialogo;
 let textoAMostrar;
-var laEscena
+var laEscena;
 export default class cajaDeDialogos extends Phaser.Scene{
     constructor(){
         super({key: 'cajaDeDialogos'});
@@ -9,6 +9,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
     preload(){
         this.load.json('NPC1', './assets/overworld/dialogos/dialogosnpc1.json');
         this.load.json('NPC2', './assets/overworld/dialogos/dialogosnpc2.json');
+        this.load.json('dialogojefe1', './assets/overworld/dialogos/dialogosjefe1.json');
     }
 
     create(){
@@ -29,7 +30,8 @@ export default class cajaDeDialogos extends Phaser.Scene{
 
         this.registry.events.on('dialogar', (numeroNPC, FT, escenaAPausar)=>{
             this.scene.wake(this);
-            this.scene.moveBelow(this,escenaAPausar);
+            laEscena = escenaAPausar
+            this.scene.pause(laEscena);
             this.sound.play('sonidoNPC' + numeroNPC);
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);
             if (FT){
@@ -37,8 +39,6 @@ export default class cajaDeDialogos extends Phaser.Scene{
             }else{
                 dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);
             };
-            laEscena = escenaAPausar
-            this.scene.pause(laEscena);
         });
 
         this.registry.events.on('aviso', (texto)=>{
@@ -48,6 +48,20 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.desaparece = this.time.delayedCall(1000, ()=>{
                 this.scene.sleep(this);
             })
+        });
+        
+        this.registry.events.on('dialogarjefe', (escenaOrigen, vaAPeliar,id)=>{
+            this.scene.wake(this);
+            laEscena = escenaOrigen;
+            this.scene.pause(laEscena);
+            textoAMostrar = this.cache.json.get('dialogojefe' + id);
+            console.log(textoAMostrar)
+            if(vaAPeliar == true){
+                this.registry.events.emit('repararcombatejefe');
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);
+            }else{
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);
+            }
         });
     }
 }

@@ -66,6 +66,7 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioA2 = this.add.rectangle(432, 927, 680, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA2);
         this.alEdificioA2.on('pointerdown', ()=>{
+            this.bgm.pause();
             this.registry.events.emit('reconstruccionA');
             this.scene.transition({target:'edificioAP0', duration:300, sleep:true, moveBelow:true});
         });
@@ -250,14 +251,16 @@ export default class overworld extends Phaser.Scene{
             }else if(fromScene.scene.key != 'verMapa'){
                 this.registry.events.emit('destruccion' + fromScene.scene.key);
                 this.camara.fadeFrom(400, 0, 0, 0);
+                this.bgm.resume();
             };
         });
 
         this.events.on('transitionout',(targetScene, duration)=>{
             if (targetScene.scene.key != 'verMapa'){
-                this.cameras.main.fadeOut(duration, 0,0,0)
+                this.cameras.main.fadeOut(duration, 0,0,0);
             }
-        })
+        });
+
     };
 
     update(time, delta){

@@ -34,9 +34,14 @@ export default class edificioAP1 extends Phaser.Scene{
         this.jefePrueba = this.add.sprite(29,29,'playersprite').setInteractive();
         this.jefePrueba.on('pointerdown',()=>{
             if (this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 0){
-                this.registry.events.emit('aviso', 'cumples los requerimientos para peliar')
+                this.registry.events.emit('dialogarjefe',this.scene.key,true, 1)
+                this.time.delayedCall(200, ()=>{
+                    this.registry.events.emit('transicionacombatejefe', this.scene.key, 1);
+                });
             }else if(this.registry.values.playerStats.lvl <= 4){
-                this.registry.events.emit('aviso', 'ni te pela. mejor sube de nivel');
+                this.registry.events.emit('aviso', '- No, aún no puedo enfrentarlo.');
+            }else{
+                this.registry.events.emit('dialogarjefe',this.scene.key,false, 1)
             }
         })
 

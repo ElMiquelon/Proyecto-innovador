@@ -2,5 +2,9 @@
     "hp":90,
     "atk": 10,
     "xp":350,
-    "nombre":"playersprite"
+    "nombre":"playersprite",
+    "victoria":[
+        "has conseguido la llave de X lugar",
+        "inserteAquiElNombreDelRegistry.valueQueSeVolveráTrueParaEntrarADichoLugar"
+    ]
 }
