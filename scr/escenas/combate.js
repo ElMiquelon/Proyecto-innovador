@@ -365,7 +365,7 @@ export default class combate extends Phaser.Scene {
                             this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
                             this.registry.values.playerStats.lvl += 1; 
                             this.registry.events.emit('accionDeCombate', 
-                            'Vida: ' + playerStats.hp + ' => ' + this.registry.values.playerStats.hp +
+                            'Vida: ' + playerStats.maxhp + ' => ' + this.registry.values.playerStats.hp +
                             '\nAtaque: ' + playerStats.atk + ' => ' + this.registry.values.playerStats.atk +
                             '\nDefensa: ' + playerStats.def + ' => ' + this.registry.values.playerStats.def +
                             '\nXP actual: ' + this.registry.values.playerStats.xp +
