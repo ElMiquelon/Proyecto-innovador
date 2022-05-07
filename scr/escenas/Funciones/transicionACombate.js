@@ -52,6 +52,7 @@ export default class transitionACombate extends Phaser.Scene{
         this.registry.events.on('victoriajefe', ()=>{
             this.scene.wake(this);//despierta esta escena para posteriormente despertar la escena origen
             this.scene.wake(laEscena);
+            this.scene.launch('combateJefe');
             this.scene.transition({target: laEscena, duration: 100, sleep:true})//y transiciona a dicha
         });
 
