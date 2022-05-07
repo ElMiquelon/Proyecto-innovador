@@ -1,6 +1,7 @@
 import edificioAP0 from "../edificios/edificioAP0";
 import edificioAP1 from "../edificios/edificioAP1";
 import edificioEP0 from "../edificios/edificioEP0";
+import edificioEP1 from "../edificios/edificioEP1";
 export default class reconstruirEdificios extends Phaser.Scene{
     constructor(){
         super({key:'reconstruirEdificios'});
@@ -22,8 +23,9 @@ export default class reconstruirEdificios extends Phaser.Scene{
 
         this.registry.events.on('reconstruccionE'/*Cuiden las tildes, no las pongan*/, ()=>{
             this.scene.add('edificioEP0', new edificioEP0);
-            this.scene.moveAbove('edificioEP0', 'cajaDeDialogos');
-            this.scene.moveAbove('edificioEP0', 'transicionACombate');
+            this.scene.add('edificioEP1', new edificioEP1);
+            this.scene.moveAbove('edificioEP0', 'cajaDeDialogos').moveAbove('edificioEP1', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioEP0', 'transicionACombate').moveAbove('edificioEP1', 'transicionACombate');
             console.log('lo hizo')
         })
     }

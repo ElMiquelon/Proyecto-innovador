@@ -34,21 +34,21 @@ export default class edificioEP0 extends Phaser.Scene{
 
         this.physics.add.overlap(this.jugador,this.escalera1, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('subiste por escalera 1');
+            console.log('subiste por escalera 1  para salir en escalera 1 de EP1');
             this.registry.events.emit('subirescalera1e');
             this.scene.transition({target:'edificioEP1', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera2, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('subiste por escalera 2');
+            console.log('subiste por escalera 2 para salir en escalera 3 de EP1');
             this.registry.events.emit('subirescalera2e');
             this.scene.transition({target:'edificioEP1', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera3, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('subiste por escalera 3');
+            console.log('subiste por escalera 3 para salir en escalera 5 de EP1');
             this.registry.events.emit('subirescalera3e');
             this.scene.transition({target:'edificioEP1', duration:300, sleep:true, moveBelow:true});
         });
