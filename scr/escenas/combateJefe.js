@@ -399,7 +399,7 @@ export default class combateJefe extends Phaser.Scene {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a la escena anterior', lngWait);
                     //lo que se hace aquí es poner el texto "Has perdido" durante lngwait (revisen mas arriba)
-                    this.time.delayedCall(medWait, ()=>{
+                    this.time.delayedCall(lngWait+100, ()=>{
                         this.bgm.stop();
                         this.registry.events.emit('victoriajefe');
                     }); //y una vez hayan pasado el tiempo, se envía de regreso (provisional(?)
