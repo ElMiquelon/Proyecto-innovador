@@ -39,8 +39,11 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
         this.load.image('AP0', './assets/overworld/edificios/edificioAP0.png');
-        this.load.image('AP1', './assets/overworld/edificios/edificioAP1.png')
-        this.load.image('polimapaOverlay', './assets/overworld/mapa-overlay.png')
+        this.load.image('AP1', './assets/overworld/edificios/edificioAP1.png');
+        this.load.image('EP0', './assets/overworld/edificios/edificioEP0.png');
+        this.load.image('EP1', './assets/overworld/edificios/edificioEP1.png');
+        this.load.image('EP2', './assets/overworld/edificios/edificioEP2.png');
+        this.load.image('polimapaOverlay', './assets/overworld/mapa-overlay.png');
         this.load.audio('BGMOverworld', './assets/overworld/sonidos/BGMOverworld.ogg');
         //recomiendo que el sonido que usemos final sea uno que quede en cualquier superficie
         this.load.audio('stone1', './assets/overworld/sonidos/stone1.ogg');

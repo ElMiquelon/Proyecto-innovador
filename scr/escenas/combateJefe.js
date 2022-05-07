@@ -12,6 +12,7 @@ var enemyHealthbar;
 var playerHealthbar;
 var mirror = 0;
 var elEnemigoAtaco;
+var nombreEnemigo;
 //var spriteEnemigo;
 
 var playerStats = {
@@ -63,6 +64,9 @@ export default class combateJefe extends Phaser.Scene {
         card_block = this.add.sprite(190, 400, 'card_block').setOrigin(0.5);
         card_atk = this.add.sprite(250, 350, 'card_atk').setOrigin(0.5);
         card_rest = this.add.sprite(250, 450, 'card_rest').setOrigin(0.5);
+
+        //enemigo (lo hago asi para evitar el error de no poder volver a entrar)
+        this.spriteEnemigo = this.add.sprite(249,143);
 
         //audio
         this.inicioCombate =this.sound.add('inicioCombateBGM',{volume:VOLUMEN});
@@ -616,8 +620,7 @@ export default class combateJefe extends Phaser.Scene {
             enemyStats.xp = this.enemyLoader.xp;
             console.log(enemyStats);
             //para que no se vea mal necesitaremos sprites del mismo tamaño, se pueden redimensionar estos no?
-            this.spriteEnemigo = this.add.sprite(249,143, this.enemyLoader.nombre);
-            this.spriteEnemigo.anims.play('stall' + this.enemyLoader.nombre);
+            nombreEnemigo = this.enemyLoader.nombre;
             this.bgm = this.sound.add('BGMCombateNormal',{loop:true, volume:VOLUMEN});
         });
 
@@ -666,6 +669,7 @@ export default class combateJefe extends Phaser.Scene {
             this.scene.sleep(escenaOrigen);//aquí se usa dicha variable y se pone a dormir la escena de donde comenzó
             this.time.delayedCall(300,()=>{
                 this.bgm.play();
+                this.spriteEnemigo.anims.play('stall' + nombreEnemigo)
             });
         });
 

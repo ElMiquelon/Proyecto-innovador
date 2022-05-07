@@ -5,7 +5,7 @@ export default class edificioAP1 extends Phaser.Scene{
 
     create(){
         //detalles de la camara, limites del mundo
-        this.camara = this.cameras.main.setBounds(0,0,600,101);
+        this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
         this.add.image(0,0, 'AP1').setOrigin(0,0);
         this.physics.world.setBounds(0,0,600,101);
@@ -25,7 +25,7 @@ export default class edificioAP1 extends Phaser.Scene{
             this.add.rectangle(577,14,23,1).setOrigin(0),
             this.add.rectangle(577,15,2,17).setOrigin(0),//estas madres son como un varandal, puestos al lado de escalera1
             this.add.rectangle(40,0,518,22).setOrigin(0),
-            this.add.rectangle(17,14,23,1).setOrigin(0),
+            this.add.rectangle(17,14,23,1).setOrigin(0),//estas tambien, pero estan al lado de escalera 2
             this.add.rectangle(17,15,2,17).setOrigin(0),
         ]);
         this.physics.add.collider(this.jugador, this.hitboxes);
