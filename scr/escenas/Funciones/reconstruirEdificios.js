@@ -1,5 +1,8 @@
 import edificioAP0 from "../edificios/edificioAP0";
 import edificioAP1 from "../edificios/edificioAP1";
+import edificioDP0 from "../edificios/edificioDP0";
+import edificioDP1 from "../edificios/edificioDP1";
+import edificioDP2 from "../edificios/edificioDP2";
 import edificioEP0 from "../edificios/edificioEP0";
 import edificioEP1 from "../edificios/edificioEP1";
 export default class reconstruirEdificios extends Phaser.Scene{
@@ -21,12 +24,21 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.remove('edificioAP1');
         });
 
+        this.registry.events.on('reconstruccionD'/*Cuiden las tildes, no las pongan*/, ()=>{
+            this.scene.add('edificioDP0', new edificioDP0);
+            this.scene.add('edificioDP1', new edificioDP1);
+            this.scene.add('edificioDP2', new edificioDP2);
+            this.scene.moveAbove('edificioDP0', 'cajaDeDialogos').moveAbove('edificioDP1', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioDP0', 'transicionACombate').moveAbove('edificioDP1', 'transicionACombate');
+            console.log('lo hizo')
+        });
+
         this.registry.events.on('reconstruccionE'/*Cuiden las tildes, no las pongan*/, ()=>{
             this.scene.add('edificioEP0', new edificioEP0);
             this.scene.add('edificioEP1', new edificioEP1);
             this.scene.moveAbove('edificioEP0', 'cajaDeDialogos').moveAbove('edificioEP1', 'cajaDeDialogos');
             this.scene.moveAbove('edificioEP0', 'transicionACombate').moveAbove('edificioEP1', 'transicionACombate');
             console.log('lo hizo')
-        })
+        });
     }
 }
