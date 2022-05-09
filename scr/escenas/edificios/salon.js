@@ -6,7 +6,7 @@ export default class salon extends Phaser.Scene{
     create(){
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,600);
-        this.cameras.main.setZoom(.5);
+        this.cameras.main.setZoom(1.2);
         this.add.image(0,0, 'salonbg').setOrigin(0,0);
         this.physics.world.setBounds(0,0,600,600);
 
@@ -31,6 +31,26 @@ export default class salon extends Phaser.Scene{
         this.escritorio = this.physics.add.staticImage(Phaser.Math.Between(214,600),Phaser.Math.Between(0,75), 'escritorio').setOrigin(1,0);
         this.escritorio.refreshBody();
         this.physics.add.collider(this.jugador,[this.sillas, this.escritorio]);
+
+        //detalles de las transiciones
+        var origen;
+        this.events.on('transitionstart', (fromScene, duration)=>{
+            origen = fromScene;
+        });
+        this.events.on('transitioncomplete', (fromScene, duration)=>{
+            this.cameras.main.fadeFrom(200, 0,0,0);
+            this.input.keyboard.enabled = true;
+        });
+        this.events.on('transitionout',(targetScene, duration)=>{
+            this.cameras.main.fadeOut(duration,0,0,0);
+        });
+
+        //puerta para salir
+        this.salida = this.add.zone(0,18,6,50).setOrigin(0);
+        this.physics.add.existing(this.salida);
+        this.physics.add.overlap(this.jugador,this.salida,()=>{
+            this.scene.transition({target:origen, duration:300, remove:true, moveBelow:true})
+        });
 
         //input jaja
         this.mov = this.input.keyboard.createCursorKeys();

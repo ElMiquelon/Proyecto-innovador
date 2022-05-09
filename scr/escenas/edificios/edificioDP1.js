@@ -68,7 +68,8 @@ export default class edificioDP1 extends Phaser.Scene{
         this.puerta1 = this.add.rectangle(20,109,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
 
 
