@@ -100,7 +100,6 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioD1 = this.add.rectangle(630,307,27,94,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioD1);
         this.alEdificioD1.on('pointerdown', ()=>{
-            console.log('aqui va el evento qu te lleva al D. WIP');
             this.bgm.pause();
             this.registry.events.emit('reconstruccionD');
             this.scene.transition({target:'edificioDP0', duration:300, sleep:true, moveBelow:true});
@@ -108,14 +107,18 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioD2 = this.add.rectangle(658,307,458,28,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioD2);
         this.alEdificioD2.on('pointerdown', ()=>{
-            console.log('aqui va el evento qu te lleva al D. WIP');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionD');
+            this.scene.transition({target:'edificioDP0', duration:300, sleep:true, moveBelow:true});
         });
 
         //edificio E
         this.alEdificioE = this.add.rectangle(566,189,551,34,0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioE);
         this.alEdificioE.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al E. WIP');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionE');
+            this.scene.transition({target:'edificioEP0', duration:300, sleep:true, moveBelow:true});
         });
 
 
