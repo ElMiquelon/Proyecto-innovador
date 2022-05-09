@@ -28,9 +28,13 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.add('edificioDP0', new edificioDP0);
             this.scene.add('edificioDP1', new edificioDP1);
             this.scene.add('edificioDP2', new edificioDP2);
-            this.scene.moveAbove('edificioDP0', 'cajaDeDialogos').moveAbove('edificioDP1', 'cajaDeDialogos');
-            this.scene.moveAbove('edificioDP0', 'transicionACombate').moveAbove('edificioDP1', 'transicionACombate');
-            console.log('lo hizo')
+            this.scene.moveAbove('edificioDP0', 'cajaDeDialogos').moveAbove('edificioDP1', 'cajaDeDialogos').moveAbove('edificioDP2', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioDP0', 'transicionACombate').moveAbove('edificioDP1', 'transicionACombate').moveAbove('edificioDP2', 'transicionACombate');
+        });
+
+        this.registry.events.on('destruccionedificioDP0', ()=>{
+            this.scene.remove('edificioDP1');
+            this.scene.remove('edificioDP2');
         });
 
         this.registry.events.on('reconstruccionE'/*Cuiden las tildes, no las pongan*/, ()=>{
@@ -38,7 +42,6 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.add('edificioEP1', new edificioEP1);
             this.scene.moveAbove('edificioEP0', 'cajaDeDialogos').moveAbove('edificioEP1', 'cajaDeDialogos');
             this.scene.moveAbove('edificioEP0', 'transicionACombate').moveAbove('edificioEP1', 'transicionACombate');
-            console.log('lo hizo')
         });
     }
 }

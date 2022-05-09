@@ -22,39 +22,38 @@ export default class edificioDP2 extends Phaser.Scene{
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([
-            this.add.rectangle(224,0,526,122).setOrigin(0,0),
-            this.add.rectangle(139,0,11,132).setOrigin(0,0),
-            this.add.rectangle(151,101,20,31).setOrigin(0,0),
+            this.add.rectangle(0,100,521,22).setOrigin(0,0),
+            this.add.rectangle(555,100,10,22).setOrigin(0,0),
+            this.add.rectangle(565,100,34,1).setOrigin(0,0),
+            this.add.rectangle(599,0,12,121).setOrigin(0,0),
+            this.add.rectangle(611,37,17,85).setOrigin(0,0),
+            this.add.rectangle(0,201,264,30).setOrigin(0,0),
+            this.add.rectangle(264,219,23,1).setOrigin(0,0),
+            this.add.rectangle(285,201,1,17).setOrigin(0,0),
+            this.add.rectangle(305,201,445,30).setOrigin(0,0)
         ]);
         this.physics.add.collider(this.jugador, this.hitboxes);
 
         //OVERLAP de las escaleras y la zona que lleva a cafetería
-        this.escalera1 = this.add.zone(171,101,20,31).setOrigin(0);//esta la izquierda
-        this.escalera2 = this.add.zone(442,201,22,31).setOrigin(0);//esta de enmedio
-        this.escalera3 = this.add.zone(729,100,21,32).setOrigin(0);//esta escalera es la derecha
+        this.escalera1 = this.add.zone(286,201,19,30).setOrigin(0);//esta es la escalera de enmedio
+        this.escalera2 = this.add.zone(521,100,34,22).setOrigin(0);//esta de la derecha
         
-        this.physics.add.staticGroup([this.escalera1, this.escalera2, this.escalera3]);
+        this.physics.add.staticGroup([this.escalera1, this.escalera2]);
         this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
-            console.log('subiste por escalera 1');
-            this.registry.events.emit('subirescalera1d');
+            console.log('bajaste por escalera 1 a escalera1 de DP1');
+            this.registry.events.emit('bajarescalera1d1');
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioDP1', duration:300, sleep:true, moveBelow:true});
         });
         this.physics.add.overlap(this.jugador, this.escalera2, ()=>{
-            console.log('subiste por escalera 2');
-            this.registry.events.emit('subirescalera2d');
-            this.input.keyboard.enabled = false;
-            this.scene.transition({target:'edificioDP1', duration:300, sleep:true, moveBelow:true});
-        });
-        this.physics.add.overlap(this.jugador,this.escalera3,()=>{
-            console.log('subiste por escalera 3');
-            this.registry.events.emit('subirescalera3d');
+            console.log('bajaste por escalera 2 a escalera4 de DP1');
+            this.registry.events.emit('bajarescalera2d1');
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioDP1', duration:300, sleep:true, moveBelow:true});
         });
 
         //detalles de las puertas de los salones (izq -> der)
-        this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
+        this.puerta1 = this.add.rectangle(20,109,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
             this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
@@ -72,25 +71,20 @@ export default class edificioDP2 extends Phaser.Scene{
         });
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
-        this.registry.events.on('bajarescalera1d', ()=>{
-            this.jugador.setPosition(585,50);
+        this.registry.events.on('subirescalera1d2', ()=>{
+            this.jugador.setPosition(295,190);
         });
 
-        this.registry.events.on('bajarescalera2d', ()=>{
-            this.jugador.setPosition(30,50);
+        this.registry.events.on('subirescalera2d2', ()=>{
+            this.jugador.setPosition(539,142);
         });
-
-        this.registry.events.on('bajarescalera3d', ()=>{
-            this.jugador.setPosition(30,50);
-        });
-
 
         
         //input
         this.mov = this.input.keyboard.createCursorKeys();
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
-            this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.registry.events.emit('aviso', 'No puedes salir del edificio si no estas en la PB');
         });
 
     }

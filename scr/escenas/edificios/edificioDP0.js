@@ -11,7 +11,7 @@ export default class edificioDP0 extends Phaser.Scene{
         this.physics.world.setBounds(0,0,750,232);
 
         //detalles del jugador
-        this.jugador = this.physics.add.sprite(194, 144, 'playersprite');
+        this.jugador = this.physics.add.sprite(684, 154, 'playersprite');
         this.jugador.setBodySize(12,18,true);
         this.jugador.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.jugador);
@@ -22,39 +22,34 @@ export default class edificioDP0 extends Phaser.Scene{
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([
-            this.add.rectangle(224,0,526,122).setOrigin(0,0),
-            this.add.rectangle(139,0,11,132).setOrigin(0,0),
-            this.add.rectangle(151,101,20,31).setOrigin(0,0),
+            this.add.rectangle(0,100,565,22).setOrigin(0,0),
+            this.add.rectangle(598,0,12,122).setOrigin(0,0),
+            this.add.rectangle(611,37,17,85).setOrigin(0,0),
+            this.add.rectangle(0,200,420,32).setOrigin(0,0),
+            this.add.rectangle(440,200,310,32).setOrigin(0,0),
         ]);
         this.physics.add.collider(this.jugador, this.hitboxes);
 
-        //OVERLAP de las escaleras
-        this.escalera1 = this.add.zone(171,101,20,31).setOrigin(0);//esta la izquierda
-        this.escalera2 = this.add.zone(442,201,22,31).setOrigin(0);//esta de enmedio
-        this.escalera3 = this.add.zone(729,100,21,32).setOrigin(0);//esta escalera es la derecha
+        //OVERLAP de las escaleras (de derecha a izquierda)
+        this.escalera1 = this.add.zone(565,100,34,22).setOrigin(0);//esta la derecha
+        this.escalera2 = this.add.zone(420,200,20,32).setOrigin(0);//esta de enmedio
         
-        this.physics.add.staticGroup([this.escalera1, this.escalera2, this.escalera3]);
+        this.physics.add.staticGroup([this.escalera1, this.escalera2]);
         this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
-            console.log('subiste por escalera 1');
+            console.log('subiste por escalera 1 a escalera3 de DP1');
             this.registry.events.emit('subirescalera1d');
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioDP1', duration:300, sleep:true, moveBelow:true});
         });
         this.physics.add.overlap(this.jugador, this.escalera2, ()=>{
-            console.log('subiste por escalera 2');
+            console.log('subiste por escalera 2 a escalera2 DP1');
             this.registry.events.emit('subirescalera2d');
-            this.input.keyboard.enabled = false;
-            this.scene.transition({target:'edificioDP1', duration:300, sleep:true, moveBelow:true});
-        });
-        this.physics.add.overlap(this.jugador,this.escalera3,()=>{
-            console.log('subiste por escalera 3');
-            this.registry.events.emit('subirescalera3d');
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioDP1', duration:300, sleep:true, moveBelow:true});
         });
 
         //detalles de las puertas de los salones (izq -> der)
-        this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
+        this.puerta1 = this.add.rectangle(750,480,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
             this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
@@ -73,18 +68,12 @@ export default class edificioDP0 extends Phaser.Scene{
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
         this.registry.events.on('bajarescalera1d', ()=>{
-            this.jugador.setPosition(585,50);
+            this.jugador.setPosition(584,135);
         });
 
         this.registry.events.on('bajarescalera2d', ()=>{
-            this.jugador.setPosition(30,50);
+            this.jugador.setPosition(430,185);
         });
-
-        this.registry.events.on('bajarescalera3d', ()=>{
-            this.jugador.setPosition(30,50);
-        });
-
-
         
         //input
         this.mov = this.input.keyboard.createCursorKeys();
