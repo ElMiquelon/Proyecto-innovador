@@ -79,10 +79,10 @@ export default class edificioEP0 extends Phaser.Scene{
 
         //detalles del input
         this.mov = this.input.keyboard.createCursorKeys();
-        /*this.back = this.input.keyboard.addKey('X');
+        this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
-            aqui se debe agregar la transicion al overworld
-        });*/
+            this.scene.transition({target:'overworld', duration:500, remove:true});
+        });
 
     };
 
