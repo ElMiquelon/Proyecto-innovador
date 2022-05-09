@@ -399,6 +399,9 @@ export default class combateJefe extends Phaser.Scene {
         });
 
         this.events.on('gameOver', (v) => {
+            //Resetear las resistencias
+            playerStats.res = 1.00;
+            enemyStats.res = 1.00;
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a la escena anterior', lngWait);
