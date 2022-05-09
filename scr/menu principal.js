@@ -25,6 +25,11 @@ export default class menup extends Phaser.Scene{
             this.registry.values.playerStats.lvl += 1; 
             console.log(this.registry.get('playerStats'));
         });
+        this.alSalon = this.input.keyboard.addKey('S');
+        this.alSalon.on('down', ()=>{
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.switch('salon');
+        })
         this.alA = this.input.keyboard.addKey('A');
         this.alA.on('down',()=>{
             this.registry.events.emit('reconstruccionA');
