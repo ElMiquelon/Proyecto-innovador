@@ -1,11 +1,50 @@
 {
     "dialogo":[
-        "Hola, bienvenido\nT quiero" ,
-        "Wey, me cagas",
-        "Has visto al otro NPC?\nEstá al lado de poliplaza",
-        "Pero si nos graduamos\n eda?",
-        "No se me ocurre nada mas",
-        "texto de ejemplo"
+        "-Buenos días maestra.",
+        "Maestra: …",
+        "-Em… ¿Se encuentra bien?",
+        "-La clase empieza en un momento.",
+        "Maestra: Las puertas ya están cerradas.",
+        "-Disculpe, ¿Me escucha?",
+        "Maestra: …",
+        "Tu teléfono está sonando",
+        "-¿Bueno?",
+        "E: Es el viejo.",
+
+        "- EL QUE TE TRAE DE PENDEJO JJAJAJAJAJAJAJAJAJJAJAJAJAJAJ",
+        "E: JAJAJAJAJSJAJSAIJSASJAJSAJSJASJAJSA",
+        "alguien borre eso despues",
+
+        "E: Ya la tiene atrapada a ella.",
+        "E: Tiene un aparato de control mental.",
+        "-¿¡Un qué!?",
+        "E: Un aparato de control mental. Su plan ha comenzado.",
+        "E: Algunos de tus profes pueden actuar raro.",
+        "-¿Raro de qué modo?",
+        "E: Pueden estar quietos, hablar sin sentido o en el peor de los casos ponerse violentos",
+        "-¿QUÉ? No quiero pelear",
+        "E: Estarás bien, antes de despertarte te dejé mejoras cibernéticas que te ayudarán en las peleas.",
+        "E: Incluso tienes mi segundo mejor invento, el “reflejador de daño”, no lo uses demasiado, está en fase de pruebas.",
+        "-¿No podías darme un rayo paralizador o algo más útil? Suena demasiado complicado y…",
+        "-¿Dónde están las mejoras?",
+        "E: No sé qué otros artilugios tiene el viejo. Podría neutralizar mis mejores inventos.",
+        "E: Lo único para lo que no puede estar preparado son los viejos confiables golpes.",
+        "E: Me encargaré de las personas que derrotes, estarán bien.",
+        "-¿Por qué no lo detienes tú? Suena muy peligroso todo esto.",
+        "E: ¿No has visto películas de viajes en el tiempo?",
+        "-Eres un VIAJE…",
+        "E: No sé si ya estoy en la escuela, puedo causar una paradoja si no tengo cuidado.",
+        "-¿Y por qué no estás escondido?",
+        "E: Yo nunca pasé por aquí, no tengo miedo de encontrarme por aquí.",
+        "E: Además, si me llegarás a necesitar no estoy tan lejos.",
+        "E: Ahora date prisa, mientras menos te tardes te pagaré mejor",
+        "La llamada ha terminado"
     ],
-    "nombre":"Remilia: "
+
+    "dialogogenerico":[
+        "Maestra: ...",
+        "- Es inútil"
+    ],
+    "nombre":"",
+    "nota":"este npc es la maestra jsjs y como el chucha sumae del eli llega y le marca al jugador lo mejor es que no tenga nombre por como funciona la caja de dialogos"
 }

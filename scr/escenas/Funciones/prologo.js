@@ -32,7 +32,7 @@ export default class prologo extends Phaser.Scene{
             };
     
             //sí se necesita hacer manualmente
-            if (i == 24 || i == 49 || i == 50){
+            if (i == 24 || i == 49){
                 this.reacciones.setTexture('eliEnojado');
             };
     

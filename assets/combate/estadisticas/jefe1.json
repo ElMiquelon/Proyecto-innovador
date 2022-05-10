@@ -4,7 +4,7 @@
     "xp":350,
     "nombre":"playersprite",
     "victoria":[
-        "has conseguido la llave de X lugar",
+        "Has recuperado el bolso de Martha",
         "inserteAquiElNombreDelRegistry.valueQueSeVolveráTrueParaEntrarADichoLugar"
     ]
 }

@@ -1,8 +1,16 @@
 {
     "dialogo":[
-        "Un gusto, soy TU PUTA MADRE",
-        "me disculpo por mi comportamiento tan maduro",
-        "ewe, juega touhou"
+        "Oh, parece que estás bien",
+        "Hay tanta gente actuando extraño desde la mañana",
+        "Pensé que sería preparación para una fiesta de cumpleaños y nadie quería hablarme para no arruinar la sorpresa",
+        "Pero ya no creo que sea eso",
+        "Y no me puedo ir aún, deje mis cosas en el A8 pero está un maestro que me asusta más que los demás",
+        "¿Puedes recogerlo por mí?, pareces alguien valiente."
     ],
-    "nombre":"Patchouli: "
+    "dialogogenerico":[
+        "Aún falta una hora para terminar el turno…",
+        "¿Qué está pasando?",
+        "Tengo miedo"
+    ],
+    "nombre":"Martha: "
 }

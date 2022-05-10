@@ -182,22 +182,32 @@ export default class overworld extends Phaser.Scene{
         ]);
 
         //creacion de NPCs
-        this.rem = this.physics.add.sprite(326, 1062, 'spritemilia').setOrigin(0,0).setImmovable(true).setInteractive();
-        this.patch = this.physics.add.sprite(454, 762, 'spriteknowledge').setOrigin(0,0).setImmovable(true).setInteractive();
-        this.eli = this.physics.add.sprite(1194,914,'eliSprite',4).setInteractive().setImmovable(true);
+        this.rem = this.physics.add.staticSprite(395, 1050, 'spritemilia').setInteractive();
+        this.patch = this.physics.add.staticSprite(334, 1020, 'spriteknowledge').setInteractive();
+        this.eli = this.physics.add.staticSprite(1194,914,'eliSprite',4).setInteractive();
         this.eli.anims.play('stalleli');
 
         //interacciones de los NPCs al ser clickeados (dialogos)
-        this.data.set('remFirstTalk', true);
-        this.rem.on('pointerdown', ()=>{
-            this.registry.events.emit('dialogar', 1, this.data.get('remFirstTalk'),this.scene.key);
-            this.data.set('remFirstTalk', false);
-        });
-
         this.data.set('patchFirstTalk', true);
         this.patch.on('pointerdown',()=>{
-            this.registry.events.emit('dialogar', 2, this.data.get('patchFirstTalk'), this.scene.key);
-            this.data.set('patchFirstTalk', false);
+            if(this.data.get('patchFirstTalk') == true){
+                this.registry.events.emit('dialogarmulti', 1, this.data.get('patchFirstTalk'), this.scene.key);
+                this.data.set('patchFirstTalk', false);
+                this.registry.values.progreso ++;
+            }else{
+                this.registry.events.emit('dialogar', 1,this.scene.key);    
+            }
+        });
+
+        this.data.set('remFirstTalk', true);
+        this.rem.on('pointerdown', ()=>{
+            if(this.data.get('remFirstTalk') == true && this.registry.values.progreso == 1){
+                this.registry.events.emit('dialogarmulti', 2, this.data.get('remFirstTalk'), this.scene.key);
+                this.data.set('remFirstTalk', false);
+                this.registry.values.progreso++;
+            }else{
+                this.registry.events.emit('dialogar', 2,this.scene.key);    
+            }
         });
 
         this.eli.on('pointerdown', ()=>{

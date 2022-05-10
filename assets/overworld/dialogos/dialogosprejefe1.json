@@ -1,0 +1,15 @@
+{
+    "dialogo":[
+        "Oh, ¿quieres pelear conmigo? Lo siento.",
+        "Sería interesante pero aún necesitas ser más fuerte.",
+        "Si en este momento peleo contigo sería demasiado fácil para ser divertido.",
+        "Ve a caminar por el pasto, encontrarás insectos con los cuales entrenar.",
+        "Incluso podrías pelear con uno de mis colegas",
+        "Estamos haciendo algo grande ahora, te daré una oportunidad cuando seas más fuerte."
+    ],
+    "dialogobatalla":[
+        "Estás lista, pero no me vencerás",
+        "Podrías tardar muchas veces, pero eso no significa que ganarás"
+    ],
+    "nombre": "Ashley 2: "
+}

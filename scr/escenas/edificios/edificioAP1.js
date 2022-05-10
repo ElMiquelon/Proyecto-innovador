@@ -1,3 +1,4 @@
+var jefeFT = true;
 export default class edificioAP1 extends Phaser.Scene{
     constructor(){
         super({key:'edificioAP1'});
@@ -31,26 +32,22 @@ export default class edificioAP1 extends Phaser.Scene{
         this.physics.add.collider(this.jugador, this.hitboxes);
 
         //prueba de progreso
-        this.jefePrueba = this.add.sprite(29,29,'playersprite').setInteractive();
-        this.jefePrueba.on('pointerdown',()=>{
-            if (this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 0){
-                /*uy. primero revisa que se cumplan 2 condiciones: que el nivel del jugador sea al menos 4
-                y que no se haya derrotado a ningún otro jefe, si se cumplen ambas condiciones*/
-                this.registry.events.emit('dialogarjefe',this.scene.key,true, 1);
-                //llama su dialogo de "desafio", dando la key de esta escena, diciendo que habrá golpes, y el ID del jefe
-                this.time.delayedCall(200, ()=>{
-                    //despues este temporizador comenzará a contar cuando el jugador presione X y cierre el dialogo
-                    this.registry.events.emit('transicionacombatejefe', this.scene.key, 1);
-                    //y llama al evento que comienza la transición al combate, dando otra vez la key y el ID
+        this.jefePrueba = this.physics.add.staticSprite(29,29,'playersprite').setInteractive();
+        this.jefePrueba.on('pointerdown',()=>{//atención, esto es importante para los demás jefes
+            if(this.registry.values.playerStats.lvl >= 2 && this.registry.values.progreso == 2){//primero se comprueba tanto si el jugador alcanzó la bandera necesaria para poder enfrentarse a él como si cumple el nivel para ello
+                this.registry.events.emit('dialogarprejefe',this.scene.key,true, 1);//en caso de cumplir ambas, comienza un dialogoprejefe, enviando la key de esta escena, un true de que es true va a peliar y su ID
+                this.time.delayedCall(200, ()=>{//y 200 ms despues de haber cerrado la caja 
+                    this.registry.events.emit('transicionacombatejefe', this.scene.key, 1);//comienza el combate, dando la key de esta escena y el ID del jefe
                 });
-            }else if(this.registry.values.playerStats.lvl <= 4){
-                //si no sos fuerte
-                this.registry.events.emit('aviso', '- No, aún no puedo enfrentarlo.');
-                //decís "no soy fuerte" y ya
-            }else{// si ya lo derrotaste
-                this.registry.events.emit('dialogarjefe',this.scene.key,false, 1);
-                //lo mismo que en el dialogo de desafio, pero diciendo que no habrá golpes.
-            }
+            }else if(this.registry.values.playerStats.lvl <= 2){//sino, si el jugador no tiene el nivel adecuado
+                this.registry.events.emit('dialogarprejefe',this.scene.key,false, 1);//llama un dialogo prejefe; dando la key de la escena, diciendo que no peleará y dando su ID
+                //aviso: no sé que suceda si vas a hablar con él sin haber cumplido las banderas
+            }else if(this.registry.values.progreso >= 2 && jefeFT == true){//entonces, si ya lo derrotaste y hablas con él
+                this.registry.events.emit('dialogarpostjefe',this.scene.key,true, 1);//lanzará un monologo con lore
+                jefeFT = false;//y dirá "simon, el wey ya hablo conmigo"
+            }else{//sino
+                this.registry.events.emit('dialogarpostjefe',this.scene.key,false, 1);//te da un dialogo generico
+            };
         })
 
         //overlap de las escaleras

@@ -1,6 +1,8 @@
 let dialogo;
 let textoAMostrar;
 var laEscena;
+var explorador = 1;//no se me ocurrio un buen nombre, pero este será como i en for, servirá para avanzar el dialogo
+var multi;
 export default class cajaDeDialogos extends Phaser.Scene{
     constructor(){
         super({key: 'cajaDeDialogos'});
@@ -11,7 +13,8 @@ export default class cajaDeDialogos extends Phaser.Scene{
         this.load.json('NPC2', './assets/overworld/dialogos/dialogosnpc2.json');
         this.load.json('dialogoeli0', './assets/overworld/dialogos/dialogoseli0.json');
         this.load.json('dialogoeli1', './assets/overworld/dialogos/dialogoseli1.json');
-        this.load.json('dialogojefe1', './assets/overworld/dialogos/dialogosjefe1.json');
+        this.load.json('dialogoprejefe1', './assets/overworld/dialogos/dialogosprejefe1.json');
+        this.load.json('dialogopostjefe1', './assets/overworld/dialogos/dialogospostjefe1.json');
     }
 
     create(){
@@ -25,22 +28,42 @@ export default class cajaDeDialogos extends Phaser.Scene{
         });
         this.desaparece = this.time.delayedCall();
         this.ok = this.input.keyboard.addKey('X');
-        this.ok.on('down', ()=>{
-            this.scene.resume(laEscena);
-            this.scene.sleep(this);
+        this.ok.on('down', ()=>{//al momento de presionar X
+            if (multi == true){//se comprueba si será un monologo/conversación
+                if(explorador == textoAMostrar.dialogo.length){//y si el explorador (una variable para navegar por el arreglo del monologo) alcanzó el fondo
+                    multi = false;
+                    explorador = 1;//y regresa las variables multi y explorador a su estado inicial 
+                    this.scene.resume(laEscena);
+                    this.scene.sleep(this);//y "devuelve" al jugador a la escena anterior
+                }else{//sino
+                    dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[explorador]);//cambia el texto al siguiente
+                    explorador ++;//y se aumenta el explorador para seguir cambiandolo
+                }
+            }else{//en caso de no ser monologo
+                this.scene.resume(laEscena);
+                this.scene.sleep(this);//directamente se "transiciona devuelta"
+            };
         });
 
-        this.registry.events.on('dialogar', (numeroNPC, FT, escenaAPausar)=>{
+        this.registry.events.on('dialogar', (numeroNPC, escenaAPausar)=>{
+            /*este es el clasico dialogo de nomas una línea que está desde juego.js... maso*/
+            this.scene.wake(this);//se despierta esta escena
+            laEscena = escenaAPausar//se guarda la key de la escena donde se llamó el evento
+            this.scene.pause(laEscena);//se pausa dicha escena
+            this.sound.play('sonidoNPC' + numeroNPC);//esto igual y se borra
+            textoAMostrar = this.cache.json.get('NPC'+numeroNPC);//se recupera el JSON con los dialogos
+            dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogogenerico[Phaser.Math.Between(0,textoAMostrar.dialogogenerico.length-1)]);//y se pone uno random
+        });
+
+        this.registry.events.on('dialogarmulti', (numeroNPC, escenaAPausar)=>{
+            //en el multi cambia un poco, ya que habrá monologo (en algun caso habra conversación)
             this.scene.wake(this);
             laEscena = escenaAPausar
             this.scene.pause(laEscena);
-            this.sound.play('sonidoNPC' + numeroNPC);
+            this.sound.play('sonidoNPC' + numeroNPC);//eaeeaeaeaeaeaeaea
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);
-            if (FT){
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);
-            }else{
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);
-            };
+            dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);//se comienza por el inicio (jeje) del monologo/conversación
+            multi = true;//y esta variable se vuelve true
         });
 
         this.registry.events.on('aviso', (texto)=>{
@@ -52,20 +75,36 @@ export default class cajaDeDialogos extends Phaser.Scene{
             })
         });
         
-        this.registry.events.on('dialogarjefe', (escenaOrigen, vaAPeliar,id)=>{
-            /*Esta madre es un tanto diferente a un dialogo normal. primero, necesita saber de qué escena viene (aquí
-                comienza la cadena xd), después, un booleano especificando si se peleará o no y por último el ID del jefe
-                a enfrentar*/ 
+        this.registry.events.on('dialogarprejefe', (escenaOrigen, vaAPeliar,id)=>{
+            /*para los dialogos prebatalla se necesitará saber si se cumplen los requerimientos o no
+            (vaAPeliar) con un booleano*/ 
             this.scene.wake(this);
-            laEscena = escenaOrigen;//guarda la scene key en una variable local
-            this.scene.pause(laEscena);//y pausa dicha
-            textoAMostrar = this.cache.json.get('dialogojefe' + id);//recupera el JSON con los dialogos del jefe
+            laEscena = escenaOrigen;
+            this.scene.pause(laEscena);
+            textoAMostrar = this.cache.json.get('dialogoprejefe' + id);//recupera el JSON con los dialogos del jefe antes de derrotarlo
             if(vaAPeliar == true){// y si habrá enfrentamiento
                 this.registry.events.emit('repararcombatejefe');//ejecuta el evento que construye la escena de combateJefe
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);//y pone el primer texto
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogobatalla[Phaser.Math.Between(0, 1)]);//y pone algún dialogo para la batalla
             }else{//sino
-                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[Phaser.Math.Between(1,textoAMostrar.dialogo.length-1)]);//nomas hablas y ya
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);//prepara el monologo que explica porque no debe pelear aún
+                multi = true;//y esta variable se vuelve true
             }
+        });
+
+        this.registry.events.on('dialogarpostjefe', (escenaOrigen, FT,id)=>{
+            /*Ok, entonces aquí se necesitan 3 datos, el unico nuevo es FT, siglas de first talk y sirve
+            para saber si se debe poner el dialogo con lore o uno generico*/
+            this.scene.wake(this);
+            laEscena = escenaOrigen;
+            this.scene.pause(laEscena);
+            textoAMostrar = this.cache.json.get('dialogopostjefe' + id);//recupera el JSON con los dialogos del jefe despues de derrotarlo
+            if(FT == true){//entonces se verifica si es la primera vez que se habla despues de derrotarlo
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);// se pone el primer dialogo del monologo
+                multi = true;//y esta variable se vuelve true
+            }else{//sino
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogogenerico[Phaser.Math.Between(0,textoAMostrar.dialogogenerico.length-1)]);//nomas hablas y ya
+                //nomas tira una línea pedorra y ya
+            };
         });
 
         this.registry.events.on('dialogareli', (pollo, escena)=>{
