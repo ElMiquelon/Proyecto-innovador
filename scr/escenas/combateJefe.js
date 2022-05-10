@@ -424,7 +424,6 @@ export default class combateJefe extends Phaser.Scene {
                     //aquí cuando ganas, te dice lo que obtuviste de la victoria
                     this.registry.events.emit('accionDeCombate', '¡Has ganado y ' + this.enemyLoader.victoria[0] + '!', lngWait);
                     this.registry.values.progreso++;//y aumenta la bandera de progreso
-                    /*tambien debería cambiar el valor de un dato para poder entrar a un lugar especifico, pero mas adelante*/
                     this.registry.values.playerStats.xp += enemyStats.xp;
                     if(this.registry.values.playerStats.xp >= this.registry.values.playerStats.nxtlvl){
                         this.time.delayedCall(lngWait, ()=>{

@@ -182,7 +182,7 @@ export default class overworld extends Phaser.Scene{
         ]);
 
         //creacion de NPCs
-        this.rem = this.physics.add.staticSprite(395, 1050, 'spritemilia').setInteractive();
+        this.martha = this.physics.add.staticSprite(395, 1050, 'spritemilia').setInteractive();
         this.patch = this.physics.add.staticSprite(334, 1020, 'spriteknowledge').setInteractive();
         this.eli = this.physics.add.staticSprite(1194,914,'eliSprite',4).setInteractive();
         this.eli.anims.play('stalleli');
@@ -191,7 +191,7 @@ export default class overworld extends Phaser.Scene{
         this.data.set('patchFirstTalk', true);
         this.patch.on('pointerdown',()=>{
             if(this.data.get('patchFirstTalk') == true){
-                this.registry.events.emit('dialogarmulti', 1, this.data.get('patchFirstTalk'), this.scene.key);
+                this.registry.events.emit('dialogarmulti', 1, this.scene.key);
                 this.data.set('patchFirstTalk', false);
                 this.registry.values.progreso ++;
             }else{
@@ -199,15 +199,25 @@ export default class overworld extends Phaser.Scene{
             }
         });
 
-        this.data.set('remFirstTalk', true);
-        this.rem.on('pointerdown', ()=>{
-            if(this.data.get('remFirstTalk') == true && this.registry.values.progreso == 1){
-                this.registry.events.emit('dialogarmulti', 2, this.data.get('remFirstTalk'), this.scene.key);
-                this.data.set('remFirstTalk', false);
-                this.registry.values.progreso++;
+        this.data.set('marthaFirstTalk', true);
+        this.martha.on('pointerdown', ()=>{
+            if (this.registry.values.progreso >= 3){
+                if(this.data.get('marthaFirstTalk') == false && this.registry.values.progreso == 3){
+                    this.registry.events.emit('dialogarprogresomulti', 2, this.scene.key,2);
+                    this.data.set('marthaFirstTalk', true);
+                    this.registry.values.progreso++;
+                }else{
+                    this.registry.events.emit('dialogarprogreso', 2,this.scene.key,2);    
+                };
             }else{
-                this.registry.events.emit('dialogar', 2,this.scene.key);    
-            }
+                if(this.data.get('marthaFirstTalk') == true && this.registry.values.progreso == 1){
+                    this.registry.events.emit('dialogarprogresomulti', 2, this.scene.key, 1);
+                    this.data.set('marthaFirstTalk', false);
+                    this.registry.values.progreso++;
+                }else{
+                    this.registry.events.emit('dialogarprogreso', 2,this.scene.key, 1);    
+                };
+            };
         });
 
         this.eli.on('pointerdown', ()=>{
@@ -226,7 +236,7 @@ export default class overworld extends Phaser.Scene{
         this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
         this.jugador.setBodySize(12,18, true);
         this.jugador.body.setCollideWorldBounds(true);
-        this.physics.add.collider(this.jugador,[this.rem, this.patch, this.eli/*y todos los demas objetos/personajes que se agreguen*/]);
+        this.physics.add.collider(this.jugador,[this.martha, this.patch, this.eli/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);
         this.jugador.on('animationrepeat', ()=>{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
