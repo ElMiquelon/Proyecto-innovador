@@ -6,7 +6,7 @@ import reconstruirEdificios from "./escenas/Funciones/reconstruirEdificios";
 import cajaDeDialogos from "./escenas/cajaDeDialogos";
 //import combate_test from "./combate_test";
 import verMapa from "./escenas/Funciones/verMapa";
-import tutorial from "./escenas/Funciones/tutorialOBienvenida";
+import tutorial from "./escenas/Funciones/tutorial";
 import prologo from "./escenas/Funciones/prologo";
 import combate from "./escenas/combate";
 import combateDialogos from "./escenas/combateDialogos";
@@ -68,6 +68,18 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //aqui se cargaran imagenes de dialogos
         this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
         this.load.image('eliEnojado', './assets/overworld/dialogos/tutorial/eliEnojado.jpeg');
+
+        //aqui el turorial
+        this.load.image('tuto1', './assets/overworld/dialogos/tutorial/tuto1.png');
+        this.load.image('tuto2', './assets/overworld/dialogos/tutorial/tuto2.png');
+        this.load.image('tuto3', './assets/overworld/dialogos/tutorial/tuto3.png');
+        this.load.image('tuto4', './assets/overworld/dialogos/tutorial/tuto4.png');
+        this.load.image('tuto5', './assets/overworld/dialogos/tutorial/tuto5.png');
+        this.load.image('tuto6', './assets/overworld/dialogos/tutorial/tuto6.png');
+        this.load.image('tuto7', './assets/overworld/dialogos/tutorial/tuto7.png');
+        this.load.image('tuto8', './assets/overworld/dialogos/tutorial/tuto8.png');
+        this.load.image('tuto9', './assets/overworld/dialogos/tutorial/tuto9.png');
+        this.load.image('tuto10', './assets/overworld/dialogos/tutorial/tuto10.png');
 
         //aqui se cargarán sonidos de dialogos
         this.load.audio('sonidoNPC1', './assets/overworld/dialogos/npc1.wav');

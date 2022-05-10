@@ -137,7 +137,7 @@ export default class combateJefe extends Phaser.Scene {
                         this.registry.events.emit('accionDeCombate', 'El enemigo iba a curarse pero decidió atacar', srtWait);
                         elEnemigoAtaco = 0;
                     } else {
-                        this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.25));
+                        this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.15));
                         this.events.emit('buffDmgEnemy', Math.round(enemyStats.atk * 0.5), 3);
                         this.events.emit('enemySetRes', 0.8, 4);
                         this.events.emit('moreCrit', 10);
@@ -402,6 +402,13 @@ export default class combateJefe extends Phaser.Scene {
             //Resetear las resistencias
             playerStats.res = 1.00;
             enemyStats.res = 1.00;
+            playerStats.buffDmgT = 0;
+            playerStats.buffDefT = 0;
+            playerStats.resT = 0;
+            enemyStats.resT = 0;
+            enemyStats.buffDmgT = 0;
+            enemyStats.penal = 0;
+            playerStats.penalHeal = 0;
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a la escena anterior', lngWait);
