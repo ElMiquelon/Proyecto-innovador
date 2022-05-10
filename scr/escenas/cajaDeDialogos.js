@@ -11,6 +11,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
     preload(){
         //aqui los JSON de los NPCs que no variarán en dialogo según avance la historia
         this.load.json('NPC1', './assets/overworld/dialogos/dialogosnpc1.json');
+        this.load.json('NPC3', './assets/overworld/dialogos/dialogosnpc3.json');
 
         //aquí, los JSON de los NPCs que varien en dialogo según avance la historia
         this.load.json('NPC2P1', './assets/overworld/dialogos/dialogosnpc2p1.json');
@@ -60,7 +61,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.scene.wake(this);//se despierta esta escena
             laEscena = escenaAPausar//se guarda la key de la escena donde se llamó el evento
             this.scene.pause(laEscena);//se pausa dicha escena
-            this.sound.play('sonidoNPC' + numeroNPC);//esto igual y se borra
+            //this.sound.play('sonidoNPC' + numeroNPC);//esto igual y se borra
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);//se recupera el JSON con los dialogos
             dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogogenerico[Phaser.Math.Between(0,textoAMostrar.dialogogenerico.length-1)]);//y se pone uno random
         });
@@ -70,7 +71,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.scene.wake(this);
             laEscena = escenaAPausar
             this.scene.pause(laEscena);
-            this.sound.play('sonidoNPC' + numeroNPC);//eaeeaeaeaeaeaeaea
+            //this.sound.play('sonidoNPC' + numeroNPC);//eaeeaeaeaeaeaeaea
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC);
             dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);//se comienza por el inicio (jeje) del monologo/conversación
             multi = true;//y esta variable se vuelve true
@@ -122,7 +123,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.scene.wake(this);//se despierta esta escena
             laEscena = escenaAPausar//se guarda la key de la escena donde se llamó el evento
             this.scene.pause(laEscena);//se pausa dicha escena
-            this.sound.play('sonidoNPC' + numeroNPC);//esto igual y se borra
+            //this.sound.play('sonidoNPC' + numeroNPC);//esto igual y se borra
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC+'P'+progreso);//se recupera el JSON con los dialogos
             dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogogenerico[Phaser.Math.Between(0,textoAMostrar.dialogogenerico.length-1)]);//y se pone uno random
         });
@@ -132,7 +133,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
             this.scene.wake(this);
             laEscena = escenaAPausar
             this.scene.pause(laEscena);
-            this.sound.play('sonidoNPC' + numeroNPC);//eaeeaeaeaeaeaeaea
+            //this.sound.play('sonidoNPC' + numeroNPC);//eaeeaeaeaeaeaeaea
             textoAMostrar = this.cache.json.get('NPC'+numeroNPC+'P'+progreso);
             dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);//se comienza por el inicio (jeje) del monologo/conversación
             multi = true;//y esta variable se vuelve true

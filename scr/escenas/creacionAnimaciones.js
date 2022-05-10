@@ -138,6 +138,15 @@ create(){
         frameRate:1
     });
 
+    this.anims.create({
+        key:'stalljuan',
+        frames:this.anims.generateFrameNumbers('juanSprite',{
+            frames:[0,1,2,3,2,1]
+        }),
+        repeat:-1,
+        frameRate:2
+    });
+
 
     //animaciones de enemigos en combate;
     this.anims.create({

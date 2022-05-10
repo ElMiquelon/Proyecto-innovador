@@ -1,3 +1,4 @@
+var juanFT = true;
 export default class edificioEP1 extends Phaser.Scene{
     constructor(){
         super({key:'edificioEP1'});
@@ -19,6 +20,20 @@ export default class edificioEP1 extends Phaser.Scene{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
             this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
         });
+
+        //NPC juan
+        this.juan = this.physics.add.staticSprite(515,30, 'juanSprite').setInteractive();
+        this.juan.anims.play('stalljuan');
+        this.physics.add.collider(this.jugador,this.juan);
+        this.juan.on('pointerdown', ()=>{
+            if(juanFT == true && this.registry.values.progreso == 4){
+                this.registry.events.emit('dialogarmulti', 3, this.scene.key);
+                juanFT = false;
+            }else{
+                this.registry.events.emit('dialogar', 3,this.scene.key);    
+            };
+        });
+        
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([

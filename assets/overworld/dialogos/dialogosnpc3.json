@@ -1,0 +1,18 @@
+{
+    "dialogo":[
+        "¿Que buscas la tarjeta del gym?",
+        "Oh, lo siento",
+        "La membresía no me viene muy bien",
+        "Ya me ejercito lo necesario, como puedes ver",
+        "Por eso, se lo di a otro maestro",
+        "Creo que tenía que ir al baño",
+        "Podrás encontrarlo cerca de uno"
+    ],
+    "dialogogenerico":[
+        "...",
+        "hump",
+        "*sonidos de esfuerzo*",
+        "Upalele"
+    ],
+    "nombre":"Juan: "
+}
