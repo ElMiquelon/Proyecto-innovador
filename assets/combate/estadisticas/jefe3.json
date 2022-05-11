@@ -1,0 +1,10 @@
+{
+    "hp":900,
+    "atk": 27,
+    "xp":800,
+    "nombre":"maria",
+    "victoria":[
+        "has conseguido una tarjeta más",
+        "inserteAquiElNombreDelRegistry.valueQueSeVolveráTrueParaEntrarADichoLugar"
+    ]
+}

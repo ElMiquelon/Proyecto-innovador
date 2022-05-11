@@ -42,7 +42,7 @@ export default class edificioDP0 extends Phaser.Scene{
             }else{//sino
                 this.registry.events.emit('dialogarpostjefe',this.scene.key,false, 2);//te da un dialogo generico
             };
-        })
+        });
 
 
         //hitbox del edificio

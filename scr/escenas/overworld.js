@@ -198,7 +198,7 @@ export default class overworld extends Phaser.Scene{
         this.eli = this.physics.add.staticSprite(1194,914,'eliSprite',4).setInteractive();
         this.eli.anims.play('stalleli');
         this.maria = this.physics.add.staticSprite(997,1348,'mariaSprite').setInteractive();
-        this.maria.anims.play('stallmariaow')
+        this.maria.anims.play('stallmariaow');
 
         //interacciones de los NPCs al ser clickeados (dialogos)
         this.data.set('patchFirstTalk', true);
@@ -232,6 +232,7 @@ export default class overworld extends Phaser.Scene{
                 };
             };
         });
+
         this.data.values.eliFT = true;
         this.eli.on('pointerdown', ()=>{
             if (this.registry.values.progreso == 6 && this.data.values.eliFT == true){
@@ -250,11 +251,30 @@ export default class overworld extends Phaser.Scene{
             };
         });
 
+        this.data.values.mariaFT = true;
+        this.maria.on('pointerdown',()=>{//atención, esto es importante para los demás jefes
+            if(this.registry.values.playerStats.lvl >= 7 && this.registry.values.progreso == 6){//primero se comprueba tanto si el jugador alcanzó la bandera necesaria para poder enfrentarse a él como si cumple el nivel para ello
+                this.registry.events.emit('dialogarprejefe',this.scene.key,true, 3);//en caso de cumplir ambas, comienza un dialogoprejefe, enviando la key de esta escena, un true de que es true va a peliar y su ID
+                this.time.delayedCall(200, ()=>{//y 200 ms despues de haber cerrado la caja 
+                    this.bgm.pause();
+                    this.registry.events.emit('transicionacombatejefe', this.scene.key, 3);//comienza el combate, dando la key de esta escena y el ID del jefe
+                });
+            }else if(this.registry.values.playerStats.lvl <= 7){//sino, si el jugador no tiene el nivel adecuado
+                this.registry.events.emit('dialogarprejefe',this.scene.key,false, 3);//llama un dialogo prejefe; dando la key de la escena, diciendo que no peleará y dando su ID
+                //aviso: no sé que suceda si vas a hablar con él sin haber cumplido las banderas
+            }else if(this.registry.values.progreso >= 7 && this.data.values.mariaFT == true){//entonces, si ya lo derrotaste y hablas con él
+                this.registry.events.emit('dialogarpostjefe',this.scene.key,true, 3);//lanzará un monologo con lore
+                this.data.values.mariaFT = false;//y dirá "simon, el wey ya hablo conmigo"
+            }else{//sino
+                this.registry.events.emit('dialogarpostjefe',this.scene.key,false, 3);//te da un dialogo generico
+            };
+        })
+
         //creacion del this.jugador y detalles
         this.jugador = this.physics.add.sprite(294, 983, 'playersprite');
         this.jugador.setBodySize(12,18, true);
         this.jugador.body.setCollideWorldBounds(true);
-        this.physics.add.collider(this.jugador,[this.martha, this.patch, this.eli/*y todos los demas objetos/personajes que se agreguen*/]);
+        this.physics.add.collider(this.jugador,[this.martha, this.patch, this.eli, this.maria/*y todos los demas objetos/personajes que se agreguen*/]);
         this.cameras.main.startFollow(this.jugador);
         this.jugador.on('animationrepeat', ()=>{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 

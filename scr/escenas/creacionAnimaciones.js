@@ -201,8 +201,16 @@ create(){
         }),
         repeat:-1,
         frameRate:8
-    })
+    });
 
+    this.anims.create({
+        key:'stallmaria',
+        frames:this.anims.generateFrameNumbers('mariapleito',{
+            frames:[0,1]
+        }),
+        repeat:-1,
+        frameRate:4
+    });
     
     /*fisicas
     this.jugador.body.setCollideWorldBounds(true);

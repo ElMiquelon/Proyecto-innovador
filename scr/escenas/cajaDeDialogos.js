@@ -26,15 +26,17 @@ export default class cajaDeDialogos extends Phaser.Scene{
         //aquí los dialogos prebatalla de los jefes
         this.load.json('dialogoprejefe1', './assets/overworld/dialogos/dialogosprejefe1.json');
         this.load.json('dialogoprejefe2', './assets/overworld/dialogos/dialogosprejefe2.json');
+        this.load.json('dialogoprejefe3', './assets/overworld/dialogos/dialogosprejefe3.json');
 
         //aqui los dialogos postbatalla de los jefes
         this.load.json('dialogopostjefe1', './assets/overworld/dialogos/dialogospostjefe1.json');
         this.load.json('dialogopostjefe2', './assets/overworld/dialogos/dialogospostjefe2.json');
-    }
+        this.load.json('dialogopostjefe3', './assets/overworld/dialogos/dialogospostjefe3.json');
+    };
 
     create(){
         this.caja = this.add.rectangle(0, 380, this.sys.game.config.width, 100, 0xaaaaaa, .35).setOrigin(0,0);
-        dialogo = this.add.text(this.caja.getBounds().x, this.caja.getBounds().y, 'placeholder', {
+        dialogo = this.add.text(this.caja.getBounds().x, this.caja.getBounds().y, 'arrremangala arrempujala arremangala arrempujala', {
             fontSize: '15px',
             color:'#000',
             padding:{
