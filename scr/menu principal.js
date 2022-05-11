@@ -55,11 +55,17 @@ export default class menup extends Phaser.Scene{
             this.registry.events.emit('reconstruccionF');
             this.scene.transition({target:'edificioFP0', duration:300});
         });
+
+        this.progresoUp = this.input.keyboard.addKey('U');
+        this.progresoUp.on('down', ()=>{
+            this.registry.values.progreso++;
+            console.log(this.registry.values.progreso);
+        });
     };
 
     update(time, delta){
         if (this.cursor.space.isDown){
-            this.scene.start("tutorial");
+            this.scene.start("tutorial").remove(this);
         } else if (this.cursor.shift.isDown) {
             /*this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
             console.log('Está es una pantalla de debug para el combate, ser removida para el final');*/

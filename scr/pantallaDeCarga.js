@@ -109,6 +109,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('gusano', './assets/combate/sprites_enemigos/gusano.png', {frameWidth:34, frameHeight:36});
         this.load.spritesheet('vampiro', './assets/combate/sprites_enemigos/vampiro.png', {frameWidth:86, frameHeight:89});
         this.load.spritesheet('chucopleito', './assets/combate/sprites_enemigos/chucoPleito.png', {frameWidth:62, frameHeight:76});
+        this.load.spritesheet('mariapleito', './assets/combate/sprites_enemigos/mariaPleito.png', {frameWidth:69, frameHeight:75});
         this.load.json('lvlup', './assets/combate/estadisticas/jugador/lvlup.json');
         this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
         this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
@@ -116,11 +117,12 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
         this.load.json('jefe1', './assets/combate/estadisticas/jefe1.json');
         this.load.json('jefe2', './assets/combate/estadisticas/jefe2.json');
+        this.load.json('jefe3', './assets/combate/estadisticas/jefe3.json');
     }
 
     create(){
         this.registry.set('playerStats', {hp: 100, atk: 10, def: 5, lvl: 1, xp:0, nxtlvl:100});
-        this.registry.set('progreso', 6);
+        this.registry.set('progreso', 0);
         //no se como hacer para que ponga un texto de "cargando", será algo a futuro
         this.scene.launch('creacionAnimaciones').stop('creacionAnimaciones');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
