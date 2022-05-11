@@ -1,3 +1,4 @@
+var eliFT = true;
 export default class edificioEP2 extends Phaser.Scene{
     constructor(){
         super({key:'edificioEP2'});
@@ -19,6 +20,23 @@ export default class edificioEP2 extends Phaser.Scene{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
             this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
         });
+
+        //eli NPC que aparece cuando se llega a la bandera 7 y se habla con maría
+        if(this.registry.values.eliEnE == true){
+            this.eli = this.physics.add.staticSprite(470,28, 'eliSprite').setInteractive();
+            this.eli.anims.play('stalleli');
+            this.eli.on('pointerdown',()=>{
+                if(eliFT == true){
+                    this.registry.events.emit('dialogarmulti', '00', this.scene.key);
+                    this.registry.values.progreso ++;
+                    eliFT = false;
+                }else{
+                    this.registry.events.emit('dialogar', '00',this.scene.key);    
+                }
+            });
+        }else{
+            console.log('no esta eli')
+        };
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([

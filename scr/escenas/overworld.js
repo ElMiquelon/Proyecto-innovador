@@ -265,6 +265,8 @@ export default class overworld extends Phaser.Scene{
             }else if(this.registry.values.progreso >= 7 && this.data.values.mariaFT == true){//entonces, si ya lo derrotaste y hablas con él
                 this.registry.events.emit('dialogarpostjefe',this.scene.key,true, 3);//lanzará un monologo con lore
                 this.data.values.mariaFT = false;//y dirá "simon, el wey ya hablo conmigo"
+                this.eli.destroy();
+                this.registry.values.eliEnE=true;
             }else{//sino
                 this.registry.events.emit('dialogarpostjefe',this.scene.key,false, 3);//te da un dialogo generico
             };
