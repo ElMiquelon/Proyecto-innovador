@@ -12,6 +12,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
         //aqui los JSON de los NPCs que no variarán en dialogo según avance la historia
         this.load.json('NPC1', './assets/overworld/dialogos/dialogosnpc1.json');
         this.load.json('NPC3', './assets/overworld/dialogos/dialogosnpc3.json');
+        this.load.json('NPC4', './assets/overworld/dialogos/dialogosnpc4.json');
 
         //aquí, los JSON de los NPCs que varien en dialogo según avance la historia
         this.load.json('NPC2P1', './assets/overworld/dialogos/dialogosnpc2p1.json');

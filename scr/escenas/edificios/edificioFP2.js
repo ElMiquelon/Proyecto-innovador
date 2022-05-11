@@ -1,3 +1,4 @@
+var pacoFT = true;
 export default class edificioFP2 extends Phaser.Scene{
     constructor(){
         super({key:'edificioFP2'});
@@ -18,6 +19,19 @@ export default class edificioFP2 extends Phaser.Scene{
         this.jugador.on('animationrepeat', ()=>{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
             this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
+        });
+
+        //NPCs
+        this.paco = this.physics.add.staticSprite(51,31,'pacoSprite').setInteractive();
+        this.physics.add.collider(this.jugador,this.paco);
+        this.paco.on('pointerdown', ()=>{
+            if(pacoFT == true && this.registry.values.progreso == 5){
+                this.registry.events.emit('dialogarmulti', 4, this.scene.key);
+                this.registry.values.progreso++;
+                pacoFT = false;
+            }else{
+                this.registry.events.emit('dialogar', 4,this.scene.key);    
+            };
         });
 
         //hitbox del edificio
