@@ -1,14 +1,13 @@
-var juanFT = true;
-export default class edificioEP1 extends Phaser.Scene{
+export default class edificioFP1 extends Phaser.Scene{
     constructor(){
-        super({key:'edificioEP1'});
+        super({key:'edificioFP1'});
     };
 
     create(){
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
-        this.add.image(0,0, 'EP1').setOrigin(0,0);
+        this.add.image(0,0, 'FP1').setOrigin(0,0);
         this.physics.world.setBounds(0,0,600,101);
 
         //detalles del jugador
@@ -19,21 +18,7 @@ export default class edificioEP1 extends Phaser.Scene{
         this.jugador.on('animationrepeat', ()=>{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
             this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
-        });
-
-        //NPC juan
-        this.juan = this.physics.add.staticSprite(515,30, 'juanSprite').setInteractive();
-        this.juan.anims.play('stalljuan');
-        this.physics.add.collider(this.jugador,this.juan);
-        this.juan.on('pointerdown', ()=>{
-            if(juanFT == true && this.registry.values.progreso == 4){
-                this.registry.events.emit('dialogarmulti', 3, this.scene.key);
-                juanFT = false;
-            }else{
-                this.registry.events.emit('dialogar', 3,this.scene.key);    
-            };
-        });
-        
+        });        
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([
@@ -55,44 +40,44 @@ export default class edificioEP1 extends Phaser.Scene{
 
         this.physics.add.overlap(this.jugador,this.escalera1, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('bajaste por escalera 1 para salir en escalera 1 de EP0');
-            this.registry.events.emit('bajarescalera1e');
-            this.scene.transition({target:'edificioEP0', duration:300, sleep:true, moveBelow:true});
+            console.log('bajaste por escalera 1 para salir en escalera 1 de FP0');
+            this.registry.events.emit('bajarescalera1f');
+            this.scene.transition({target:'edificioFP0', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera2, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('subiste por escalera 2 para salir en escalera 1 de EP2');
-            this.registry.events.emit('subirescalera1e2');
-            this.scene.transition({target:'edificioEP2', duration:300, sleep:true, moveBelow:true});
+            console.log('subiste por escalera 2 para salir en escalera 1 de FP2');
+            this.registry.events.emit('subirescalera1f2');
+            this.scene.transition({target:'edificioFP2', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera3, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('bajaste por escalera 3 para salir en escalera 2 de EP0');
-            this.registry.events.emit('bajarescalera2e');
-            this.scene.transition({target:'edificioEP0', duration:300, sleep:true, moveBelow:true});
+            console.log('bajaste por escalera 3 para salir en escalera 2 de FP0');
+            this.registry.events.emit('bajarescalera2f');
+            this.scene.transition({target:'edificioFP0', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera4, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('subiste por escalera 4  para salir en escalera 2 de EP2');
-            this.registry.events.emit('subirescalera2e2');
-            this.scene.transition({target:'edificioEP2', duration:300, sleep:true, moveBelow:true});
+            console.log('subiste por escalera 4  para salir en escalera 2 de FP2');
+            this.registry.events.emit('subirescalera2f2');
+            this.scene.transition({target:'edificioFP2', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera5, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('bajaste por escalera 5 para salir en escalera 3 de EP0');
-            this.registry.events.emit('bajarescalera3e');
-            this.scene.transition({target:'edificioEP0', duration:300, sleep:true, moveBelow:true});
+            console.log('bajaste por escalera 5 para salir en escalera 3 de FP0');
+            this.registry.events.emit('bajarescalera3f');
+            this.scene.transition({target:'edificioFP0', duration:300, sleep:true, moveBelow:true});
         });
 
         this.physics.add.overlap(this.jugador,this.escalera6, ()=>{
             this.input.keyboard.enabled = false;
-            console.log('subiste por escalera 6  para salir en escalera 3 de EP2');
-            this.registry.events.emit('subirescalera3e2');
-            this.scene.transition({target:'edificioEP2', duration:300, sleep:true, moveBelow:true});
+            console.log('subiste por escalera 6  para salir en escalera 3 de FP2');
+            this.registry.events.emit('subirescalera3f2');
+            this.scene.transition({target:'edificioFP2', duration:300, sleep:true, moveBelow:true});
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
@@ -110,22 +95,22 @@ export default class edificioEP1 extends Phaser.Scene{
         });
         
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
-        this.registry.events.on('bajarescalera1e1', ()=>{
+        this.registry.events.on('bajarescalera1f1', ()=>{
             this.jugador.setPosition(31,38);
         });
-        this.registry.events.on('bajarescalera2e1', ()=>{
+        this.registry.events.on('bajarescalera2f1', ()=>{
             this.jugador.setPosition(302,38);
         });
-        this.registry.events.on('bajarescalera3e1', ()=>{
+        this.registry.events.on('bajarescalera3f1', ()=>{
             this.jugador.setPosition(587,38);
         });//los eventos de "subir" pertenecen a las escaleras de la izquierda, y los de "bajar" a las derechas (izquierda y derecha de cada par)
-        this.registry.events.on('subirescalera1e', ()=>{
+        this.registry.events.on('subirescalera1f', ()=>{
             this.jugador.setPosition(11,38);
         });
-        this.registry.events.on('subirescalera2e', ()=>{
+        this.registry.events.on('subirescalera2f', ()=>{
             this.jugador.setPosition(280,38);
         });
-        this.registry.events.on('subirescalera3e', ()=>{
+        this.registry.events.on('subirescalera3f', ()=>{
             this.jugador.setPosition(568,38);
         });
         

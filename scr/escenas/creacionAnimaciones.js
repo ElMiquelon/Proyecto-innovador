@@ -138,6 +138,24 @@ create(){
         frameRate:1
     });
 
+    this.anims.create({
+        key:'stalljuan',
+        frames:this.anims.generateFrameNumbers('juanSprite',{
+            frames:[0,1,2,3,2,1]
+        }),
+        repeat:-1,
+        frameRate:2
+    });
+
+    this.anims.create({
+        key:'stallchucoow',
+        frames:this.anims.generateFrameNumbers('chucoSprite',{
+            frames:[0,1,2]
+        }),
+        repeat:-1,
+        frameRate:1
+    })
+
 
     //animaciones de enemigos en combate;
     this.anims.create({
@@ -165,6 +183,15 @@ create(){
         }),
         repeat: -1,
         frameRate:2//no se cual se vea mejor
+    });
+
+    this.anims.create({
+        key:'stallchuco',
+        frames:this.anims.generateFrameNumbers('chucopleito',{
+            frames:[0,1,2,3]
+        }),
+        repeat:-1,
+        frameRate:8
     })
 
     

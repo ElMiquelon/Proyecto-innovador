@@ -1,0 +1,11 @@
+{
+    "hp":500,
+    "atk": 25,
+    "xp":500,
+    "nombre":"chuco",
+    "victoria":[
+        "has conseguido otro tiquet",
+        "inserteAquiElNombreDelRegistry.valueQueSeVolveráTrueParaEntrarADichoLugar (al final puede que no se use)",
+        "nota pa eli: ctm para que veas cómo se sube la experiencia presiona P en el menu principal con la consola abierta. te encargo el equilibrio en base a ello :)"
+    ]
+}

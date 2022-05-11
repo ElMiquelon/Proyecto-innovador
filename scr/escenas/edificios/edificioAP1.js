@@ -42,7 +42,7 @@ export default class edificioAP1 extends Phaser.Scene{
             }else if(this.registry.values.playerStats.lvl <= 2){//sino, si el jugador no tiene el nivel adecuado
                 this.registry.events.emit('dialogarprejefe',this.scene.key,false, 1);//llama un dialogo prejefe; dando la key de la escena, diciendo que no peleará y dando su ID
                 //aviso: no sé que suceda si vas a hablar con él sin haber cumplido las banderas
-            }else if(this.registry.values.progreso >= 2 && jefeFT == true){//entonces, si ya lo derrotaste y hablas con él
+            }else if(this.registry.values.progreso >= 3 && jefeFT == true){//entonces, si ya lo derrotaste y hablas con él
                 this.registry.events.emit('dialogarpostjefe',this.scene.key,true, 1);//lanzará un monologo con lore
                 jefeFT = false;//y dirá "simon, el wey ya hablo conmigo"
             }else{//sino

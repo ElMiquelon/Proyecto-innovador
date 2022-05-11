@@ -1,7 +1,7 @@
 {
-    "hp":400,
+    "hp":300,
     "atk": 17,
-    "xp":350,
+    "xp":500,
     "nombre":"playersprite",
     "victoria":[
         "Has recuperado el bolso de Martha",

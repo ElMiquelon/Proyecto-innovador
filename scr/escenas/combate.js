@@ -343,6 +343,13 @@ export default class combate extends Phaser.Scene {
             //Resetear las resistencias
             playerStats.res = 1.00;
             enemyStats.res = 1.00;
+            playerStats.buffDmgT = 0;
+            playerStats.buffDefT = 0;
+            playerStats.resT = 0;
+            enemyStats.resT = 0;
+            enemyStats.buffDmgT = 0;
+            enemyStats.penal = 0;
+            playerStats.penalHeal = 0;
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a overworld', lngWait);
