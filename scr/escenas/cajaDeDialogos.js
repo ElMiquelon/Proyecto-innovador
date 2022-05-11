@@ -19,6 +19,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
         this.load.json('NPC2P2', './assets/overworld/dialogos/dialogosnpc2p2.json');
 
         //aquí los dialogos guía de eli (quizá se cambie)
+        this.load.json('NPC0', './assets/overworld/dialogos/dialogosnpc0.json');//este dialogo y el de abajo(WIP) son un caso especial. son dialogos de historia
         this.load.json('dialogoeli0', './assets/overworld/dialogos/dialogoseli0.json');
         this.load.json('dialogoeli1', './assets/overworld/dialogos/dialogoseli1.json');
         

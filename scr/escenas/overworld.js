@@ -230,17 +230,22 @@ export default class overworld extends Phaser.Scene{
                 };
             };
         });
-
+        this.data.values.eliFT = true;
         this.eli.on('pointerdown', ()=>{
-            if(Phaser.Math.Between(0,50) == 1){
-                this.registry.events.emit('dialogareli', true, this.scene.key);
-                this.eli.anims.play('polloeli');
-                this.time.delayedCall(150,()=>{
-                    this.eli.anims.play('stalleli');
-                })
+            if (this.registry.values.progreso == 6 && this.data.values.eliFT == true){
+                this.registry.events.emit('dialogarmulti', 0, this.scene.key);
+                this.data.values.eliFT = false
             }else{
-                this.registry.events.emit('dialogareli', false, this.scene.key);
-            }
+                if(Phaser.Math.Between(0,50) == 1){
+                    this.registry.events.emit('dialogareli', true, this.scene.key);
+                    this.eli.anims.play('polloeli');
+                    this.time.delayedCall(150,()=>{
+                        this.eli.anims.play('stalleli');
+                    })
+                }else{
+                    this.registry.events.emit('dialogareli', false, this.scene.key);
+                };
+            };
         });
 
         //creacion del this.jugador y detalles
