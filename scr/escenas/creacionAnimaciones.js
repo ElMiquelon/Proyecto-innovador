@@ -154,6 +154,15 @@ create(){
         }),
         repeat:-1,
         frameRate:1
+    });
+
+    this.anims.create({
+        key:'stallmariaow',
+        frames:this.anims.generateFrameNumbers('mariaSprite',{
+            frames:[0,1,2,3,4,5]
+        }),
+        repeat:-1,
+        frameRate:4
     })
 
 

@@ -197,6 +197,8 @@ export default class overworld extends Phaser.Scene{
         this.patch = this.physics.add.staticSprite(334, 1020, 'spriteknowledge').setInteractive();
         this.eli = this.physics.add.staticSprite(1194,914,'eliSprite',4).setInteractive();
         this.eli.anims.play('stalleli');
+        this.maria = this.physics.add.staticSprite(997,1348,'mariaSprite').setInteractive();
+        this.maria.anims.play('stallmariaow')
 
         //interacciones de los NPCs al ser clickeados (dialogos)
         this.data.set('patchFirstTalk', true);

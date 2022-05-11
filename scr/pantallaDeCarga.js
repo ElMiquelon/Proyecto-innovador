@@ -70,6 +70,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('juanSprite', './assets/overworld/juanSprite.png',{frameWidth:18, frameHeight:31});
         this.load.spritesheet('chucoSprite', './assets/overworld/chucoSprite.png',{frameWidth:18, frameHeight:31});
         this.load.spritesheet('pacoSprite', './assets/overworld/pacoSprite.png',{frameWidth:18, frameHeight:31});
+        this.load.spritesheet('mariaSprite', './assets/overworld/mariaSprite.png',{frameWidth:24, frameHeight:28});
 
         //aqui se cargaran imagenes de dialogos
         this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
