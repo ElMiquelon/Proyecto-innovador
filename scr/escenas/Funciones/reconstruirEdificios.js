@@ -69,9 +69,9 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.moveAbove('edificioFP0', 'transicionACombate').moveAbove('edificioFP1', 'transicionACombate').moveAbove('edificioFP2', 'transicionACombate');
         });
 
-        /*this.registry.events.on('destruccionedificioEP0', ()=>{
-            this.scene.remove('edificioEP1');
-            this.scene.remove('edificioEP2');
-        });*/
+        this.registry.events.on('destruccionedificioFP0', ()=>{
+            this.scene.remove('edificioFP1');
+            this.scene.remove('edificioFP2');
+        });
     }
 }
