@@ -1,3 +1,4 @@
+var jefeFT = true;
 export default class edificioDP0 extends Phaser.Scene{
     constructor(){
         super({key:'edificioDP0'});
@@ -19,6 +20,30 @@ export default class edificioDP0 extends Phaser.Scene{
             //esta madre es para los pasos, necesitará acomodarse según los assets finales 
             this.sound.play('stone' + Phaser.Math.Between(1,6), {rate:1.5});
         });
+
+        //creacion de chuco (jefe2)
+        this.chuco = this.physics.add.staticSprite(684,80).setInteractive();
+        this.chuco.anims.play('stallchucoow');
+        this.chuco.body.setSize(18,31);
+        this.chuco.refreshBody();
+        this.physics.add.collider(this.jugador,this.chuco);
+        this.chuco.on('pointerdown',()=>{//atención, esto es importante para los demás jefes
+            if(this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 4){//primero se comprueba tanto si el jugador alcanzó la bandera necesaria para poder enfrentarse a él como si cumple el nivel para ello
+                this.registry.events.emit('dialogarprejefe',this.scene.key,true, 2);//en caso de cumplir ambas, comienza un dialogoprejefe, enviando la key de esta escena, un true de que es true va a peliar y su ID
+                this.time.delayedCall(200, ()=>{//y 200 ms despues de haber cerrado la caja 
+                    this.registry.events.emit('transicionacombatejefe', this.scene.key, 2);//comienza el combate, dando la key de esta escena y el ID del jefe
+                });
+            }else if(this.registry.values.playerStats.lvl <= 4){//sino, si el jugador no tiene el nivel adecuado
+                this.registry.events.emit('dialogarprejefe',this.scene.key,false, 2);//llama un dialogo prejefe; dando la key de la escena, diciendo que no peleará y dando su ID
+                //aviso: no sé que suceda si vas a hablar con él sin haber cumplido las banderas
+            }else if(this.registry.values.progreso >= 5 && jefeFT == true){//entonces, si ya lo derrotaste y hablas con él
+                this.registry.events.emit('dialogarpostjefe',this.scene.key,true, 2);//lanzará un monologo con lore
+                jefeFT = false;//y dirá "simon, el wey ya hablo conmigo"
+            }else{//sino
+                this.registry.events.emit('dialogarpostjefe',this.scene.key,false, 2);//te da un dialogo generico
+            };
+        })
+
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([

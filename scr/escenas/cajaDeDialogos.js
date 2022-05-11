@@ -23,9 +23,11 @@ export default class cajaDeDialogos extends Phaser.Scene{
         
         //aquí los dialogos prebatalla de los jefes
         this.load.json('dialogoprejefe1', './assets/overworld/dialogos/dialogosprejefe1.json');
+        this.load.json('dialogoprejefe2', './assets/overworld/dialogos/dialogosprejefe2.json');
 
         //aqui los dialogos postbatalla de los jefes
         this.load.json('dialogopostjefe1', './assets/overworld/dialogos/dialogospostjefe1.json');
+        this.load.json('dialogopostjefe2', './assets/overworld/dialogos/dialogospostjefe2.json');
     }
 
     create(){
