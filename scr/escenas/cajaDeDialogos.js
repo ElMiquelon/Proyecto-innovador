@@ -29,6 +29,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
         this.load.json('dialogoprejefe1', './assets/overworld/dialogos/dialogosprejefe1.json');
         this.load.json('dialogoprejefe2', './assets/overworld/dialogos/dialogosprejefe2.json');
         this.load.json('dialogoprejefe3', './assets/overworld/dialogos/dialogosprejefe3.json');
+        this.load.json('dialogoprejefe4', './assets/overworld/dialogos/dialogosprejefe4.json');
 
         //aqui los dialogos postbatalla de los jefes
         this.load.json('dialogopostjefe1', './assets/overworld/dialogos/dialogospostjefe1.json');
@@ -123,6 +124,22 @@ export default class cajaDeDialogos extends Phaser.Scene{
             }else{//sino
                 dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogogenerico[Phaser.Math.Between(0,textoAMostrar.dialogogenerico.length-1)]);//nomas hablas y ya
                 //nomas tira una línea pedorra y ya
+            };
+        });
+
+        this.registry.events.on('dialogarjefefinal', (escenaOrigen, FT)=>{
+            this.scene.wake(this);
+            laEscena = escenaOrigen;
+            this.scene.pause(laEscena);
+            textoAMostrar = this.cache.json.get('dialogoprejefe4');
+            if(FT == true){//entonces se verifica si es la primera vez que se habla con el viejo
+                this.registry.events.emit('repararcombatejefe');
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogo[0]);// se pone el primer dialogo del monologo
+                multi = true;//y esta variable se vuelve true
+            }else{//sino
+                this.registry.events.emit('repararcombatejefe');
+                dialogo.setText(textoAMostrar.nombre + textoAMostrar.dialogogenerico[Phaser.Math.Between(0,textoAMostrar.dialogogenerico.length-1)]);//nomas hablas y ya
+                //nomas tira una línea pedorra y a peliar
             };
         });
 

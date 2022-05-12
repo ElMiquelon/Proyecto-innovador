@@ -120,6 +120,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.json('jefe1', './assets/combate/estadisticas/jefe1.json');
         this.load.json('jefe2', './assets/combate/estadisticas/jefe2.json');
         this.load.json('jefe3', './assets/combate/estadisticas/jefe3.json');
+        this.load.json('jefe4', './assets/combate/estadisticas/jefe4.json');
     }
 
     create(){

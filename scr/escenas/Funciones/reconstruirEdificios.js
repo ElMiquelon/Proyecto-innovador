@@ -12,6 +12,7 @@ import edificioEP2 from "../edificios/edificioEP2";
 import edificioFP0 from "../edificios/edificioFP0";
 import edificioFP1 from "../edificios/edificioFP1";
 import edificioFP2 from "../edificios/edificioFP2";
+import salonFinal from "../edificios/salonFinal";
 export default class reconstruirEdificios extends Phaser.Scene{
     constructor(){
         super({key:'reconstruirEdificios'});
@@ -82,5 +83,11 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.remove('edificioFP1');
             this.scene.remove('edificioFP2');
         });
+
+        this.registry.events.on('elfinal', ()=>{
+            this.scene.add('salonFinal', new salonFinal);
+            this.scene.moveAbove('salonFinal', 'cajaDeDialogos');
+            this.scene.moveAbove('salonFinal', 'transicionACombate');
+        })
     }
 }

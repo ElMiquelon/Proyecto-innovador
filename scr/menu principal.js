@@ -55,6 +55,11 @@ export default class menup extends Phaser.Scene{
             this.registry.events.emit('reconstruccionF');
             this.scene.transition({target:'edificioFP0', duration:300});
         });
+        this.alBFFinal = this.input.keyboard.addKey('Z');
+        this.alBFFinal.on('down',()=>{
+            this.registry.events.emit('elfinal');
+            this.scene.transition({target:'salonFinal', duration:300});
+        });
 
         this.progresoUp = this.input.keyboard.addKey('U');
         this.progresoUp.on('down', ()=>{
