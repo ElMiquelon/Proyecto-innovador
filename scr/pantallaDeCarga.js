@@ -73,6 +73,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('chucoSprite', './assets/overworld/chucoSprite.png',{frameWidth:18, frameHeight:31});
         this.load.spritesheet('pacoSprite', './assets/overworld/pacoSprite.png',{frameWidth:18, frameHeight:31});
         this.load.spritesheet('mariaSprite', './assets/overworld/mariaSprite.png',{frameWidth:24, frameHeight:28});
+        this.load.spritesheet('viejoSprite', './assets/overworld/viejoSprite.png',{frameWidth:18, frameHeight:31});
 
         //aqui se cargaran imagenes de dialogos
         this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
@@ -112,6 +113,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('vampiro', './assets/combate/sprites_enemigos/vampiro.png', {frameWidth:86, frameHeight:89});
         this.load.spritesheet('chucopleito', './assets/combate/sprites_enemigos/chucoPleito.png', {frameWidth:62, frameHeight:76});
         this.load.spritesheet('mariapleito', './assets/combate/sprites_enemigos/mariaPleito.png', {frameWidth:69, frameHeight:75});
+        this.load.spritesheet('viejopleito', './assets/combate/sprites_enemigos/viejoPleito.png', {frameWidth:54, frameHeight:93});
         this.load.json('lvlup', './assets/combate/estadisticas/jugador/lvlup.json');
         this.load.json('enemigo1', './assets/combate/estadisticas/enemigo1.json');
         this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');

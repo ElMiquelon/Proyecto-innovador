@@ -80,6 +80,17 @@ export default class edificioEP2 extends Phaser.Scene{
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
 
+        //la puerta que te llevará con el viejo si se cumplen los requerimientos
+        this.puertaFinal = this.add.rectangle(437,9,17,22).setInteractive();
+        //advertencia: como la puerta/rectangulo no tiene "cuerpo de fisicas" no se verá dibujado con el debug, pero está ahí, píquenle 
+        this.puertaFinal.on('pointerdown',()=>{
+            if(this.registry.values.progreso != 8){
+                this.registry.events.emit('aviso', 'Un salón. Está cerrado');
+            }else{
+                this.registry.events.emit('elfinal');
+                this.scene.transition({target:'salonFinal', duration:300, remove:true, moveBelow:true});
+            };
+        });
 
         
         //detalles de las transiciones

@@ -163,7 +163,16 @@ create(){
         }),
         repeat:-1,
         frameRate:4
-    })
+    });
+
+    this.anims.create({
+        key:'stallviejoow',
+        frames:this.anims.generateFrameNumbers('viejoSprite',{
+            frames:[0,1,2,3]
+        }),
+        repeat:-1,
+        frameRate:4
+    });
 
 
     //animaciones de enemigos en combate;
@@ -210,6 +219,14 @@ create(){
         }),
         repeat:-1,
         frameRate:4
+    });
+    this.anims.create({
+        key:'stallviejo',
+        frames:this.anims.generateFrameNumbers('viejopleito',{
+            frames:[1,1,2,2,3,3,5,1,2,3,4,6,4,6]
+        }),
+        repeat:-1,
+        frameRate:1
     });
     
     /*fisicas

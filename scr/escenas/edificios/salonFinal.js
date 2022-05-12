@@ -1,3 +1,4 @@
+import ending from "../ending";
 var jefeFT = true;
 export default class salonFinal extends Phaser.Scene{
     constructor(){
@@ -7,7 +8,7 @@ export default class salonFinal extends Phaser.Scene{
     create(){
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,600);
-        this.cameras.main.setZoom(1.2);
+        this.cameras.main.setZoom(2);
         this.add.image(0,0, 'salonbg').setOrigin(0,0);
         this.physics.world.setBounds(0,0,600,600);
 
@@ -30,9 +31,11 @@ export default class salonFinal extends Phaser.Scene{
         this.physics.add.collider(this.jugador,[this.sillas, this.escritorio]);
 
         //creacion de los NPCs
-        this.eli = this.physics.add.staticSprite(300,200, 'eliSprite');
+        this.eli = this.physics.add.staticSprite(300,400, 'eliSprite',2);
         
-        this.viejo = this.physics.add.staticSprite(300,300, 'viejoSprite').setInteractive();
+        this.viejo = this.physics.add.staticSprite(300,300, 'viejoSprite').setOrigin(.5,1).setInteractive();
+        this.viejo.anims.play('stallviejoow');
+        this.viejo.refreshBody();
         this.viejo.on('pointerdown', ()=>{
             if(jefeFT == true){
                 this.registry.events.emit('dialogarjefefinal',this.scene.key, jefeFT);
@@ -47,6 +50,10 @@ export default class salonFinal extends Phaser.Scene{
                 });
             }else{
                 console.log('inserte aquí lo que se hace al acabar el juego');
+                this.scene.add('ending', new ending);
+                this.input.keyboard.enabled = false;
+                this.viejo.destroy();
+                this.scene.transition({target:'ending',duration:1000, remove:true, moveBelow:true});
             };
         });
 

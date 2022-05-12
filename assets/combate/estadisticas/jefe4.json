@@ -4,7 +4,7 @@
     "xp":1000,
     "nombre":"viejo",
     "victoria":[
-        "Has conseguido detener al viejo",
+        "has conseguido detener al viejo",
         "inserteAquiElNombreDelRegistry.valueQueSeVolveráTrueParaEntrarADichoLugar"
     ]
 }
