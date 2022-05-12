@@ -480,8 +480,10 @@ export default class combate extends Phaser.Scene {
                 if (enemyStats.hp > 0) {
                     this.events.emit('response');
                     if (elEnemigoAtaco == 1) {
-                        this.events.emit('buffDefPlayer', Math.round(playerStats.def * .75), 4);
+                        this.events.emit('buffDefPlayer', Math.round(playerStats.def * .75), 6);
                         console.log('El enemigo no ataco por lo que te aumento la defensa');
+                    } else {
+                        this.events.emit('buffDefPlayer', Math.round(playerStats.def * .25), 3);
                     };
                 } else {
                     this.events.emit('gameOver', 1);
