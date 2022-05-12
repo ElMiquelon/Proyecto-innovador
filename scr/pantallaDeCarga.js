@@ -18,6 +18,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
     }
 
     preload(){
+        this.add.text(250,200, 'Cargando...', {fontSize:'50px'}).setOrigin(.5,.5);
         //descubrí que desde este momento se pueden cargar todos los assets del juego.
         //de ahora en adelante se hará aquí y de preferencia en el orden puesto
 
@@ -136,6 +137,6 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('combateDialogos').sleep('combateDialogos');
         this.scene.launch('transicionACombate').launch('reconstruirEdificios');
         this.scene.start('menup');
-        //this.scene.start('overworld');  
+        //this.scene.start('overworld');
     }
 }
