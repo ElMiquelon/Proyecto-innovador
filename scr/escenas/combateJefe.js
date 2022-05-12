@@ -125,7 +125,7 @@ export default class combateJefe extends Phaser.Scene {
                     elEnemigoAtaco = 0;
                     break;
                 case 4:
-                    this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.05))
+                    this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.02))
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse un poco', srtWait);
                     this.events.emit('moreCrit', 2);
                     elEnemigoAtaco = 1;
@@ -138,11 +138,11 @@ export default class combateJefe extends Phaser.Scene {
                         elEnemigoAtaco = 0;
                     } else {
                         this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.15));
-                        this.events.emit('buffDmgEnemy', Math.round(enemyStats.atk * 0.5), 3);
+                        this.events.emit('buffDmgEnemy', Math.round(enemyStats.atk * 0.75), 5);
                         this.events.emit('enemySetRes', 0.8, 4);
                         this.events.emit('moreCrit', 10);
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse mucho', srtWait);
-                        enemyStats.penal = 15; //La penalización de jefes es más alta, checar balanceo
+                        enemyStats.penal = 35; //La penalización de jefes es más alta, checar balanceo
                         elEnemigoAtaco = 1;
                     }
                     break;
@@ -409,6 +409,8 @@ export default class combateJefe extends Phaser.Scene {
             enemyStats.buffDmgT = 0;
             enemyStats.penal = 0;
             playerStats.penalHeal = 0;
+            enemyStats.crit = 0;
+            enemyStats.critVal = 1;
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a la escena anterior', lngWait);

@@ -1,7 +1,7 @@
 {
-    "hp":20,
-    "atk": 999999999,
-    "xp":100000000000000000000000000000000000000000000,
+    "hp":1500,
+    "atk": 37,
+    "xp":1000000000000,
     "nombre":"viejo",
     "victoria":[
         "has conseguido detener al viejo",
