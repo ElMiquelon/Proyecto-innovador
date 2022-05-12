@@ -2,6 +2,7 @@ import salon from "../edificios/salon";
 import edificioAP0 from "../edificios/edificioAP0";
 import edificioAP1 from "../edificios/edificioAP1";
 import edificioCP0 from "../edificios/edificioCP0";
+import edificioCP1 from "../edificios/edificioCP1";
 import edificioDP0 from "../edificios/edificioDP0";
 import edificioDP1 from "../edificios/edificioDP1";
 import edificioDP2 from "../edificios/edificioDP2";
@@ -38,9 +39,9 @@ export default class reconstruirEdificios extends Phaser.Scene{
 
         this.registry.events.on('reconstruccionC', ()=>{
             this.scene.add('edificioCP0', new edificioCP0);
-            //this.scene.add('edificioAP1', new edificioAP1);
-            this.scene.moveAbove('edificioCP0', 'cajaDeDialogos')//.moveAbove('edificioAP1', 'cajaDeDialogos');
-            this.scene.moveAbove('edificioCP0', 'transicionACombate')//.moveAbove('edificioAP1', 'transicionACombate')
+            this.scene.add('edificioCP1', new edificioCP1);
+            this.scene.moveAbove('edificioCP0', 'cajaDeDialogos').moveAbove('edificioCP1', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioCP0', 'transicionACombate').moveAbove('edificioCP1', 'transicionACombate')
         });
 
         this.registry.events.on('reconstruccionD'/*Cuiden las tildes, no las pongan*/, ()=>{
