@@ -4,6 +4,8 @@ import edificioAP1 from "../edificios/edificioAP1";
 import coop from "../edificios/coop";
 import edificioBP0 from "../edificios/edificioBP0";
 import edificioBP1 from "../edificios/edificioBP1";
+import edificioBP00 from "../edificios/edificioBP00";
+import edificioBP01 from "../edificios/edificioBP01";
 import edificioCP0 from "../edificios/edificioCP0";
 import edificioCP1 from "../edificios/edificioCP1";
 import edificioDP0 from "../edificios/edificioDP0";
@@ -49,13 +51,34 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.remove('edificioAP0');
         });
 
-        
         this.registry.events.on('reconstruccionB', ()=>{
             this.scene.add('edificioBP0', new edificioBP0);
+            this.scene.add('edificioBP00', new edificioBP00);
             this.scene.add('edificioBP1', new edificioBP1);
-            this.scene.add('coop', new coop);
-            this.scene.moveAbove('edificioBP0', 'cajaDeDialogos').moveAbove('edificioBP1', 'cajaDeDialogos').moveAbove('coop', 'cajaDeDialogos');
-            this.scene.moveAbove('edificioBP0', 'transicionACombate').moveAbove('edificioBP1', 'transicionACombate').moveAbove('coop', 'transicionACombate');
+            this.scene.add('edificioBP01', new edificioBP01);
+            this.scene.moveAbove('edificioBP0', 'cajaDeDialogos').moveAbove('edificioBP1', 'cajaDeDialogos').moveAbove('edificioBP00', 'cajaDeDialogos').moveAbove('edificioBP01', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioBP0', 'transicionACombate').moveAbove('edificioBP1', 'transicionACombate').moveAbove('edificioBP00', 'transicionACombate').moveAbove('edificioBP01', 'transicionACombate');
+        });
+        //para que la transición quede correcta, es necesario acomodarlos de manera distinta
+        this.registry.events.on('reconstruccionBespecial', ()=>{
+            this.scene.add('edificioBP00', new edificioBP00);
+            this.scene.add('edificioBP0', new edificioBP0);
+            this.scene.add('edificioBP01', new edificioBP01);
+            this.scene.add('edificioBP1', new edificioBP1);
+            this.scene.moveAbove('edificioBP0', 'cajaDeDialogos').moveAbove('edificioBP1', 'cajaDeDialogos').moveAbove('edificioBP00', 'cajaDeDialogos').moveAbove('edificioBP01', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioBP0', 'transicionACombate').moveAbove('edificioBP1', 'transicionACombate').moveAbove('edificioBP00', 'transicionACombate').moveAbove('edificioBP01', 'transicionACombate');
+        });
+
+        this.registry.events.on('destruccionedificioBP0', ()=>{
+            this.scene.remove('edificioBP1');
+            this.scene.remove('edificioBP00');
+            this.scene.remove('edificioBP01');
+        });
+
+        this.registry.events.on('destruccionedificioBP00', ()=>{
+            this.scene.remove('edificioBP1');
+            this.scene.remove('edificioBP0');
+            this.scene.remove('edificioBP01');
         });
 
         this.registry.events.on('reconstruccionC', ()=>{

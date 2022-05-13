@@ -1,17 +1,17 @@
-export default class edificioBP1 extends Phaser.Scene{
+export default class edificioBP01 extends Phaser.Scene{
     constructor(){
-        super({key:'edificioBP1'});
-    }
+        super({key:'edificioBP01'});
+    };
 
     create(){
         //detalles de la camara, limites del mundo
-        this.cameras.main.setBounds(0,0,600,133);
+        this.cameras.main.setBounds(148,0,271,167);
         this.cameras.main.setZoom(1.5);
-        this.add.image(0,0, 'BP1').setOrigin(0,0);
-        this.physics.world.setBounds(0,0,620,133);
+        this.add.image(0,0, 'BP01').setOrigin(0,0);
+        this.physics.world.setBounds(125,0,294,167);
 
         //detalles del jugador
-        this.jugador = this.physics.add.sprite(570, 70, 'playersprite');
+        this.jugador = this.physics.add.sprite(200, 60, 'playersprite');
         this.jugador.setBodySize(12,18,true);
         this.jugador.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.jugador);
@@ -22,61 +22,32 @@ export default class edificioBP1 extends Phaser.Scene{
 
         //hitbox del edificio
         this.hitboxes = this.physics.add.staticGroup([
-            this.add.rectangle(0,0,600,21).setOrigin(0,0),
-            this.add.rectangle(0,101,285,31).setOrigin(0,0),
-            this.add.rectangle(285,116,21,1).setOrigin(0,0),
-            this.add.rectangle(306,101,1,16).setOrigin(0,0),
-            this.add.rectangle(326,101,274,31).setOrigin(0,0)
+            this.add.rectangle(148,0,270,20).setOrigin(0,0),
+            this.add.rectangle(148,101,225,32).setOrigin(0,0)
         ]);
         this.physics.add.collider(this.jugador, this.hitboxes);
 
         //OVERLAP de la escalera
-        this.escalera = this.add.zone(306,101,20,31).setOrigin(0);
+        this.escalera = this.add.zone(361,133,12,34).setOrigin(0);
         this.physics.add.staticGroup(this.escalera);
         this.physics.add.overlap(this.jugador, this.escalera, ()=>{
-            console.log('bajaste por LA escalera');
-            this.registry.events.emit('bajarescalerab');
+            console.log('bajste por LA escalera hacia BEspecial');
+            this.registry.events.emit('bajarescaleraespecial');
             this.input.keyboard.enabled = false;
-            this.scene.transition({target:'edificioBP0', duration:300, sleep:true, moveBelow:true});
+            this.scene.transition({target:'edificioBP00', duration:300, sleep:true, moveBelow:true});
         });
 
-        //overlap del pedazo de pasillo que llevará a BP00
-        this.pasillo = this.add.zone(592,21,8,80).setOrigin(0);
+        //overlap del pedazo de pasillo que llevará a BP1
+        this.pasillo = this.add.zone(148,20,8,81).setOrigin(0);
         this.physics.add.staticGroup(this.pasillo);
         this.physics.add.overlap(this.jugador,this.pasillo,()=>{
-            console.log('pasaste a BP01');
+            console.log('pasaste a BP1');
             this.input.keyboard.enabled = false;
-            this.registry.events.emit('pasilloabp01');
-            this.scene.transition({target:'edificioBP01', duration:300, sleep:true, moveBelow:true})
+            this.registry.events.emit('pasilloabp1');
+            this.scene.transition({target:'edificioBP1', duration:300, sleep:true, moveBelow:true})
         });
 
-        //detalles de las puertas de los salones (las copié y pegué del A, no están configuradas)
-        /*
-        this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
-        this.physics.add.existing(this.puerta1);
-        this.puerta1.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
-        });
-
-        this.puerta2 = this.add.rectangle(281,9,17,22).setOrigin(0,0).setInteractive();
-        this.physics.add.existing(this.puerta2);
-        this.puerta2.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
-        });
-
-        this.puerta3 = this.add.rectangle(190,9,17,22).setOrigin(0,0).setInteractive();
-        this.physics.add.existing(this.puerta3);
-        this.puerta3.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
-        });
-
-        this.puerta4 = this.add.rectangle(86,9,17,22).setOrigin(0,0).setInteractive();
-        this.physics.add.existing(this.puerta4);
-        this.puerta4.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
-        });
-        */
-
+        //aqui van las puertas, al rato se hacen
 
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{
@@ -89,12 +60,12 @@ export default class edificioBP1 extends Phaser.Scene{
         });
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
-        this.registry.events.on('subirescalerab', ()=>{
-            this.jugador.setPosition(315,88);
+        this.registry.events.on('subirescalerabiblio', ()=>{
+            this.jugador.setPosition(395,150);
         });
 
-        this.registry.events.on('pasilloabp1', ()=>{
-            this.jugador.setPosition(575,60);
+        this.registry.events.on('pasilloabp01',()=>{
+            this.jugador.setPosition(170,60);
         });
 
         //input

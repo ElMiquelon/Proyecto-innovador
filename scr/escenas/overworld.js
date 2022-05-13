@@ -89,10 +89,14 @@ export default class overworld extends Phaser.Scene{
         this.physics.add.existing(this.alEdificioB1);
         this.physics.add.existing(this.alEdificioB2);
         this.alEdificioB1.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al B. se puede hacer que sea al B en la parte "administrativa" (oficialia, biblioteca, la wea de abajo donde nos citó tapia etc.)');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionBespecial');
+            this.scene.transition({target:'edificioBP00', duration:300, sleep:true, moveBelow:true});
         });
         this.alEdificioB2.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al B. se puede hacer que sea al B en la parte de aulas');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionB');
+            this.scene.transition({target:'edificioBP0', duration:300, sleep:true, moveBelow:true});
         });
 
         //edificio C
