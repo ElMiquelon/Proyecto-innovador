@@ -47,7 +47,9 @@ export default class edificioAP0 extends Phaser.Scene{
             this.scene.transition({target:'edificioAP1', duration:300, sleep:true, moveBelow:true});
         });
         this.physics.add.overlap(this.jugador,this.aCafe,()=>{
-            console.log('aún no hemos hecho la cafetería xd');
+            this.registry.events.emit('entrarcoop');
+            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'coop', duration:300, sleep:true, moveBelow:true});
         });
 
         //detalles de las puertas de los salones (están puestas de derecha a izquierda)
@@ -95,6 +97,11 @@ export default class edificioAP0 extends Phaser.Scene{
             this.jugador.setPosition(30,50);
         });
 
+        //evento que cambia la posicion del jugador despues de salir de la coperativa
+        this.registry.events.on('salircoop', ()=>{
+            this.jugador.setPosition(490,50)
+        });
+
         
         //input
         this.mov = this.input.keyboard.createCursorKeys();
@@ -102,8 +109,7 @@ export default class edificioAP0 extends Phaser.Scene{
         this.back.on('down', ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
         });
-
-    }
+    };
 
     update(){
         this.jugador.body.setVelocity(0);
@@ -123,5 +129,5 @@ export default class edificioAP0 extends Phaser.Scene{
             this.jugador.anims.pause();
             //this.jugador.anims.play('stall', true); esta es una opción, principalmente en caso de tener un sprite para eso
         };
-    }
+    };
 }

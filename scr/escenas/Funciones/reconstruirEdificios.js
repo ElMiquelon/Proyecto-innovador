@@ -1,6 +1,7 @@
 import salon from "../edificios/salon";
 import edificioAP0 from "../edificios/edificioAP0";
 import edificioAP1 from "../edificios/edificioAP1";
+import coop from "../edificios/coop";
 import edificioCP0 from "../edificios/edificioCP0";
 import edificioCP1 from "../edificios/edificioCP1";
 import edificioDP0 from "../edificios/edificioDP0";
@@ -28,14 +29,22 @@ export default class reconstruirEdificios extends Phaser.Scene{
         this.registry.events.on('reconstruccionA', ()=>{
             this.scene.add('edificioAP0', new edificioAP0);
             this.scene.add('edificioAP1', new edificioAP1);
-            this.scene.moveAbove('edificioAP0', 'cajaDeDialogos').moveAbove('edificioAP1', 'cajaDeDialogos');
-            this.scene.moveAbove('edificioAP0', 'transicionACombate').moveAbove('edificioAP1', 'transicionACombate')
+            this.scene.add('coop', new coop);
+            this.scene.moveAbove('edificioAP0', 'cajaDeDialogos').moveAbove('edificioAP1', 'cajaDeDialogos').moveAbove('coop', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioAP0', 'transicionACombate').moveAbove('edificioAP1', 'transicionACombate').moveAbove('coop', 'transicionACombate');
         });
 
         //jaja al final por como funciona phaser, el script también destruirá edificios
         this.registry.events.on('destruccionedificioAP0', ()=>{/*se debera seguir esa nomenclatura para nombrar
             los demas eventos de destrucción */
             this.scene.remove('edificioAP1');
+            this.scene.remove('coop');
+        });
+
+        this.registry.events.on('destruccioncoop', ()=>{/*se debera seguir esa nomenclatura para nombrar
+            los demas eventos de destrucción */
+            this.scene.remove('edificioAP1');
+            this.scene.remove('edificioAP0');
         });
 
         this.registry.events.on('reconstruccionC', ()=>{

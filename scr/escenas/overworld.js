@@ -63,7 +63,9 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioA1 = this.add.rectangle(538, 955, 44, 48, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA1);
         this.alEdificioA1.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al A o a su cafetería.WIP');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionA');
+            this.scene.transition({target:'coop', duration:300, sleep:true, moveBelow:true});
         });
         this.alEdificioA2 = this.add.rectangle(432, 927, 680, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA2);
@@ -75,7 +77,9 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioA3 = this.add.rectangle(432, 1003, 680, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioA3);
         this.alEdificioA3.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al A parte trasera(?.WIP');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionA');
+            this.scene.transition({target:'coop', duration:300, sleep:true, moveBelow:true});
         });
 
 
