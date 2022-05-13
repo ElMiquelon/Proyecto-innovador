@@ -2,6 +2,8 @@ import salon from "../edificios/salon";
 import edificioAP0 from "../edificios/edificioAP0";
 import edificioAP1 from "../edificios/edificioAP1";
 import coop from "../edificios/coop";
+import edificioBP0 from "../edificios/edificioBP0";
+import edificioBP1 from "../edificios/edificioBP1";
 import edificioCP0 from "../edificios/edificioCP0";
 import edificioCP1 from "../edificios/edificioCP1";
 import edificioDP0 from "../edificios/edificioDP0";
@@ -45,6 +47,15 @@ export default class reconstruirEdificios extends Phaser.Scene{
             los demas eventos de destrucción */
             this.scene.remove('edificioAP1');
             this.scene.remove('edificioAP0');
+        });
+
+        
+        this.registry.events.on('reconstruccionB', ()=>{
+            this.scene.add('edificioBP0', new edificioBP0);
+            this.scene.add('edificioBP1', new edificioBP1);
+            this.scene.add('coop', new coop);
+            this.scene.moveAbove('edificioBP0', 'cajaDeDialogos').moveAbove('edificioBP1', 'cajaDeDialogos').moveAbove('coop', 'cajaDeDialogos');
+            this.scene.moveAbove('edificioBP0', 'transicionACombate').moveAbove('edificioBP1', 'transicionACombate').moveAbove('coop', 'transicionACombate');
         });
 
         this.registry.events.on('reconstruccionC', ()=>{
