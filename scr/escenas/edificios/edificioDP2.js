@@ -5,7 +5,7 @@ export default class edificioDP2 extends Phaser.Scene{
 
     create(){
         //detalles de la camara, limites del mundo
-        this.camara = this.cameras.main.setBounds(0,0,750,232);
+        this.cameras.main.setBounds(0,0,750,232);
         this.cameras.main.setZoom(1.5);
         this.add.image(0,0, 'DP2').setOrigin(0,0);
         this.physics.world.setBounds(0,0,750,232);

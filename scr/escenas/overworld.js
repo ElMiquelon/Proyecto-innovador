@@ -10,7 +10,7 @@ export default class overworld extends Phaser.Scene{
 
     create(){
         //detalles de la camara, limites del mundo, BG y BGM
-        this.camara = this.cameras.main.setBounds(0,0,2000,2000);
+        this.cameras.main.setBounds(0,0,2000,2000);
         //this.cameras.main.setZoom(.7); esta madre es mas que nada de debug
         this.add.image(0,0, 'polimapa').setOrigin(0,0);
         this.physics.world.setBounds(0,0,2000,2000);
@@ -295,7 +295,7 @@ export default class overworld extends Phaser.Scene{
         //estructuración del mapa.2.1 - creacion del OVERLAP en las zonas de batalla y su funcion.
         /*explicacion: aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se verifica que la 
         escena de combate exista, sino, llama a un evento que la crea*/
-        this.aPelear = this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
+        this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
             console.log('esta contando');
             pelea = Phaser.Math.Between(0,1250/*no se un buen numero*/) 
             if(pelea >= 40 && pelea <= 43){
@@ -324,13 +324,13 @@ export default class overworld extends Phaser.Scene{
         //detalles de las transiciones
         this.events.on('transitioncomplete', (fromScene, duration)=>{
             if(fromScene.scene.key == 'transicionACombate'){
-                this.camara.fadeFrom(400, 0, 0, 0);
+                this.cameras.main.fadeFrom(400, 0, 0, 0);
                 this.bgm.resume();
                 this.scene.resume(this);
                 
             }else if(fromScene.scene.key != 'verMapa'){
                 this.registry.events.emit('destruccion' + fromScene.scene.key);
-                this.camara.fadeFrom(400, 0, 0, 0);
+                this.cameras.main.fadeFrom(400, 0, 0, 0);
                 this.bgm.resume();
             };
         });

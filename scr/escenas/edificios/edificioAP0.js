@@ -5,7 +5,7 @@ export default class edificioAP0 extends Phaser.Scene{
 
     create(){
         //detalles de la camara, limites del mundo
-        this.camara = this.cameras.main.setBounds(0,0,600,101);
+        this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
         this.add.image(0,0, 'AP0').setOrigin(0,0);
         this.physics.world.setBounds(0,0,600,101);
