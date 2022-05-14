@@ -1,4 +1,4 @@
-import ending from "../ending";
+import ending from "../ending.js";
 var jefeFT = true;
 export default class salonFinal extends Phaser.Scene{
     constructor(){
