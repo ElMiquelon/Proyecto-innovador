@@ -1,17 +1,17 @@
-import creacionAnimaciones from "./escenas/creacionAnimaciones";
+import creacionAnimaciones from "./escenas/creacionAnimaciones.js";
 /*import cajadialogos from "./escenas/cajadialogos";
 import poliprueba from "./escenas/poliprueba";*/
-import overworld from "./escenas/overworld";
-import reconstruirEdificios from "./escenas/Funciones/reconstruirEdificios";
-import cajaDeDialogos from "./escenas/cajaDeDialogos";
+import overworld from "./escenas/overworld.js";
+import reconstruirEdificios from "./escenas/Funciones/reconstruirEdificios.js";
+import cajaDeDialogos from "./escenas/cajaDeDialogos.js";
 //import combate_test from "./combate_test";
-import verMapa from "./escenas/Funciones/verMapa";
-import tutorial from "./escenas/Funciones/tutorial";
-import prologo from "./escenas/Funciones/prologo";
-import combate from "./escenas/combate";
-import combateDialogos from "./escenas/combateDialogos";
-import transitionACombate from "./escenas/Funciones/transicionACombate";
-import menup from "./menu principal";
+import verMapa from "./escenas/Funciones/verMapa.js";
+import tutorial from "./escenas/Funciones/tutorial.js";
+import prologo from "./escenas/Funciones/prologo.js";
+import combate from "./escenas/combate.js";
+import combateDialogos from "./escenas/combateDialogos.js";
+import transitionACombate from "./escenas/Funciones/transicionACombate.js";
+import menup from "./menu principal.js";
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
         super({key: 'pantallaDeCarga'});
