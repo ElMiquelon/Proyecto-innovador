@@ -1,4 +1,4 @@
-import pantallaDeCarga from "./pantallaDeCarga";
+import pantallaDeCarga from "./pantallaDeCarga.js";
 
 const config ={
     width: 500,
