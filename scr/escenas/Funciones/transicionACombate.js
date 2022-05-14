@@ -1,5 +1,5 @@
-import combate from "../combate";
-import combateJefe from "../combateJefe";
+import combate from "../combate.js";
+import combateJefe from "../combateJefe.js";
 var laEscena;
 var elCombate;
 export default class transitionACombate extends Phaser.Scene{
