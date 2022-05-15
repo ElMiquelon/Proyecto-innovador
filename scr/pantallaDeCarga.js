@@ -1,10 +1,7 @@
 import creacionAnimaciones from "./escenas/creacionAnimaciones.js";
-/*import cajadialogos from "./escenas/cajadialogos";
-import poliprueba from "./escenas/poliprueba";*/
 import overworld from "./escenas/overworld.js";
 import reconstruirEdificios from "./escenas/Funciones/reconstruirEdificios.js";
 import cajaDeDialogos from "./escenas/cajaDeDialogos.js";
-//import combate_test from "./combate_test";
 import verMapa from "./escenas/Funciones/verMapa.js";
 import tutorial from "./escenas/Funciones/tutorial.js";
 import prologo from "./escenas/Funciones/prologo.js";
@@ -12,6 +9,7 @@ import combate from "./escenas/combate.js";
 import combateDialogos from "./escenas/combateDialogos.js";
 import transitionACombate from "./escenas/Funciones/transicionACombate.js";
 import menup from "./menu principal.js";
+
 export default class pantallaDeCarga extends Phaser.Scene{
     constructor(){
         super({key: 'pantallaDeCarga'});
@@ -108,15 +106,12 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.audio("BGMcombate", "./assets/combate/audio/BGMcombate.mp3");
         this.load.audio('inicioCombateBGM', "./assets/combate/audio/combateStart.mp3");
         this.load.audio("BGMCombateNormal", "./assets/combate/audio/BGMcombateLoop.mp3");
-        this.load.image("map", "./assets/combate/mapa_c.png");
-        this.load.image("mapBoss", "./assets/combate/mapa_boss.png");
-        this.load.image("player_c", "./assets/combate/player_c.png");
-        this.load.image("enemy_c", "./assets/combate/pew.png");
-        this.load.spritesheet("card_atk", "./assets/combate/card_atk.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("card_block", "./assets/combate/card_block.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", { frameWidth: 50, frameHeight: 70 });
-        this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10 });
+        this.load.spritesheet("fondo", "./assets/combate/fondo.png", { frameWidth: 500, frameHeight: 480});
+        this.load.spritesheet("card_atk", "./assets/combate/card_atk.png", { frameWidth: 50, frameHeight: 70});
+        this.load.spritesheet("card_block", "./assets/combate/card_block.png", { frameWidth: 50, frameHeight: 70});
+        this.load.spritesheet("card_rest", "./assets/combate/card_rest.png", { frameWidth: 50, frameHeight: 70});
+        this.load.spritesheet("card_strong", "./assets/combate/card_strong.png", { frameWidth: 50, frameHeight: 70});
+        this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10});
         this.load.spritesheet('duende', './assets/combate/sprites_enemigos/duende.png',{frameWidth:131, frameHeight:259});
         this.load.spritesheet('gusano', './assets/combate/sprites_enemigos/gusano.png', {frameWidth:34, frameHeight:36});
         this.load.spritesheet('vampiro', './assets/combate/sprites_enemigos/vampiro.png', {frameWidth:86, frameHeight:89});
@@ -137,13 +132,11 @@ export default class pantallaDeCarga extends Phaser.Scene{
     create(){
         this.registry.set('playerStats', {hp: 100, atk: 10, def: 5, lvl: 1, xp:0, nxtlvl:100});
         this.registry.set('progreso', 0);
-        //no se como hacer para que ponga un texto de "cargando", será algo a futuro
         this.scene.launch('creacionAnimaciones').stop('creacionAnimaciones');
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
         this.scene.launch('combateDialogos').sleep('combateDialogos');
         this.scene.launch('transicionACombate').launch('reconstruirEdificios');
         this.scene.start('menup');
-        //this.scene.start('overworld');
     }
 }

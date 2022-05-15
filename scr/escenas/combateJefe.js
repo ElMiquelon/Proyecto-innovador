@@ -3,17 +3,18 @@ const medWait = 1800;
 const lngWait = 2500;
 const VOLUMEN = .3;
 var escenaOrigen;
-var palParry;
+var fondo;
 var card_atk;
 var card_block;
 var card_rest;
 var card_strong;
 var enemyHealthbar;
 var playerHealthbar;
+var palParry;
 var mirror = 0;
 var elEnemigoAtaco;
+var stillAlive;
 var nombreEnemigo;
-//var spriteEnemigo;
 
 var playerStats = {
     maxhp: 100,
@@ -53,7 +54,8 @@ export default class combateJefe extends Phaser.Scene {
         //detalles del tamaño del mundo (los tamaños son iguales a los de la imagen)
         this.camara = this.cameras.main.setBounds(0, 0, 500, 480).setRotation(359); //al final se usó para la transición
         this.camara.zoom = .01;
-        this.add.image(0, 0, 'mapBoss').setOrigin(0);
+        fondo = this.add.sprite(0, 0, 'fondo').setOrigin(0);
+        fondo.setTexture('fondo', 1);
 
         //barra de vida
         enemyHealthbar = this.add.sprite(20, 50, 'healthbar').setOrigin(0);
@@ -113,7 +115,7 @@ export default class combateJefe extends Phaser.Scene {
                     elEnemigoAtaco = 0;
                     break;
                 case 3:
-                    this.events.emit('hurtPlayer', .5)
+                    this.events.emit('hurtPlayer', .75)
                     if (enemyStats.critVal != 1) {
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil furioso', srtWait);
                         this.events.emit('lessCrit', 5);
@@ -125,7 +127,7 @@ export default class combateJefe extends Phaser.Scene {
                     elEnemigoAtaco = 0;
                     break;
                 case 4:
-                    this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.02))
+                    this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.04))
                     this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse un poco', srtWait);
                     this.events.emit('moreCrit', 2);
                     elEnemigoAtaco = 1;
@@ -137,10 +139,10 @@ export default class combateJefe extends Phaser.Scene {
                         this.registry.events.emit('accionDeCombate', 'El enemigo iba a curarse pero decidió atacar', srtWait);
                         elEnemigoAtaco = 0;
                     } else {
-                        this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.15));
+                        this.events.emit('healEnemy', Math.round(enemyStats.maxhp * 0.17));
                         this.events.emit('buffDmgEnemy', Math.round(enemyStats.atk * 0.75), 5);
                         this.events.emit('enemySetRes', 0.8, 4);
-                        this.events.emit('moreCrit', 10);
+                        this.events.emit('moreCrit', 17);
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio curarse mucho', srtWait);
                         enemyStats.penal = 35; //La penalización de jefes es más alta, checar balanceo
                         elEnemigoAtaco = 1;
@@ -156,12 +158,13 @@ export default class combateJefe extends Phaser.Scene {
                     break;
             }
         });
+
         //Modificadores de jugador
         this.events.on('healPlayer', (raw) => {
             playerStats.hp += raw;
             if (playerStats.hp >= playerStats.maxhp) {
                 playerStats.hp = playerStats.maxhp;
-            }
+            };
             this.events.emit('actualizarBarras');
         });
 
@@ -172,12 +175,12 @@ export default class combateJefe extends Phaser.Scene {
             if (outgoing <= 0) {
                 outgoing = 1;
                 console.log('El daño del enemigo era muy bajo!');
-            }
+            };
             mirror = outgoing;
             playerStats.hp -= outgoing;
             if (playerStats.hp < 0) {
                 playerStats.hp = 0;
-            }
+            };
             this.events.emit('mostrarDmgAPlayer', outgoing);
             this.events.emit('actualizarBarras');
         });
@@ -211,17 +214,8 @@ export default class combateJefe extends Phaser.Scene {
             };
             this.events.emit('actualizarBarras');
         });
+        
         //Modificadores de enemigo
-        this.events.on('enemySetRes', (set, turns) => {
-            if (enemyStats.resT > 0) {
-                console.log('El enemigo ya tiene modificaciones a su resistencia');
-            } else {
-                enemyStats.res = set;
-                enemyStats.resT = turns;
-            };
-            this.events.emit('actualizarBarras');
-        });
-
         this.events.on('healEnemy', (raw) => {
             enemyStats.hp += raw;
             if (enemyStats.hp > enemyStats.maxhp) {
@@ -229,14 +223,14 @@ export default class combateJefe extends Phaser.Scene {
             };
             this.events.emit('actualizarBarras');
         });
-
+        
         this.events.on('hurtEnemy', (multi) => {
             var incoming = Math.round(multi * (playerStats.atk + playerStats.buffDmg)); //Obtiene un daño con un multiplicador más ataque y buffs
             incoming = Math.round(incoming * enemyStats.res); //Multiplica por la resistencia del enemigo
             if (incoming <= 0) {
                 incoming = 1;
                 console.log('El daño del jugador era muy bajo!');
-            }
+            };
             enemyStats.hp -= incoming;
             if (enemyStats.hp < 0) {
                 enemyStats.hp = 0;
@@ -249,10 +243,19 @@ export default class combateJefe extends Phaser.Scene {
             enemyStats.hp -= raw;
             if (enemyStats.hp < 0) {
                 enemyStats.hp = 0;
-            }
+            };
             this.enemyDmg.setText(palParry + ' & -' + raw);
             this.BGEnemyDmg.setSize(this.enemyDmg.getBounds().width, this.enemyDmg.getBounds().height).setPosition(this.enemyDmg.getBounds().centerX,this.enemyDmg.getBounds().centerY).setOrigin(.5);
             this.events.emit('actualizarBarras');
+        });
+
+        this.events.on('enemySetRes', (set, turns) => {
+            if (enemyStats.resT > 0) {
+                console.log('El enemigo ya tiene modificaciones a su resistencia');
+            } else {
+                enemyStats.res = set;
+                enemyStats.resT = turns;
+            };
         });
 
         this.events.on('buffDmgEnemy', (buff, turns) => {
@@ -262,7 +265,6 @@ export default class combateJefe extends Phaser.Scene {
                 enemyStats.buffDmg = buff;
                 enemyStats.buffDmgT = turns;
             };
-            this.events.emit('actualizarBarras');
         });
 
         this.events.on('moreCrit', (xd) => {
@@ -289,8 +291,7 @@ export default class combateJefe extends Phaser.Scene {
             };
         });
 
-        //Otros
-
+        //OTROS
         this.events.on('startTurn', (card) => {
             this.input.keyboard.enabled = false;
             this.events.emit('actualizarBarras');
@@ -308,6 +309,57 @@ export default class combateJefe extends Phaser.Scene {
                     card_rest.setTexture('card_rest', 1);
                 break;
             }
+        });
+
+        this.events.on('nextTurn', () => {
+            this.events.emit('resetCards');
+            this.events.emit('moreCrit', 3);
+            
+            playerStats.buffDmgT -= 1;
+            playerStats.buffDefT -= 1;
+            playerStats.resT -= 1;
+            enemyStats.resT -= 1;
+            enemyStats.buffDmgT -= 1;
+            enemyStats.penal -= 1;
+            playerStats.penalHeal -= 1;
+
+            //Reseta los buff si el contador de turnos es termina
+            if (playerStats.buffDmgT <= 0) {
+                playerStats.buffDmgT = 0;
+                playerStats.buffDmg = 0;
+            };
+            if (playerStats.buffDefT <= 0) {
+                playerStats.buffDefT = 0;
+                playerStats.buffDef = 0;
+            };
+            if (playerStats.resT <= 0) {
+                playerStats.res = 1.00;
+            };
+            if (enemyStats.buffDmgT <= 0) {
+                enemyStats.buffDmgT = 0;
+                enemyStats.buffDmg = 0;
+            };
+            if (enemyStats.resT <= 0) {
+                enemyStats.res = 1.00;
+            };
+            if (playerStats.penalHeal <= 0) {
+                playerStats.penalHeal = 0;
+            };
+            //Actualiza barras
+            this.events.emit('actualizarBarras');
+            this.input.keyboard.enabled = true;
+        });
+
+        this.events.on('checkDeath', () => {
+            stillAlive = true;
+            if (playerStats.hp == 0) {
+                this.events.emit('gameOver', 0);
+                stillAlive = false;
+            };
+            if (enemyStats.hp == 0) {
+                this.events.emit('gameOver', 1);
+                stillAlive = false;
+            };
         });
 
         this.events.on('actualizarBarras', ()=>{
@@ -360,45 +412,18 @@ export default class combateJefe extends Phaser.Scene {
         } else if (playerStats.hp == 0) {
             playerHealthbar.setTexture('healthbar', 10);
         };});
-
-        this.events.on('nextTurn', () => {
-            playerStats.buffDmgT -= 1;
-            playerStats.buffDefT -= 1;
-            playerStats.resT -= 1;
-            enemyStats.resT -= 1;
-            enemyStats.buffDmgT -= 1;
-            enemyStats.penal -= 1;
-            playerStats.penalHeal -= 1;
-            this.events.emit('moreCrit', 3);
-
-            //Reseta los buff si el contador de turnos es termina
-            if (playerStats.buffDmgT <= 0) {
-                playerStats.buffDmgT = 0;
-                playerStats.buffDmg = 0;
-            };
-            if (playerStats.buffDefT <= 0) {
-                playerStats.buffDefT = 0;
-                playerStats.buffDef = 0;
-            };
-            if (playerStats.resT <= 0) {
-                playerStats.res = 1.00;
-            };
-            if (enemyStats.buffDmgT <= 0) {
-                enemyStats.buffDmgT = 0;
-                enemyStats.buffDmg = 0;
-            };
-            if (enemyStats.resT <= 0) {
-                enemyStats.res = 1.00;
-            };
-            if (playerStats.penalHeal <= 0) {
-                playerStats.penalHeal = 0;
-            };
-            //Actualiza barras
-            this.events.emit('actualizarBarras');
-            this.input.keyboard.enabled = true;
+        
+        this.events.on('resetCards', ()=>{
+            card_strong.setTexture('card_strong', 0);
+            card_block.setTexture('card_block', 0);
+            card_atk.setTexture('card_atk', 0);
+            card_rest.setTexture('card_rest', 0);
         });
 
         this.events.on('gameOver', (v) => {
+            this.events.emit('resetCards');
+            this.input.keyboard.enabled = false; //Desactivar teclado para evitar errores
+            
             //Resetear las resistencias
             playerStats.res = 1.00;
             enemyStats.res = 1.00;
@@ -411,18 +436,20 @@ export default class combateJefe extends Phaser.Scene {
             playerStats.penalHeal = 0;
             enemyStats.crit = 0;
             enemyStats.critVal = 1;
+
             switch (v) {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido\nPor ahora volverás a la escena anterior', lngWait);
+                    fondo.setTexture('fondo', 2);
                     //lo que se hace aquí es poner el texto "Has perdido" durante lngwait (revisen mas arriba)
                     this.time.delayedCall(lngWait+100, ()=>{
                         this.bgm.stop();
+                        this.input.keyboard.enabled = true;
                         this.registry.events.emit('victoriajefe');
                     }); //y una vez hayan pasado el tiempo, se envía de regreso (provisional(?)
                     break;
                 case 1: /*Ganaste*/
                     this.spriteEnemigo.setVisible(false);
-                    this.input.keyboard.enabled = false;
                     //aquí cuando ganas, te dice lo que obtuviste de la victoria
                     this.registry.events.emit('accionDeCombate', '¡Has ganado y ' + this.enemyLoader.victoria[0] + '!', lngWait);
                     this.registry.values.progreso++;//y aumenta la bandera de progreso
@@ -450,16 +477,16 @@ export default class combateJefe extends Phaser.Scene {
                         });
                         this.time.delayedCall(medWait+lngWait*3.1, ()=>{
                             this.bgm.stop();
+                            this.input.keyboard.enabled = true;
                             this.registry.events.emit('victoriajefe');
                         });
                     }else{
                         this.time.delayedCall(lngWait + 100, ()=>{
                             this.bgm.stop();
+                            this.input.keyboard.enabled = true;
                             this.registry.events.emit('victoriajefe');
                         });
                     };
-                    break;
-                default:
                     break;
             }
         });
@@ -497,8 +524,9 @@ export default class combateJefe extends Phaser.Scene {
             this.events.emit('playerSetRes', 0.8, 1);
             this.registry.events.emit('accionDeCombate', 'Has intentado realizar un parry', srtWait);
             setTimeout(() => {
-                if (enemyStats.hp > 0) { //Checa la vida del enemigo, si esta vivo procede
-                    this.events.emit('response');
+                this.events.emit('response');
+                this.events.emit('checkDeath');
+                if (stillAlive) {
                     setTimeout(() => {
                         if (elEnemigoAtaco != 1) { //Si el enemigo ataca se activa el ataque especial
                             mirror = Math.round(mirror * 2);
@@ -506,29 +534,22 @@ export default class combateJefe extends Phaser.Scene {
                             this.events.emit('hurtEnemyMirror', mirror);
                             this.cameras.main.shake(50, .08, true);
                             this.registry.events.emit('accionDeCombate', 'Has ejecutado un parry exitosamente', medWait);
-                            if (enemyStats.hp == 0) { //Check para saber si el enemigo murio
-                                this.events.emit('gameOver', 1);
-                            };
                         } else { //Aqui fallo
                             playerStats.hp -= Math.round(playerStats.maxhp * 0.25);
+                            if (playerStats.hp < 0) {
+                                playerStats.hp = 0;
+                            };
                             this.events.emit('actualizarBarras');
                             this.events.emit('setPlayerRes', 1.1, 3);
                             this.cameras.main.shake(50, .08, true);
                             this.events.emit('mostrarDmgAPlayer', Math.round(playerStats.maxhp * 0.25));
                             this.registry.events.emit('accionDeCombate', 'Has fallado el parry', medWait);
-                            if (playerStats.hp <= 0) { //Checa la muerte, esté es distinto porque la vida se resta directamente
-                                this.events.emit('gameOver', 0);
-                            };
+                        };
+                        this.events.emit('checkDeath');
+                        if (stillAlive) {
+                            this.events.emit('nextTurn');
                         };
                     }, srtWait);
-                } else {
-                    this.events.emit('gameOver', 1);
-                };
-                if (playerStats.hp > 0) {
-                    card_strong.setTexture('card_strong', 0);
-                    this.events.emit('nextTurn');
-                } else {
-                    this.events.emit('gameOver', 0);
                 };
             }, srtWait); //el tiempo debe de ser equivalente al timer de combateDialogos
         });
@@ -539,22 +560,16 @@ export default class combateJefe extends Phaser.Scene {
             this.events.emit('playerSetRes', 0.5, 1);
             this.registry.events.emit('accionDeCombate', 'Has decidido hacer un bloqueo', srtWait);
             setTimeout(() => {
-                if (enemyStats.hp > 0) {
-                    this.events.emit('response');
+                this.events.emit('response');
+                this.events.emit('checkDeath');
+                if (stillAlive) {
                     if (elEnemigoAtaco == 1) {
-                        this.events.emit('buffDefPlayer', Math.round(playerStats.def * .75), 5);
+                        this.events.emit('buffDefPlayer', Math.round(playerStats.def * .75), 6);
                         console.log('El enemigo no ataco por lo que te aumento la defensa');
                     } else {
                         this.events.emit('buffDefPlayer', Math.round(playerStats.def * .25), 3);
                     };
-                } else {
-                    this.events.emit('gameOver', 1);
-                };
-                if (playerStats.hp > 0) {
-                    card_block.setTexture('card_block', 0);
                     this.events.emit('nextTurn');
-                } else {
-                    this.events.emit('gameOver', 0);
                 };
             }, srtWait);
         });
@@ -566,16 +581,13 @@ export default class combateJefe extends Phaser.Scene {
             this.events.emit('hurtEnemy', 1);
             this.cameras.main.shake(50, .03, true);
             setTimeout(() => {
-                if (enemyStats.hp > 0) {
+                this.events.emit('checkDeath');
+                if (stillAlive) {
                     this.events.emit('response');
-                } else {
-                    this.events.emit('gameOver', 1);
-                };
-                if (playerStats.hp > 0) {
-                    this.events.emit('nextTurn');
-                    card_atk.setTexture('card_atk', 0);
-                } else {
-                    this.events.emit('gameOver', 0);
+                    this.events.emit('checkDeath');
+                    if (stillAlive) {
+                        this.events.emit('nextTurn');
+                    };
                 };
             }, srtWait);
         });
@@ -600,16 +612,10 @@ export default class combateJefe extends Phaser.Scene {
                 this.registry.events.emit('accionDeCombate', 'Canalizas tu fuerza', srtWait);
             };
             setTimeout(() => {
-                if (enemyStats.hp > 0) {
-                    this.events.emit('response');
-                } else {
-                    this.events.emit('gameOver', 1);
-                };
-                if (playerStats.hp > 0) {
-                    card_rest.setTexture('card_rest', 0);
+                this.events.emit('response');
+                this.events.emit('checkDeath');
+                if (stillAlive) {
                     this.events.emit('nextTurn');
-                } else {
-                    this.events.emit('gameOver', 0);
                 };
             }, srtWait);
         });
