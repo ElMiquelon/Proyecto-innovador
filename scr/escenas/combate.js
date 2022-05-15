@@ -377,6 +377,11 @@ export default class combate extends Phaser.Scene {
                 case 0: /*Perdiste*/
                     this.registry.events.emit('accionDeCombate', 'Has perdido', lngWait);
                     fondo.setTexture('fondo', 2);
+                    this.tweens.add({
+                        targets:this.bgm,
+                        duration:medWait,
+                        volume: 0
+                    });
                     //lo que se hace aquí es poner el texto "Has ganado" durante lngwait (revisen mas arriba)
                     this.time.delayedCall(medWait, ()=>{
                         this.bgm.stop();
