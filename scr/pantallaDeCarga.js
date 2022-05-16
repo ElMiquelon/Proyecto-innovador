@@ -138,5 +138,5 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('combateDialogos').sleep('combateDialogos');
         this.scene.launch('transicionACombate').launch('reconstruirEdificios');
         this.scene.start('menup');
-    }
+    };
 }

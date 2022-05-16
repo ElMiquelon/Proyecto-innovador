@@ -1,0 +1,21 @@
+body {
+    background-color: aliceblue;
+    display: grid;
+    height: 100vh;
+    justify-items: center;
+}
+#contenedor {
+    align-self: center;
+    height: 480px;
+    width: 500px;
+    margin: 0 auto; /*El centrado automatico no funciona*/
+};
+a {
+    display: block;
+    margin: auto;
+    text-align: center;
+};
+canvas {
+    display: block;
+    margin: auto;
+}
