@@ -71,15 +71,15 @@ export default class menup extends Phaser.Scene{
             this.registry.values.progreso++;
             console.log(this.registry.values.progreso);
         });
+
+        this.cursor.shift.on('down', ()=>{
+            this.scene.transition({target:'combate', duration:4200, sleep: true});
+        });
     };
 
     update(time, delta){
         if (this.cursor.space.isDown){
             this.scene.start("tutorial").remove(this);
-        } else if (this.cursor.shift.isDown) {
-            /*this.registry.events.emit('comenzarBatalla', Phaser.Math.Between(1,2));
-            console.log('Está es una pantalla de debug para el combate, ser removida para el final');*/
-            this.scene.transition({target:'combateJefe', duration:4200});
         };
     };
 }

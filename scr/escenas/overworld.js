@@ -311,7 +311,7 @@ export default class overworld extends Phaser.Scene{
                     this.bgm.pause();
                     this.registry.events.emit('transicionacombate');
                 }else{
-                    this.registry.events.emit('repararcombate')
+                    this.registry.events.emit('repararcombate');
                 }
             };
         });
