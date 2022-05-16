@@ -1,16 +1,17 @@
 {
     "dialogo":[
-        "Verás, después de que aquel profesor te contará sobre los tarjetas",
+        "Verás, después de que aquel profesor te contara\nsobre los tarjetas",
         "Logré conseguir una por mi cuenta",
-        "Y descubrí que las tarjetas son antenas para recibir órdenes",
+        "Y descubrí que las tarjetas son antenas para recibir\nórdenes",
         "Pero no están siendo máquinas de matar cómo pensaba",
         "Oh bueno, no tanto",
         "Y así como tú conseguiste unas cuantas",
         "Yo también estuve recuperando unas con cuidado",
         "Pero la maestra faltante está en una parte abierta",
-        "Está en la cancha de fútbol, cerca del estacionamiento",
-        "Tienes que encargarte de ella mientras logro sacar la ubicación del viejo con las que ya tenemos.",
-        "Es más fuerte que todos los demás así que ten cuidado"
+        "Está en la cancha de fútbol, a un lado del\nestacionamiento",
+        "Literalmente solo debes caminar hacia abajo",
+        "Tienes que encargarte de ella mientras consigo la\nubicación del viejo con las que ya tenemos.",
+        "Es más fuerte que todos los demás así que ve con\ncuidado"
     ],
     "nombre":"E: ",
     "nota":"tuve que crear un dialogo de NPC generico ya que los dialogos de eli funcionan de una manera completamente distinta. esos dialogos corresponden a lo que dice eli en la bandera 6"

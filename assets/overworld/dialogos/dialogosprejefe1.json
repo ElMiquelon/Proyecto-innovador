@@ -1,15 +1,15 @@
 {
     "dialogo":[
         "Oh, ¿quieres pelear conmigo? Lo siento.",
-        "Sería interesante pero aún necesitas ser más fuerte.",
-        "Si en este momento peleo contigo sería demasiado fácil para ser divertido.",
-        "Ve a caminar por el pasto, encontrarás insectos con los cuales entrenar.",
+        "Sería interesante pero aún necesitas ser más\nfuerte.",
+        "Si peleo contigo en este momento, el combate\nsería demasiado fácil para ser divertido.",
+        "Ve a caminar por el pasto, quizá encuentres\ninsectos que quieran pelear contigo JAJAJAJA.",
         "Incluso podrías pelear con uno de mis colegas",
-        "Estamos haciendo algo grande ahora, te daré una oportunidad cuando seas más fuerte."
+        "Estamos haciendo algo grande ahora, te daré\nuna oportunidad cuando seas más fuerte."
     ],
     "dialogobatalla":[
         "Estás lista, pero no me vencerás",
-        "Podrías tardar muchas veces, pero eso no significa que ganarás"
+        "Podrías tardar muchas veces, pero eso no\nsignifica que ganarás"
     ],
     "nombre": "Ashley 2: "
 }

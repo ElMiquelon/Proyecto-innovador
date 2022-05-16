@@ -37,7 +37,7 @@ export default class salonFinal extends Phaser.Scene{
         this.viejo.anims.play('stallviejoow');
         this.viejo.refreshBody();
         this.viejo.on('pointerdown', ()=>{
-            if(jefeFT == true){
+            if(jefeFT == true && this.registry.values.progreso <= 8){
                 this.registry.events.emit('dialogarjefefinal',this.scene.key, jefeFT);
                 jefeFT = false;
                 this.time.delayedCall(200, ()=>{ 

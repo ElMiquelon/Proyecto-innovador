@@ -1,11 +1,11 @@
 {
     "dialogo":[
         "Oh, parece que estás bien",
-        "Hay tanta gente actuando extraño desde la mañana",
-        "Pensé que sería preparación para una fiesta de cumpleaños y nadie quería hablarme para no arruinar la sorpresa",
-        "Pero ya no creo que sea eso",
-        "Y no me puedo ir aún, deje mis cosas en el A8 pero está un maestro que me asusta más que los demás",
-        "¿Puedes recogerlo por mí?, pareces alguien valiente."
+        "Hay tanta gente actuando extraño desde la\nmañana.",
+        "Pensé que sería preparación para una fiesta de\ncumpleaños y nadie quería hablarme para no arruinar la\nsorpresa.",
+        "Pero ya no creo que sea eso...",
+        "Y no me puedo ir aún, deje mis cosas en el A8\npero está un maestro que me asusta más que los demás.",
+        "¿Puedes recogerlo por mí?, pareces alguien\nvaliente."
     ],
     "dialogogenerico":[
         "Aún falta una hora para terminar el turno…",

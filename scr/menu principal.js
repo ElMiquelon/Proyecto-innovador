@@ -72,6 +72,11 @@ export default class menup extends Phaser.Scene{
             console.log(this.registry.values.progreso);
         });
 
+        this.aparecerEli = this.input.keyboard.addKey('T');
+        this.aparecerEli.on('down', ()=>{
+            this.registry.values.eliEnE=true;
+        });
+
         this.cursor.shift.on('down', ()=>{
             this.scene.transition({target:'combate', duration:4200, sleep: true});
         });

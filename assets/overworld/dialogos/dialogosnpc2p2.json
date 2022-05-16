@@ -2,9 +2,9 @@
     "dialogo":[
         "Oh, lo recuperaste, muchas gracias.",
         "Oh, estás buscando a los profesores con cupones",
-        "Vi al maestro Juan hasta el fondo, casi al final del módulo E Primera planta.",
+        "Vi al maestro Juan hasta el fondo, casi al final\ndel módulo E Primera planta.",
         "Fuera de los laboratorios de cómputo, vaya",
-        "Está levantando pesas desde que hablaron con el sujeto de la mañana",
+        "Está levantando pesas desde que hablaron con el\nsujeto de la mañana",
         "No sé de dónde la sacó...",
         "Pero, ¡muchas gracias!"
     ],
@@ -12,7 +12,7 @@
         "Muchas gracias.",
         "Aún no me puedo ir.",
         "Aún falta una hora para terminar el turno.",
-        "Está un poco aplastada la bolsa, pero no importa."
+        "Está un poco aplastada la bolsa, pero no hay\nproblema."
     ],
     "nombre": "Martha: "
 }
