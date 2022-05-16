@@ -53,6 +53,13 @@ export default class edificioEP0 extends Phaser.Scene{
             this.scene.transition({target:'edificioEP1', duration:300, sleep:true, moveBelow:true});
         });
 
+        //un rectangulo en la parte negra para salir al overworld
+        this.backWalk = this.add.zone(0,100, 600,1).setOrigin(0,0);
+        this.physics.add.existing(this.backWalk);
+        this.physics.add.collider(this.jugador, this.backWalk, ()=>{
+            this.scene.transition({target:'overworld', duration:500, remove:true});
+        });
+
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
 
 

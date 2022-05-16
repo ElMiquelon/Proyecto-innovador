@@ -12,7 +12,7 @@ export default class tutorial extends Phaser.Scene{
         this.tutoimg = this.add.image(0,0,'tuto1').setOrigin(0,0).setVisible(false);
 
         this.tuto = this.cache.json.get('textoTutorial');
-        this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .35).setOrigin(0,1);
+        this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);
         this.texto = this.add.text(this.rectangulo.getBounds().x, this.rectangulo.getBounds().y,this.tuto.textos[i],{color:'#000', fontSize:'15px'});
         this.ok = this.input.keyboard.addKeys('X, ENTER');
         this.ok.X.on('down',()=>{

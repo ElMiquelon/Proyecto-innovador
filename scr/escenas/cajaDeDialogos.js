@@ -38,7 +38,7 @@ export default class cajaDeDialogos extends Phaser.Scene{
     };
 
     create(){
-        this.caja = this.add.rectangle(0, 380, this.sys.game.config.width, 100, 0xaaaaaa, .35).setOrigin(0,0);
+        this.caja = this.add.rectangle(0, 380, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,0);
         dialogo = this.add.text(this.caja.getBounds().x, this.caja.getBounds().y, 'arrremangala arrempujala arremangala arrempujala', {
             fontSize: '15px',
             color:'#000',

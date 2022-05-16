@@ -52,6 +52,13 @@ export default class edificioAP0 extends Phaser.Scene{
             this.scene.transition({target:'coop', duration:300, sleep:true, moveBelow:true});
         });
 
+        //un rectangulo en la parte negra para salir al overworld
+        this.backWalk = this.add.zone(0,100, 600,1).setOrigin(0,0);
+        this.physics.add.existing(this.backWalk);
+        this.physics.add.collider(this.jugador, this.backWalk, ()=>{
+            this.scene.transition({target:'overworld', duration:500, remove:true});
+        });
+
         //detalles de las puertas de los salones (están puestas de derecha a izquierda)
         this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);

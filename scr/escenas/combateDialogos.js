@@ -5,7 +5,7 @@ export default class combateDialogos extends Phaser.Scene{
 
     create(){
         this.pausa = this.time.delayedCall();
-        this.BGaccion = this.add.rectangle(250,270,0,0,0xaaaaaa, .4);
+        this.BGaccion = this.add.rectangle(250,270,0,0,0xaaaaaa, .5);
         this.accion = this.add.text(250,270,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5);
         this.registry.events.on('accionDeCombate', (laAccion, duracion)=>{
             this.pausa.destroy();

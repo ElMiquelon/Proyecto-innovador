@@ -12,7 +12,7 @@ export default class prologo extends Phaser.Scene{
         this.reacciones = this.add.image(0,0,'eli').setOrigin(0,0).setScale(.7).setVisible(false);
 
         this.prologo = this.cache.json.get('textoPrologo');
-        this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .35).setOrigin(0,1);
+        this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);
         this.texto = this.add.text(this.rectangulo.getBounds().x, this.rectangulo.getBounds().y,this.prologo.dialogo[i],{color:'#000', fontSize:'15px', padding:{bottom:2}});
         
         this.ok = this.input.keyboard.addKeys('X, ENTER');

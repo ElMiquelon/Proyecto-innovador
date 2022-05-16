@@ -48,6 +48,18 @@ export default class edificioBP00 extends Phaser.Scene{
             this.scene.transition({target:'edificioBP0', duration:300, sleep:true, moveBelow:true})
         });
 
+        //dos rectangulos en la parte negra para salir al overworld
+        this.backWalk1 = this.add.zone(148,20, 1,81).setOrigin(0,0);
+        this.physics.add.existing(this.backWalk1);
+        this.physics.add.collider(this.jugador, this.backWalk1, ()=>{
+            this.scene.transition({target:'overworld', duration:500, remove:true});
+        });
+        this.backWalk2 = this.add.zone(417,20, 1,73).setOrigin(0,0);
+        this.physics.add.existing(this.backWalk2);
+        this.physics.add.collider(this.jugador, this.backWalk2, ()=>{
+            this.scene.transition({target:'overworld', duration:500, remove:true});
+        });
+
         //aqui van las puertas, al rato se hacen
 
         //detalles de las transiciones

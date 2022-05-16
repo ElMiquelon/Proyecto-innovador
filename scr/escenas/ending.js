@@ -13,7 +13,7 @@ export default class ending extends Phaser.Scene{
         this.conversacion = this.cache.json.get('textoEnding');
 
         //el rectangulo y texto 
-        this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .35).setOrigin(0,1);
+        this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);
         this.texto = this.add.text(this.rectangulo.getBounds().x, this.rectangulo.getBounds().y,this.conversacion.texto[i],{color:'#000', fontSize:'15px', padding:{bottom:2}});
         
         //el texto de FIN, acá bien marcadote más que un pito sangre

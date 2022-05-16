@@ -10,7 +10,7 @@ export default class edificioFP0 extends Phaser.Scene{
         this.physics.world.setBounds(0,0,600,101);
 
         //detalles del jugador
-        this.jugador = this.physics.add.sprite(35, 49, 'playersprite');
+        this.jugador = this.physics.add.sprite(568, 68, 'playersprite');
         this.jugador.setBodySize(12,18,true);
         this.jugador.body.setCollideWorldBounds(true);
         this.cameras.main.startFollow(this.jugador);
@@ -51,6 +51,13 @@ export default class edificioFP0 extends Phaser.Scene{
             console.log('subiste por escalera 3 para salir en escalera 5 de FP1');
             this.registry.events.emit('subirescalera3f');
             this.scene.transition({target:'edificioFP1', duration:300, sleep:true, moveBelow:true});
+        });
+
+        //un rectangulo en la parte negra para salir al overworld
+        this.backWalk = this.add.zone(0,100, 600,1).setOrigin(0,0);
+        this.physics.add.existing(this.backWalk);
+        this.physics.add.collider(this.jugador, this.backWalk, ()=>{
+            this.scene.transition({target:'overworld', duration:500, remove:true});
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas

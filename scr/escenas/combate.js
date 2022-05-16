@@ -66,12 +66,12 @@ export default class combate extends Phaser.Scene {
         this.inicioCombate =this.sound.add('inicioCombateBGM',{volume:VOLUMEN});
 
         //textos de daño 
-        this.BGEnemyDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
+        this.BGEnemyDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .5).setVisible(false);
         this.enemyDmg = this.add.text(370,92,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
         this.adiosEnemyDmg = this.time.delayedCall();/*se crean 3 objetos, 1 rectangulo, 1 texto y 1 temporizador en blanco para poder eleminarlo al momento de 
         ejecutar el evento que lo hace mostrarse (esto para evitar que el tiempo se acumule y genere bugs)*/
 
-        this.BGPlayerDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .4).setVisible(false);
+        this.BGPlayerDmg = this.add.rectangle(0,0,0,0,0xaaaaaa, .5).setVisible(false);
         this.playerDmg = this.add.text(435,362,'a eaeaea moviendo la cadera',{color:'black', padding:{bottom:2}}).setOrigin(.5).setVisible(false);
         this.adiosPlayerDmg = this.time.delayedCall();
 
@@ -591,7 +591,7 @@ export default class combate extends Phaser.Scene {
         });
 
         //impresion de las estadisticas del jugador y enemigo
-        this.BGPlayerStats = this.add.rectangle(0, 305, 0, 0, 0xaaaaaa, .4).setOrigin(0);
+        this.BGPlayerStats = this.add.rectangle(0, 305, 0, 0, 0xaaaaaa, .5).setOrigin(0);
         this.txtPlayerstats = this.add.text(0, 305,
             'Vida: ' + playerStats.hp + ' / ' + playerStats.maxhp +
             '\nAtaque: ' + playerStats.atk + '(+' + playerStats.buffDmg + ')' +
@@ -602,7 +602,7 @@ export default class combate extends Phaser.Scene {
             });
         this.BGPlayerStats.setSize(this.txtPlayerstats.getBounds().width, this.txtPlayerstats.getBounds().height)
 
-        this.BGEnemyStats = this.add.rectangle(0, 0, 0, 0, 0xaaaaaa, .4).setOrigin(0);
+        this.BGEnemyStats = this.add.rectangle(0, 0, 0, 0, 0xaaaaaa, .5).setOrigin(0);
         this.txtEnemyStats = this.add.text(0, 0,
             'Vida: ' + enemyStats.hp + ' / ' + enemyStats.maxhp +
             '\nAtaque: ' + enemyStats.atk + '(+' + enemyStats.buffDmg + ')' +
