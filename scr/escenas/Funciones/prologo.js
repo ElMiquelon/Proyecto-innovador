@@ -9,11 +9,13 @@ export default class prologo extends Phaser.Scene{
     }
 
     create(){
-        this.reacciones = this.add.image(0,0,'eli').setOrigin(0,0).setScale(.7).setVisible(false);
+        this.fondo = this.add.image(0,0,'prologoFondo').setOrigin(0,0).setScale(.7).setVisible(false);
 
         this.prologo = this.cache.json.get('textoPrologo');
         this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);
         this.texto = this.add.text(this.rectangulo.getBounds().x, this.rectangulo.getBounds().y,this.prologo.dialogo[i],{color:'#000', fontSize:'15px', padding:{bottom:2}});
+        
+        this.eli = this.add.image(250,this.rectangulo.getBounds().top,'eli').setVisible(false).setOrigin(.5,1);
         
         this.ok = this.input.keyboard.addKeys('X, ENTER');
         this.ok.X.on('down', ()=>{
@@ -22,25 +24,27 @@ export default class prologo extends Phaser.Scene{
             this.events.emit('cambiarexpresion');
         });
         this.ok.ENTER.on('down', ()=>{
-            this.scene.start('overworld').remove(this)
+            this.scene.start('overworld').remove(this);
         });
 
         this.events.on('cambiarexpresion',()=>{
-            this.reacciones.setTexture('eli');
+            this.fondo.setTexture('prologoFondo');
+            this.eli.setTexture('eli');
             if (i == 8){
-                this.reacciones.setVisible(true);
+                this.fondo.setVisible(true);
+                this.eli.setVisible(true);
             };
     
             //sí se necesita hacer manualmente
             if (i == 24 || i == 49){
-                this.reacciones.setTexture('eliEnojado');
+                this.fondo.setTexture('prologoFondoEnojado');
+                this.eli.setTexture('eliEnojado');
             };
     
             if(i == this.prologo.dialogo.length - 1){
-                this.reacciones.setVisible(false);
-            };
-    
-            
+                this.fondo.setVisible(false);
+                this.eli.setVisible(false);
+            };            
         });
 
         
