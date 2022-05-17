@@ -195,6 +195,15 @@ create(){
     });
 
     this.anims.create({
+        key: 'stallbeetle',
+        frames: this.anims.generateFrameNumbers('beetle',{
+            frames: [0,1,2,3]//se que esta animacion quedará qlera, pero servirá de placeholder
+        }),
+        repeat: -1,
+        frameRate:8
+    });
+
+    this.anims.create({
         key: 'stallvampiro',
         frames: this.anims.generateFrameNumbers('vampiro',{
             frames: [0,1,2,3]
@@ -203,6 +212,52 @@ create(){
         frameRate:2//no se cual se vea mejor
     });
 
+    this.anims.create({
+        key: 'stallesqueleto',
+        frames: this.anims.generateFrameNumbers('esqueleto',{
+            frames: [0,1,2]
+        }),
+        repeat: -1,
+        frameRate:4//no se cual se vea mejor
+    });
+
+    this.anims.create({
+        key: 'stallfantasma',
+        frames: this.anims.generateFrameNumbers('fantasma',{
+            frames: [0,1,2,3]
+        }),
+        repeat: -1,
+        frameRate:4//no se cual se vea mejor
+    });
+
+    this.anims.create({
+        key: 'stallarbol',
+        frames: this.anims.generateFrameNumbers('arbol',{
+            frames: [0,1]
+        }),
+        repeat: -1,
+        frameRate:5//no se cual se vea mejor
+    });
+
+    this.anims.create({
+        key: 'stallburro',
+        frames: this.anims.generateFrameNumbers('burro',{
+            frames: [0,1,2,3,4,5,6,7,8,9]
+        }),
+        repeat: -1,
+        frameRate:6//no se cual se vea mejor
+    });
+
+    this.anims.create({
+        key: 'stalltopo',
+        frames: this.anims.generateFrameNumbers('topo',{
+            frames: [0,1,2,3,4,3,2,1]
+        }),
+        repeat: -1,
+        frameRate:6//no se cual se vea mejor
+    });
+
+    //sprites de jefes en combate
     this.anims.create({
         key:'stallchuco',
         frames:this.anims.generateFrameNumbers('chucopleito',{
@@ -292,8 +347,8 @@ create(){
     });*/
 }
 
-update(time, delta){
-    /*this.jugador.body.setVelocity(0);
+/*update(time, delta){
+    this.jugador.body.setVelocity(0);
     console.log(this.scene.isSleeping('cajadialogos'));
     //console.log('X: ' + this.input.activePointer.worldX + '\nY: ' + this.input.activePointer.worldY);
     if (this.movimiento.right.isDown ){
@@ -318,7 +373,7 @@ update(time, delta){
         this.registry.events.emit('comenzarPoliPrueba', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY);
         this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().top + 5);
     }
-    */
-}
+    
+}*/
 }
 

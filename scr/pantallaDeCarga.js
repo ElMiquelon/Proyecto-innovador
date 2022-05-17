@@ -124,7 +124,13 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("healthbar", "./assets/combate/healthbar.png", { frameWidth: 100, frameHeight: 10});
         this.load.spritesheet('duende', './assets/combate/sprites_enemigos/duende.png',{frameWidth:124, frameHeight:186});
         this.load.spritesheet('gusano', './assets/combate/sprites_enemigos/gusano.png', {frameWidth:41, frameHeight:36});
+        this.load.spritesheet('beetle', './assets/combate/sprites_enemigos/beetle.png', {frameWidth:40, frameHeight:50});
         this.load.spritesheet('vampiro', './assets/combate/sprites_enemigos/vampiro.png', {frameWidth:40, frameHeight:85});
+        this.load.spritesheet('esqueleto', './assets/combate/sprites_enemigos/esqueleto.png', {frameWidth:44, frameHeight:52});
+        this.load.spritesheet('fantasma', './assets/combate/sprites_enemigos/fantasma.png', {frameWidth:72, frameHeight:65});
+        this.load.spritesheet('arbol', './assets/combate/sprites_enemigos/arbol.png', {frameWidth:72, frameHeight:65});
+        this.load.spritesheet('burro', './assets/combate/sprites_enemigos/burro.png', {frameWidth:75, frameHeight:90});
+        this.load.spritesheet('topo', './assets/combate/sprites_enemigos/topo.png', {frameWidth:151, frameHeight:117});
         this.load.spritesheet('chucopleito', './assets/combate/sprites_enemigos/chucoPleito.png', {frameWidth:62, frameHeight:76});
         this.load.spritesheet('mariapleito', './assets/combate/sprites_enemigos/mariaPleito.png', {frameWidth:69, frameHeight:75});
         this.load.spritesheet('viejopleito', './assets/combate/sprites_enemigos/viejoPleito.png', {frameWidth:54, frameHeight:93});
