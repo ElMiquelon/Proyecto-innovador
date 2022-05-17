@@ -63,6 +63,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image('FP1', './assets/overworld/edificios/edificioFP1.png');
         this.load.image('FP2', './assets/overworld/edificios/edificioFP2.png');
         this.load.audio('BGMOverworld', './assets/overworld/sonidos/BGMOverworld.ogg');
+        this.load.audio('BGMA', './assets/overworld/sonidos/edificioA.wav');
         //recomiendo que el sonido que usemos final sea uno que quede en cualquier superficie
         this.load.audio('stone1', './assets/overworld/sonidos/stone1.ogg');
         this.load.audio('stone2', './assets/overworld/sonidos/stone2.ogg');

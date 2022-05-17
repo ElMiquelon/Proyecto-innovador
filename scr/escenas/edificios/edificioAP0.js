@@ -4,6 +4,20 @@ export default class edificioAP0 extends Phaser.Scene{
     }
 
     create(){
+        //BGM
+        this.bgm = this.sound.add('BGMA', {loop:true, volume:.5});
+        this.bgm.play();
+
+        //un evento para pausar el BGM cuando haya putasos en AP1
+        this.registry.events.on('pausarbgma', ()=>{
+            this.bgm.pause();
+        });
+
+        //un evento para resumir el BGM cuando haya putasos en AP1
+        this.registry.events.on('resumirbgma', ()=>{
+            this.bgm.resume();
+        })
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
@@ -56,6 +70,7 @@ export default class edificioAP0 extends Phaser.Scene{
         this.backWalk = this.add.zone(0,100, 600,1).setOrigin(0,0);
         this.physics.add.existing(this.backWalk);
         this.physics.add.collider(this.jugador, this.backWalk, ()=>{
+            this.bgm.stop();
             this.scene.transition({target:'overworld', duration:500, remove:true});
         });
 
@@ -114,6 +129,7 @@ export default class edificioAP0 extends Phaser.Scene{
         this.mov = this.input.keyboard.createCursorKeys();
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
+            this.bgm.stop();
             this.scene.transition({target:'overworld', duration:500, remove:true});
         });
     };
