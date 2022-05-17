@@ -140,6 +140,11 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.json('enemigo2', './assets/combate/estadisticas/enemigo2.json');
         this.load.json('enemigo3', './assets/combate/estadisticas/enemigo3.json');
         this.load.json('enemigo4', './assets/combate/estadisticas/enemigo4.json');
+        this.load.json('enemigo5', './assets/combate/estadisticas/enemigo5.json');
+        this.load.json('enemigo6', './assets/combate/estadisticas/enemigo6.json');
+        this.load.json('enemigo7', './assets/combate/estadisticas/enemigo7.json');
+        this.load.json('enemigo8', './assets/combate/estadisticas/enemigo8.json');
+        this.load.json('enemigo9', './assets/combate/estadisticas/enemigo9.json');
         this.load.json('jefe1', './assets/combate/estadisticas/jefe1.json');
         this.load.json('jefe2', './assets/combate/estadisticas/jefe2.json');
         this.load.json('jefe3', './assets/combate/estadisticas/jefe3.json');

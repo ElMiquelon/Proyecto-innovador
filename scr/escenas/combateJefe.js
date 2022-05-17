@@ -427,15 +427,16 @@ export default class combateJefe extends Phaser.Scene {
             //Resetear las resistencias
             playerStats.res = 1.00;
             enemyStats.res = 1.00;
+            playerStats.buffDmg = 0;
+            playerStats.buffDef = 0;
             playerStats.buffDmgT = 0;
             playerStats.buffDefT = 0;
             playerStats.resT = 0;
             enemyStats.resT = 0;
+            enemyStats.buffDmg = 0;
             enemyStats.buffDmgT = 0;
             enemyStats.penal = 0;
             playerStats.penalHeal = 0;
-            enemyStats.crit = 0;
-            enemyStats.critVal = 1;
 
             switch (v) {
                 case 0: /*Perdiste*/

@@ -365,10 +365,13 @@ export default class combate extends Phaser.Scene {
             //Resetear las resistencias
             playerStats.res = 1.00;
             enemyStats.res = 1.00;
+            playerStats.buffDmg = 0;
+            playerStats.buffDef = 0;
             playerStats.buffDmgT = 0;
             playerStats.buffDefT = 0;
             playerStats.resT = 0;
             enemyStats.resT = 0;
+            enemyStats.buffDmg = 0;
             enemyStats.buffDmgT = 0;
             enemyStats.penal = 0;
             playerStats.penalHeal = 0;
@@ -560,6 +563,16 @@ export default class combate extends Phaser.Scene {
 
 
         //asignación de estadisticas al enemigo y jugador
+        this.events.on('asignador', (toplevel) => { //Código para escribir enemigos y sus stats, toplevel es cuantos enemigos pueden aparecer.
+            this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, toplevel));
+                enemyStats.nombre = this.enemyLoader.nombre;
+                enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
+                enemyStats.hp = enemyStats.maxhp;
+                enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
+                enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
+                console.log(enemyStats);
+        });
+
         this.events.on('comenzarBatalla', () => {
             playerStats.maxhp = this.registry.values.playerStats.hp;
             playerStats.hp = playerStats.maxhp
@@ -567,23 +580,18 @@ export default class combate extends Phaser.Scene {
             playerStats.def = this.registry.values.playerStats.def;
             console.log('El nivel del jugador es: ' + this.registry.values.playerStats.lvl);
             //esta webada es para poner enemigos de acuerdo al nivel del jugador
-            if (this.registry.values.playerStats.lvl <= 9) {
-                this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, 2));
-                enemyStats.nombre = this.enemyLoader.nombre;
-                enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
-                enemyStats.hp = enemyStats.maxhp;
-                enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-                enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
-                console.log(enemyStats);
-            } else{ //if (this.registry.values.playerStats.lvl == 2) {
-                this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(3, 4));
-                enemyStats.nombre = this.enemyLoader.nombre;
-                enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
-                enemyStats.hp = enemyStats.maxhp;
-                enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-                enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
-                console.log(enemyStats);
+            if (this.registry.values.playerStats.lvl == 1) {
+                this.events.emit('asignador', 2);
+            } else if (this.registry.values.playerStats.lvl == 2) {
+                this.events.emit('asignador', 4);
+            } else if (this.registry.values.playerStats.lvl == 4) {
+                this.events.emit('asignador', 6);
+            } else if (this.registry.values.playerStats.lvl == 5) {
+                this.events.emit('asignador', 8);
+            } else if (this.registry.values.playerStats.lvl >= 6) {
+                this.events.emit('asignador', 8);
             };
+
             //para que no se vea mal necesitaremos sprites del mismo tamaño, se pueden redimensionar estos no?
             this.spriteEnemigo = this.add.sprite(249,143, this.enemyLoader.nombre);
             this.spriteEnemigo.anims.play('stall' + this.enemyLoader.nombre);
