@@ -94,8 +94,16 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('viejoSprite', './assets/overworld/viejoSprite.png',{frameWidth:18, frameHeight:31});
 
         //aqui se cargaran imagenes de dialogos
-        this.load.image('eli', './assets/overworld/dialogos/tutorial/eli.jpeg');
-        this.load.image('eliEnojado', './assets/overworld/dialogos/tutorial/eliEnojado.jpeg');
+        this.load.image('prologoFondo', './assets/overworld/dialogos/tutorial/eli.jpeg');
+        this.load.image('prologoFondoEnojado', './assets/overworld/dialogos/tutorial/eliEnojado.jpeg');
+        this.load.image("eli", "./assets/overworld/eli.png");
+        this.load.image("eliEnojado", "./assets/overworld/eliEnojado.png");
+        this.load.image("eliSorpresa", "./assets/overworld/eliSorprendido.png");
+        this.load.image("eliSmug", "./assets/overworld/eliSmug.png");
+        this.load.image("viejo", "./assets/overworld/viejo.png");
+        this.load.image("viejoEnojado", "./assets/overworld/viejoEnojado.png");
+        this.load.image("viejoHisteria", "./assets/overworld/viejoHisterico.png");
+
 
         //aqui el turorial
         this.load.image('tuto1', './assets/overworld/dialogos/tutorial/tuto1.png');

@@ -15,6 +15,10 @@ export default class ending extends Phaser.Scene{
         //el rectangulo y texto 
         this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);
         this.texto = this.add.text(this.rectangulo.getBounds().x, this.rectangulo.getBounds().y,this.conversacion.texto[i],{color:'#000', fontSize:'15px', padding:{bottom:2}});
+
+        //las imagenes de la conversación
+        this.viejo = this.add.image(150,this.rectangulo.getBounds().top, 'viejoEnojado').setOrigin(.5,1);
+        this.eli = this.add.image(350,this.rectangulo.getBounds().top, 'eliSmug').setOrigin(.5,1);
         
         //el texto de FIN, acá bien marcadote más que un pito sangre
         this.fin = this.add.text(250,200, 'FIN',{fontSize:'60px'}).setOrigin(.5,.5);
@@ -25,11 +29,32 @@ export default class ending extends Phaser.Scene{
         this.nxt.on('down', ()=>{
             i++;
             this.texto.setText(this.conversacion.texto[i]);
-            this.events.emit('cambiarexpresion')
+            this.events.emit('cambiarexpresion');
         });
 
         this.events.on('cambiarexpresion', ()=>{
-            console.log(i)
+            console.log(i);
+            if(i == 1){
+                this.viejo.setTexture('viejo');
+            };
+
+            if(i == 5){
+                this.eli.setTexture('eli');
+            };
+
+            if(i == 8){
+                this.viejo.setTexture('viejoHisteria');
+            };
+
+            if(i == 9){
+                this.eli.setTexture('eliSorpresa');
+            };
+
+            if(i == 10){
+                this.eli.setVisible(false);
+                this.viejo.setVisible(false);
+            };
+
             if(i == 16){
                 this.fin.setVisible(true);
                 this.input.keyboard.enabled = false;
