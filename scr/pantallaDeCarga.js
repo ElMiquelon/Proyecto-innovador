@@ -37,7 +37,8 @@ export default class pantallaDeCarga extends Phaser.Scene{
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
         this.load.image("polimapa", "./assets/overworld/mapa.png");
         this.load.image('polimapaOverlay', './assets/overworld/mapa-overlay.png');
-        this.load.image('minipolimapa', './assets/overworld/miniMapa.png')
+        this.load.image('minipolimapa', './assets/overworld/miniMapa.png');
+        this.load.image('playerMapa', './assets/overworld/playerMapa.png');
         //this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
         this.load.image('salonbg', './assets/overworld/edificios/salon.png');
         this.load.image('silla', './assets/overworld/edificios/silla.png');

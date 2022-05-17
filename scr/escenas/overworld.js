@@ -346,7 +346,9 @@ export default class overworld extends Phaser.Scene{
         this.events.on('transitionout',(targetScene, duration)=>{
             if (targetScene.scene.key != 'verMapa'){
                 this.cameras.main.fadeOut(duration, 0,0,0);
-            }
+            }else if(targetScene.scene.key == 'verMapa'){
+                this.registry.events.emit('acomodominimapa', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY)
+            };
         });
 
     };
