@@ -4,6 +4,10 @@ export default class edificioBP00 extends Phaser.Scene{
     };
 
     create(){
+        //Soundtrack jeje
+        this.bgm = this.sound.add('BGMB', {loop:true, volume:.5});
+        this.bgm.play();
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(148,0,270,133);
         this.cameras.main.setZoom(1.5);
@@ -44,6 +48,7 @@ export default class edificioBP00 extends Phaser.Scene{
         this.physics.add.overlap(this.jugador,this.pasillo,()=>{
             console.log('pasaste a BP0');
             this.input.keyboard.enabled = false;
+            this.bgm.pause();
             this.registry.events.emit('pasilloabp0');
             this.scene.transition({target:'edificioBP0', duration:300, sleep:true, moveBelow:true})
         });
@@ -53,11 +58,13 @@ export default class edificioBP00 extends Phaser.Scene{
         this.physics.add.existing(this.backWalk1);
         this.physics.add.collider(this.jugador, this.backWalk1, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
         this.backWalk2 = this.add.zone(417,20, 1,73).setOrigin(0,0);
         this.physics.add.existing(this.backWalk2);
         this.physics.add.collider(this.jugador, this.backWalk2, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
         //aqui van las puertas, al rato se hacen

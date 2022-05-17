@@ -16,7 +16,7 @@ export default class edificioAP0 extends Phaser.Scene{
         //un evento para resumir el BGM cuando haya putasos en AP1
         this.registry.events.on('resumirbgma', ()=>{
             this.bgm.resume();
-        })
+        });
 
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,101);

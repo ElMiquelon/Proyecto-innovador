@@ -5,6 +5,20 @@ export default class edificioDP0 extends Phaser.Scene{
     }
 
     create(){
+        //BGM
+        this.bgm = this.sound.add('BGMD', {loop:true, volume:.5});
+        this.bgm.play();
+
+        //un evento para pausar el BGM cuando haya putasos
+        this.registry.events.on('pausarbgmd', ()=>{
+            this.bgm.pause();
+        });
+
+        //un evento para resumir el BGM cuando haya putasos
+        this.registry.events.on('resumirbgmd', ()=>{
+            this.bgm.resume();
+        });
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,750,232);
         this.cameras.main.setZoom(1.5);
@@ -30,6 +44,7 @@ export default class edificioDP0 extends Phaser.Scene{
         this.chuco.on('pointerdown',()=>{//atención, esto es importante para los demás jefes
             if(this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 4){//primero se comprueba tanto si el jugador alcanzó la bandera necesaria para poder enfrentarse a él como si cumple el nivel para ello
                 this.registry.events.emit('dialogarprejefe',this.scene.key,true, 2);//en caso de cumplir ambas, comienza un dialogoprejefe, enviando la key de esta escena, un true de que es true va a peliar y su ID
+                this.registry.events.emit('pausarbgma');
                 this.time.delayedCall(200, ()=>{//y 200 ms despues de haber cerrado la caja 
                     this.registry.events.emit('transicionacombatejefe', this.scene.key, 2);//comienza el combate, dando la key de esta escena y el ID del jefe
                 });
@@ -74,15 +89,17 @@ export default class edificioDP0 extends Phaser.Scene{
         });
 
         //dos rectangulos en la parte negra para salir al overworld
-        this.backWalk1 = this.add.zone(0,199, 442,1).setOrigin(0,0);
+        this.backWalk1 = this.add.zone(0,199, 400,1).setOrigin(0,0);
         this.physics.add.existing(this.backWalk1);
         this.physics.add.collider(this.jugador, this.backWalk1, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
         this.backWalk2 = this.add.zone(466,199, 284,1).setOrigin(0,0);
         this.physics.add.existing(this.backWalk2);
         this.physics.add.collider(this.jugador, this.backWalk2, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
         //detalles de las puertas de los salones (izq -> der)
@@ -117,6 +134,7 @@ export default class edificioDP0 extends Phaser.Scene{
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
     }

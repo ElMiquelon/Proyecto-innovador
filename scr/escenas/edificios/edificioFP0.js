@@ -3,6 +3,10 @@ export default class edificioFP0 extends Phaser.Scene{
         super({key:'edificioFP0'});
     };
     create(){
+        //BGM
+        this.bgm = this.sound.add('BGMF', {loop:true, volume:.5});
+        this.bgm.play();
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
@@ -58,6 +62,7 @@ export default class edificioFP0 extends Phaser.Scene{
         this.physics.add.existing(this.backWalk);
         this.physics.add.collider(this.jugador, this.backWalk, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas

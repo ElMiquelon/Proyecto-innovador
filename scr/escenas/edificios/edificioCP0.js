@@ -4,6 +4,10 @@ export default class edificioCP0 extends Phaser.Scene{
     }
 
     create(){
+        //BGM
+        this.bgm = this.sound.add('BGMC', {loop:true, volume:.5});
+        this.bgm.play();
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(40,0,518,101);
         this.cameras.main.setZoom(1.5);

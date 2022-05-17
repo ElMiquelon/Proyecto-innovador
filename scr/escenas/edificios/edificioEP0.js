@@ -3,6 +3,10 @@ export default class edificioEP0 extends Phaser.Scene{
         super({key:'edificioEP0'});
     };
     create(){
+        //BGM
+        this.bgm = this.sound.add('BGME', {loop:true, volume:.5});
+        this.bgm.play();
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
@@ -89,6 +93,7 @@ export default class edificioEP0 extends Phaser.Scene{
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
     };

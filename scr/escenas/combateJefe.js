@@ -92,7 +92,7 @@ export default class combateJefe extends Phaser.Scene {
                     this.events.emit('hurtPlayer', 1)
                     if (enemyStats.critVal != 1) {
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio furioso', srtWait);
-                        this.events.emit('lessCrit', 10);
+                        this.events.emit('lessCrit', 15);
                         this.cameras.main.shake(50, .08, true);
                     } else {
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque medio', srtWait);
@@ -103,7 +103,7 @@ export default class combateJefe extends Phaser.Scene {
                 case 2:
                     this.events.emit('hurtPlayer', 1.5);
                     if (enemyStats.critVal != 1) {
-                        this.events.emit('lessCrit', 33);
+                        this.events.emit('lessCrit', 55);
                         this.events.emit('enemySetRes', 1.5, 4)
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque fuerte furioso', srtWait);
                         this.cameras.main.shake(50, .15, true);
@@ -118,7 +118,7 @@ export default class combateJefe extends Phaser.Scene {
                     this.events.emit('hurtPlayer', .75)
                     if (enemyStats.critVal != 1) {
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil furioso', srtWait);
-                        this.events.emit('lessCrit', 5);
+                        this.events.emit('lessCrit', 6);
                         this.cameras.main.shake(50, .02, true);
                     } else {
                         this.registry.events.emit('accionDeCombate', 'El enemigo escogio un ataque débil', srtWait);

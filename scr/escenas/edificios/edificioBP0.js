@@ -54,7 +54,7 @@ export default class edificioBP0 extends Phaser.Scene{
         this.physics.add.collider(this.jugador, this.backWalk1, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
         });
-        this.backWalk2 = this.add.zone(320,100, 253,1).setOrigin(0,0);
+        this.backWalk2 = this.add.zone(340,100, 253,1).setOrigin(0,0);
         this.physics.add.existing(this.backWalk2);
         this.physics.add.collider(this.jugador, this.backWalk2, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
@@ -111,6 +111,7 @@ export default class edificioBP0 extends Phaser.Scene{
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
     };
 
