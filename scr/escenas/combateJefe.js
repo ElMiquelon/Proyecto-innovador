@@ -436,6 +436,8 @@ export default class combateJefe extends Phaser.Scene {
             enemyStats.buffDmg = 0;
             enemyStats.buffDmgT = 0;
             enemyStats.penal = 0;
+            enemyStats.crit = 0;
+            enemyStats.critVal = 1;
             playerStats.penalHeal = 0;
 
             switch (v) {
