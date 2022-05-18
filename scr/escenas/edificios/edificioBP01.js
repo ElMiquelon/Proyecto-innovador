@@ -48,6 +48,26 @@ export default class edificioBP01 extends Phaser.Scene{
         });
 
         //aqui van las puertas, al rato se hacen
+        this.lockers = this.add.rectangle(182,7,56,28).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.lockers);
+        this.lockers.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Ningún loker está abierto y ninguno es tuyo');
+        });
+        this.puerta1 = this.add.rectangle(325,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Cerrado...');
+        });
+        this.aviso = this.add.zone(415,34,3,33).setOrigin(0,0);
+        this.physics.add.existing(this.aviso);
+        this.physics.add.overlap(this.jugador,this.aviso, ()=>{
+            this.registry.events.emit('aviso', 'Es la biblioteca, pero también está cerrado');
+        });
+        this.aviso2 = this.add.zone(415,76,3,17).setOrigin(0,0);
+        this.physics.add.existing(this.aviso2);
+        this.physics.add.overlap(this.jugador,this.aviso2, ()=>{
+            this.registry.events.emit('aviso', 'Es la Oficilia de la escuela, pero también está cerrado');
+        });
 
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{

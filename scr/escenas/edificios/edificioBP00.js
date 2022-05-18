@@ -68,6 +68,21 @@ export default class edificioBP00 extends Phaser.Scene{
         });
 
         //aqui van las puertas, al rato se hacen
+        this.puerta1 = this.add.rectangle(234,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'El auditorio está cerrado');
+        });
+        this.puerta2 = this.add.rectangle(296,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Cerrado...');
+        });
+        this.puerta3 = this.add.rectangle(338,9,33,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Coordinación academica está cerrado también');
+        });
 
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{
