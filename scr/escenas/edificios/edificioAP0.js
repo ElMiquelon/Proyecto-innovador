@@ -78,25 +78,31 @@ export default class edificioAP0 extends Phaser.Scene{
         this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al A1');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
 
         this.puerta2 = this.add.rectangle(281,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta2);
         this.puerta2.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al A2');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
 
         this.puerta3 = this.add.rectangle(190,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta3);
         this.puerta3.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al A3');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
 
         this.puerta4 = this.add.rectangle(86,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta4);
         this.puerta4.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'No es buena idea entrar al baño ahora mismo');
         });
 
 

@@ -60,33 +60,64 @@ export default class edificioBP0 extends Phaser.Scene{
             this.scene.transition({target:'overworld', duration:500, remove:true});
         });
 
-        //detalles de las puertas de los salones (las copié y pegué del A, no están configuradas)
-        /*
-        this.puerta1 = this.add.rectangle(378,9,17,22).setOrigin(0,0).setInteractive();
+        //detalles de las puertas de los salones (derecha a izquierda)
+
+        this.puerta1 = this.add.rectangle(50,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al B8');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
-
-        this.puerta2 = this.add.rectangle(281,9,17,22).setOrigin(0,0).setInteractive();
+        this.puerta2 = this.add.rectangle(119,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta2);
         this.puerta2.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al B7');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
-
         this.puerta3 = this.add.rectangle(190,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta3);
         this.puerta3.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al B6');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
-
-        this.puerta4 = this.add.rectangle(86,9,17,22).setOrigin(0,0).setInteractive();
+        this.puerta4 = this.add.rectangle(261,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta4);
         this.puerta4.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al B5');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
-        */
-
+        this.puerta5 = this.add.rectangle(332,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta5);
+        this.puerta5.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al B4');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta6 = this.add.rectangle(418,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta6);
+        this.puerta6.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al B3');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta8 = this.add.rectangle(486,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta8);
+        this.puerta8.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al B2');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta9 = this.add.rectangle(561,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta9);
+        this.puerta9.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al B1');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
 
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{
