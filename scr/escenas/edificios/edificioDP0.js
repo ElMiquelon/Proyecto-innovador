@@ -103,10 +103,45 @@ export default class edificioDP0 extends Phaser.Scene{
         });
 
         //detalles de las puertas de los salones (izq -> der)
-        this.puerta1 = this.add.rectangle(750,480,17,22).setOrigin(0,0).setInteractive();
+        this.puerta1 = this.add.rectangle(457,109,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Aun no se hace esto, saludos al teorema');
+            this.registry.events.emit('aviso', 'Entraste al D1');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta2 = this.add.rectangle(365,109,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al D2');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+
+        this.puerta3 = this.add.rectangle(15,109,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Un laboratorio en mantenimiento,\nno sería buena idea entrar');
+        });
+        this.puerta4 = this.add.rectangle(93,109,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta4);
+        this.puerta4.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Un laboratorio en mantenimiento,\nno sería buena idea entrar');
+        });
+        this.puerta5 = this.add.rectangle(260,109,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta5);
+        this.puerta5.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Un laboratorio en mantenimiento,\nno sería buena idea entrar');
+        });
+        this.lockers = this.add.rectangle(611,37,17,85).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.lockers);
+        this.lockers.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Ningún locker tiene algo interesante');
+        });
+        this.aviso = this.add.zone(748,47,2,19).setOrigin(0,0);
+        this.physics.add.existing(this.aviso);
+        this.physics.add.overlap(this.jugador,this.aviso, ()=>{
+            this.registry.events.emit('aviso', 'Es el baño mixto, pero no tienes ganas de ir al baño');
         });
 
 

@@ -80,7 +80,27 @@ export default class edificioEP2 extends Phaser.Scene{
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
-
+        this.puerta1 = this.add.rectangle(62,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al E5');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta2 = this.add.rectangle(154,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al E6');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta3 = this.add.rectangle(341,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al E7');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
         //la puerta que te llevará con el viejo si se cumplen los requerimientos
         this.puertaFinal = this.add.rectangle(437,9,17,22).setOrigin(0,0).setInteractive();
         //advertencia: como la puerta/rectangulo no tiene "cuerpo de fisicas" no se verá dibujado con el debug, pero está ahí, píquenle 

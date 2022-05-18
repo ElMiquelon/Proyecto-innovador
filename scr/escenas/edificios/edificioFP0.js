@@ -66,7 +66,49 @@ export default class edificioFP0 extends Phaser.Scene{
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
-
+        this.puerta1 = this.add.rectangle(58,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es el baño de mujeres,\npero no tienes ganas de entrar al baño');
+        });
+        this.puerta2 = this.add.rectangle(93,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es el baño de hombres,\npero no puedes entrar a este baño');
+        });
+        this.puerta3 = this.add.rectangle(133,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es un alamcen, no tienes la llave');
+        });
+        this.puerta4 = this.add.rectangle(202,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta4);
+        this.puerta4.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al F1');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta5 = this.add.rectangle(348,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta5);
+        this.puerta5.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al F2');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta6 = this.add.rectangle(432,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta6);
+        this.puerta6.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al F3');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
+        this.puerta7 = this.add.rectangle(505,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta7);
+        this.puerta7.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al F4');
+            this.registry.events.emit('reconstruccionsalon');
+            this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
+        });
 
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{

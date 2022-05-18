@@ -39,7 +39,6 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image('polimapaOverlay', './assets/overworld/mapa-overlay.png');
         this.load.image('minipolimapa', './assets/overworld/miniMapa.png');
         this.load.image('playerMapa', './assets/overworld/playerMapa.png');
-        //this.load.image('polibg', './assets/overworld/edificios/poliprueba.JPG');
         this.load.image('salonbg', './assets/overworld/edificios/salon.png');
         this.load.image('silla', './assets/overworld/edificios/silla.png');
         this.load.image('escritorio', './assets/overworld/edificios/escritorio.png')
@@ -70,7 +69,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.audio('BGMB', './assets/overworld/sonidos/edificioB.wav');
         this.load.audio('BGMC', './assets/overworld/sonidos/edificioC.wav');
         this.load.audio('BGMD', './assets/overworld/sonidos/edificioD.wav');
-        //this.load.audio('BGME', './assets/overworld/sonidos/edificioE.wav');
+        this.load.audio('BGME', './assets/overworld/sonidos/edificioE.wav');
         this.load.audio('BGMF', './assets/overworld/sonidos/edificioF.wav');
 
 

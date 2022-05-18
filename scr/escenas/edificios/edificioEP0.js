@@ -65,8 +65,52 @@ export default class edificioEP0 extends Phaser.Scene{
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
-
-
+        this.puerta1 = this.add.rectangle(62,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es el baño de mujeres,\npero no tienes ganas de entrar al baño');
+        });
+        this.puerta2 = this.add.rectangle(97,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es el baño de hombres,\npero no puedes entrar a este baño');
+        });
+        this.puerta3 = this.add.rectangle(154,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es un alamcen, no tienes la llave');
+        });
+        this.puerta4 = this.add.rectangle(219,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta4);
+        this.puerta4.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es un laboratorio, no deberías entrar');
+        });
+        this.puerta5 = this.add.rectangle(334,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta5);
+        this.puerta5.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es un laboratorio, no deberías entrar');
+        });
+        this.puerta6 = this.add.rectangle(374,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta6);
+        this.puerta6.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es la aula ampliada, no deberías entrar');
+        });
+        this.puerta7 = this.add.rectangle(439,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta7);
+        this.puerta7.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es otra puerta para la aula ampliada, no deberías entrar');
+        });
+        this.puerta8 = this.add.rectangle(504,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta8);
+        this.puerta8.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es la área de becas, no deberías entrar');
+        });
+        this.puerta9 = this.add.rectangle(531,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta9);
+        this.puerta9.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Es Orientación acádemica, aunque el apoyo moral\n no vendría nada mal, no deberías entrar');
+        });
+    
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{
             this.cameras.main.fadeOut(duration,0,0,0);
