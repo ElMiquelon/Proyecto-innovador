@@ -40,13 +40,13 @@ export default class edificioCP0 extends Phaser.Scene{
             this.add.rectangle(444,0,46,19).setOrigin(0),
             this.add.rectangle(429,0,15,10).setOrigin(0),
             this.add.rectangle(490,0,16,10).setOrigin(0),
-            this.add.rectangle(506,0,52,19).setOrigin(0)
+            this.add.rectangle(506,0,52,19).setOrigin(0),
             //this.add.rectangle().setOrigin(0)
         ]);
         this.physics.add.collider(this.jugador, this.hitboxes);
 
         //OVERLAP de las escaleras
-        this.escalera = this.add.zone(271,0,40,19).setOrigin(0);//esta la de en medio que sube
+        this.escalera = this.add.zone(269,48,44,29).setOrigin(0);//esta la de en medio que sube
         this.physics.add.existing(this.escalera)
         this.physics.add.overlap(this.jugador, this.escalera, ()=>{
             console.log('subiste por la única escalera');
@@ -63,6 +63,39 @@ export default class edificioCP0 extends Phaser.Scene{
         this.events.on('transitioncomplete', (fromScene, duration)=>{
             this.cameras.main.fadeFrom(200, 0,0,0);
             this.input.keyboard.enabled = true;
+        });
+
+        //DETALLES DE LAS PUERTAS DE IZQUIERDA A DERECHA
+
+        this.puerta1 = this.add.rectangle(62,9,17,21).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Baño de mujeres');
+        });
+        this.puerta2 = this.add.rectangle(97,9,17,21).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta2);
+        this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Baño de hombres');
+        });
+        this.puerta3 = this.add.rectangle(166,9,17,21).setOrigin(166,9,17,21).setInteractive();
+        this.physics.add.existing(this.puerta3);
+        this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Análisis de alimentos');
+        });
+        this.puerta4 = this.add.rectangle(217,9,17,21).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta4);
+        this.puerta4.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Laboratorio de microbiología');
+        });
+        this.puerta5 = this.add.rectangle(371,9,17,21).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta5);
+        this.puerta5.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Laboratorio de alimentos');
+        });
+        this.puerta6 = this.add.rectangle(489,9,17,21).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta6);
+        this.puerta6.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Laboratorio de Lacteos');
         });
 
         //detalles del input
