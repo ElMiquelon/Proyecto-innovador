@@ -7,6 +7,12 @@ export default class edificioEP0 extends Phaser.Scene{
         this.bgm = this.sound.add('BGME', {loop:true, volume:.5});
         this.bgm.play();
 
+
+        //un evento para detener el BGM cuando vayas con diosito (el viejo)
+        this.registry.events.on('detenerbgme', ()=>{
+            this.bgm.stop();
+        });
+
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(0,0,600,101);
         this.cameras.main.setZoom(1.5);
