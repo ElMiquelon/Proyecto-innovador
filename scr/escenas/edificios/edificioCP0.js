@@ -55,13 +55,6 @@ export default class edificioCP0 extends Phaser.Scene{
             this.scene.transition({target:'edificioCP1', duration:300, sleep:true, moveBelow:true});
         });
 
-        this.physics.add.overlap(this.jugador, this.escalera2, ()=>{
-            console.log('subiste por escalera 1 a escalera2 CP1');
-            this.registry.events.emit('subirescalera1C');
-            this.input.keyboard.enabled = false;
-            this.scene.transition({target:'edificioCP1', duration:300, sleep:true, moveBelow:true});
-        });
-
         //detalles de las transiciones
         this.events.on('transitionout',(targetScene, duration)=>{
             this.cameras.main.fadeOut(duration,0,0,0);
@@ -70,6 +63,11 @@ export default class edificioCP0 extends Phaser.Scene{
         this.events.on('transitioncomplete', (fromScene, duration)=>{
             this.cameras.main.fadeFrom(200, 0,0,0);
             this.input.keyboard.enabled = true;
+        });
+
+        //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
+        this.registry.events.on('bajarescalera1C', ()=>{
+            this.jugador.setPosition(269,48);
         });
 
         //DETALLES DE LAS PUERTAS DE IZQUIERDA A DERECHA

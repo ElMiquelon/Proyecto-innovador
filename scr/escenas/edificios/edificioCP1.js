@@ -45,11 +45,10 @@ export default class edificioCP1 extends Phaser.Scene{
             this.scene.transition({target:'edificioCP0', duration:300, sleep:true, moveBelow:true});
         });
 
-        this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
-            console.log('bajaste por escalera 1 a escalera2 CP0');
-            this.registry.events.emit('bajarescalera1C');
-            this.input.keyboard.enabled = false;
-            this.scene.transition({target:'edificioCP0', duration:300, sleep:true, moveBelow:true});
+
+        //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
+        this.registry.events.on('subirescalera1C', ()=>{
+            this.jugador.setPosition(272,56);
         });
 
 
