@@ -1,9 +1,12 @@
 {
     "dialogo":[
-        "¿Ya eres nivel 4?",
-        "Bonito clima... Perfecto para que encuentres al csm y después",
-        "He escuchado que X está en el primer piso del A",
-        "¿Cómo vas?"
+        "No olvides subir de nivel antes de enfrentar un jefe",
+        "Bonito clima... Pero me gusta más el clima lluvioso",
+        "¿Necesitas algo?",
+        "Si no es importante no vengas conmigo",
+        "Eu...",
+        "(Está distraído)",
+        "¿Recuerdas la misión?"
     ],
     "nombre":"E: "
 }

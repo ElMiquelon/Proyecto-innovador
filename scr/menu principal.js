@@ -30,7 +30,7 @@ export default class menup extends Phaser.Scene{
             this.registry.events.emit('reconstruccionsalon');
             this.scene.switch('salon');
         });
-        this.aPP = this.input.keyboard.addKey('P');
+        this.aPP = this.input.keyboard.addKey('Y');
         this.aPP.on('down', ()=>{
             this.registry.events.emit('reconstruccionPP');
             this.scene.transition({target:'poliplaza0', duration:300});

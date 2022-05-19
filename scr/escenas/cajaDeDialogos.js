@@ -23,6 +23,11 @@ export default class cajaDeDialogos extends Phaser.Scene{
         this.load.json('NPC00', './assets/overworld/dialogos/dialogosnpc00.json');
         this.load.json('dialogoeli0', './assets/overworld/dialogos/dialogoseli0.json');
         this.load.json('dialogoeli1', './assets/overworld/dialogos/dialogoseli1.json');
+        this.load.json('dialogoeli2', './assets/overworld/dialogos/dialogoseli2.json');
+        this.load.json('dialogoeli3', './assets/overworld/dialogos/dialogoseli3.json');
+        this.load.json('dialogoeli4', './assets/overworld/dialogos/dialogoseli4.json');
+        this.load.json('dialogoeli5', './assets/overworld/dialogos/dialogoseli5.json');
+        this.load.json('dialogoeli6', './assets/overworld/dialogos/dialogoseli6.json');
         this.load.json('dialogoeli7', './assets/overworld/dialogos/dialogoseli7.json');
         
         //aquí los dialogos prebatalla de los jefes
