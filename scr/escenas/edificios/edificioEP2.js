@@ -108,7 +108,7 @@ export default class edificioEP2 extends Phaser.Scene{
             if(this.registry.values.progreso != 8){
                 this.registry.events.emit('aviso', 'Un salón. Está cerrado');
             }else{
-                this.bgm.stop();
+                this.registry.events.emit('detenerbgme');
                 this.registry.events.emit('elfinal');
                 this.scene.transition({target:'salonFinal', duration:300, remove:true, moveBelow:true});
             };
