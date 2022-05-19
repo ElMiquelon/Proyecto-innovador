@@ -36,7 +36,7 @@ export default class edificioCP1 extends Phaser.Scene{
         this.physics.add.collider(this.jugador, this.hitboxes);
         
         //overlap de las escaleras
-        this.escalera = this.add.zone(271,42,41,28).setOrigin(0);
+        this.escalera = this.add.zone(288,0,24,32).setOrigin(0);
         this.physics.add.existing(this.escalera);
         this.physics.add.overlap(this.jugador, this.escalera, ()=>{
             console.log('bajaste por escalera ');
@@ -44,6 +44,14 @@ export default class edificioCP1 extends Phaser.Scene{
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioCP0', duration:300, sleep:true, moveBelow:true});
         });
+
+        this.physics.add.overlap(this.jugador, this.escalera1, ()=>{
+            console.log('bajaste por escalera 1 a escalera2 CP0');
+            this.registry.events.emit('bajarescalera1C');
+            this.input.keyboard.enabled = false;
+            this.scene.transition({target:'edificioCP0', duration:300, sleep:true, moveBelow:true});
+        });
+
 
         //Detalles de las puertas de izquierda a derecha
         this.puerta1 = this.add.rectangle(97,9,17,21).setOrigin(0,0).setInteractive();
