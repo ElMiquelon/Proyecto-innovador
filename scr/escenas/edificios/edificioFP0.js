@@ -136,6 +136,7 @@ export default class edificioFP0 extends Phaser.Scene{
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
     };

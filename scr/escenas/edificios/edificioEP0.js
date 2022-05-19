@@ -62,6 +62,7 @@ export default class edificioEP0 extends Phaser.Scene{
         this.physics.add.existing(this.backWalk);
         this.physics.add.collider(this.jugador, this.backWalk, ()=>{
             this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
         });
 
         //aqui van las puertas, cuando las pongan cambien este comentario por algo que indique que aqui estan las puertas
