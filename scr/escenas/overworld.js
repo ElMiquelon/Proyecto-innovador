@@ -56,8 +56,11 @@ export default class overworld extends Phaser.Scene{
         //estructuracion del mapa.1 - zonas que llevarán al jugador a un escenario mas detallado del edificio.
         
         //poliplaza
-        this.aPoliplaza = this.add.zone(217,803,234,1).setOrigin(0,0);
-        this.physics.add.existing(this.aPoliplaza,true);
+        this.aPoliplaza1 = this.add.zone(217,803,231,1).setOrigin(0,0);
+        this.physics.add.existing(this.aPoliplaza1,true);
+
+        this.aPoliplaza2 = this.add.zone(450,758,1,45).setOrigin(0,0);
+        this.physics.add.existing(this.aPoliplaza2,true);
 
         //edificio A 
         this.alEdificioA1 = this.add.rectangle(538, 955, 44, 48, 0xffffff).setOrigin(0,0);
@@ -294,9 +297,20 @@ export default class overworld extends Phaser.Scene{
         this.physics.add.collider(this.jugador,this.edificios);
 
         //estructuracion del mapa.1.1 - el OVERLAP entre el jugador y los rectangulos de los edificios;
-        this.physics.add.collider(this.jugador, this.aPoliplaza,() =>{
-            console.log('aquí va el evento que lleva a poliplaza. WIP');
-            this.jugador.setPosition(this.jugador.getBounds().centerX + 4, this.jugador.getBounds().centerY + 4);
+        this.physics.add.collider(this.jugador, this.aPoliplaza1,() =>{
+            this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().centerY + 10);
+            this.registry.events.emit('aviso', 'Poliplaza, nada interesante ahí.');
+            /*this.bgm.pause();
+            this.registry.events.emit('reconstruccionPP');
+            this.scene.transition({target:'poliplaza0', duration:300, sleep:true, sleep:true, moveBelow:true});*/
+        });
+
+        this.physics.add.collider(this.jugador, this.aPoliplaza2,() =>{
+            this.jugador.setPosition(this.jugador.getBounds().centerX + 10, this.jugador.getBounds().centerY);
+            this.registry.events.emit('aviso', 'Poliplaza, nada interesante ahí.');
+            /*this.bgm.pause();
+            this.registry.events.emit('reconstruccionPP');
+            this.scene.transition({target:'poliplaza0', duration:300, sleep:true, moveBelow:true});*/
         });
         this.physics.add.overlap(this.jugador,[this.alEdificioA1, this.alEdificioA2, this.alEdificioA3, this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE, this.alEdificioF]);
        

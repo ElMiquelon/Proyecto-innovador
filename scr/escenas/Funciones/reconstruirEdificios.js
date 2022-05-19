@@ -1,4 +1,6 @@
 import salon from "../edificios/salon.js";
+import poliplaza0 from "../edificios/poliplaza0.js";
+import poliplaza1 from "../edificios/poliplaza1.js";
 import edificioAP0 from "../edificios/edificioAP0.js";
 import edificioAP1 from "../edificios/edificioAP1.js";
 import coop from "../edificios/coop.js";
@@ -28,6 +30,17 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.add('salon', new salon);
             this.scene.moveAbove('salon', 'cajaDeDialogos');
             this.scene.moveAbove('salon', 'transicionACombate');
+        });
+
+        this.registry.events.on('reconstruccionPP', ()=>{
+            this.scene.add('poliplaza0', new poliplaza0);
+            this.scene.add('poliplaza1', new poliplaza1);
+            this.scene.moveAbove('poliplaza0', 'cajaDeDialogos').moveAbove('poliplaza1', 'cajaDeDialogos');
+            this.scene.moveAbove('poliplaza0', 'transicionACombate').moveAbove('poliplaza1', 'transicionACombate');
+        });
+
+        this.registry.events.on('destruccionpoliplaza0', ()=>{
+            this.scene.remove('poliplaza1');
         });
         
         this.registry.events.on('reconstruccionA', ()=>{

@@ -43,7 +43,9 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.image('playerMapa', './assets/overworld/playerMapa.png');
         this.load.image('salonbg', './assets/overworld/edificios/salon.png');
         this.load.image('silla', './assets/overworld/edificios/silla.png');
-        this.load.image('escritorio', './assets/overworld/edificios/escritorio.png')
+        this.load.image('escritorio', './assets/overworld/edificios/escritorio.png');
+        this.load.image('PP0', './assets/overworld/edificios/poliplaza0.png');
+        this.load.image('PP1', './assets/overworld/edificios/poliplaza1.png');
         this.load.image('AP0', './assets/overworld/edificios/edificioAP0.png');
         this.load.image('AP1', './assets/overworld/edificios/edificioAP1.png');
         this.load.image('coop', './assets/overworld/edificios/coop.png');
