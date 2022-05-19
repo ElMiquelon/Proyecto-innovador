@@ -141,7 +141,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('vampiro', './assets/combate/sprites_enemigos/vampiro.png', {frameWidth:40, frameHeight:85});
         this.load.spritesheet('esqueleto', './assets/combate/sprites_enemigos/esqueleto.png', {frameWidth:44, frameHeight:52});
         this.load.spritesheet('fantasma', './assets/combate/sprites_enemigos/fantasma.png', {frameWidth:72, frameHeight:65});
-        this.load.spritesheet('arbol', './assets/combate/sprites_enemigos/arbol.png', {frameWidth:72, frameHeight:65});
+        this.load.spritesheet('arbol', './assets/combate/sprites_enemigos/arbol.png', {frameWidth:57, frameHeight:66});
         this.load.spritesheet('burro', './assets/combate/sprites_enemigos/burro.png', {frameWidth:75, frameHeight:90});
         this.load.spritesheet('topo', './assets/combate/sprites_enemigos/topo.png', {frameWidth:151, frameHeight:117});
         this.load.spritesheet('profe1pleito', './assets/combate/sprites_enemigos/profe1Pleito.png', {frameWidth:32, frameHeight:64});
