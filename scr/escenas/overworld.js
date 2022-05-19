@@ -326,7 +326,7 @@ export default class overworld extends Phaser.Scene{
         //Tecla para abrir el mapa
         this.map = this.input.keyboard.addKey('M');
         this.map.on('down', ()=>{
-            this.scene.transition({target:'verMapa', duration:100, sleep:true});
+            this.registry.events.emit('mostrarmapa', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY)
         });
 
         //detalles de las transiciones
@@ -336,7 +336,7 @@ export default class overworld extends Phaser.Scene{
                 this.bgm.resume();
                 this.scene.resume(this);
                 
-            }else if(fromScene.scene.key != 'verMapa'){
+            }else{
                 this.registry.events.emit('destruccion' + fromScene.scene.key);
                 this.cameras.main.fadeFrom(400, 0, 0, 0);
                 this.bgm.resume();
@@ -344,11 +344,7 @@ export default class overworld extends Phaser.Scene{
         });
 
         this.events.on('transitionout',(targetScene, duration)=>{
-            if (targetScene.scene.key != 'verMapa'){
-                this.cameras.main.fadeOut(duration, 0,0,0);
-            }else if(targetScene.scene.key == 'verMapa'){
-                this.registry.events.emit('acomodominimapa', this.jugador.getBounds().centerX, this.jugador.getBounds().centerY)
-            };
+            this.cameras.main.fadeOut(duration, 0,0,0);
         });
 
     };

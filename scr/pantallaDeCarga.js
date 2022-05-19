@@ -2,6 +2,7 @@ import creacionAnimaciones from "./escenas/creacionAnimaciones.js";
 import overworld from "./escenas/overworld.js";
 import reconstruirEdificios from "./escenas/Funciones/reconstruirEdificios.js";
 import cajaDeDialogos from "./escenas/cajaDeDialogos.js";
+import transicionAMapa from "./escenas/Funciones/transicionAMapa.js";
 import verMapa from "./escenas/Funciones/verMapa.js";
 import tutorial from "./escenas/Funciones/tutorial.js";
 import prologo from "./escenas/Funciones/prologo.js";
@@ -27,12 +28,13 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.add('overworld', new overworld);
         this.scene.add('reconstruirEdificios', new reconstruirEdificios)
         this.scene.add('cajaDeDialogos', new cajaDeDialogos);
+        this.scene.add('transicionAMapa', new transicionAMapa);
         this.scene.add('verMapa', new verMapa);
         this.scene.add('tutorial', new tutorial);
         this.scene.add('prologo', new prologo);
         this.scene.add('combate', combate);
         this.scene.add('combateDialogos', new combateDialogos);
-        this.scene.add('transicionACombate', new transitionACombate)
+        this.scene.add('transicionACombate', new transitionACombate);
         
         //aquí se cargarán assets del mundo (objetos, BG, ambiente, etc)
         this.load.image("polimapa", "./assets/overworld/mapa.png");
@@ -165,7 +167,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.scene.launch('cajaDeDialogos').sleep('cajaDeDialogos');
         this.scene.launch('verMapa').stop('verMapa');
         this.scene.launch('combateDialogos').sleep('combateDialogos');
-        this.scene.launch('transicionACombate').launch('reconstruirEdificios');
+        this.scene.launch('transicionACombate').launch('reconstruirEdificios').launch('transicionAMapa');
         this.scene.start('menup');
     };
 }

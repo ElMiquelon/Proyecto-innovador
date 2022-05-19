@@ -35,7 +35,7 @@ export default class verMapa extends Phaser.Scene{
         });
         this.volver = this.input.keyboard.addKey('M');
         this.volver.on('down', ()=>{//se puede poner 'up' para que se deba mantener M presionado
-            this.scene.transition({target:'overworld', duration:100});
+            this.scene.transition({target:'transicionAMapa', duration:100});
         });
     };
 }
