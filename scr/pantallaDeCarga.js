@@ -87,6 +87,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet("playersprite", "./assets/overworld/player_sprites_chidos.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spritemilia", "./assets/overworld/NPC1_sprite.png", {frameWidth:24, frameHeight:32});
         this.load.spritesheet("spriteknowledge", "./assets/overworld/NPC2_sprite.png", {frameWidth:24, frameHeight:32});
+        this.load.spritesheet('profe1Sprite', './assets/overworld/profe1Sprite.png',{frameWidth:16, frameHeight:33});
         this.load.spritesheet('eliSprite', './assets/overworld/eliSprite.png',{frameWidth:18, frameHeight:31});
         this.load.spritesheet('juanSprite', './assets/overworld/juanSprite.png',{frameWidth:18, frameHeight:31});
         this.load.spritesheet('chucoSprite', './assets/overworld/chucoSprite.png',{frameWidth:18, frameHeight:31});
@@ -141,6 +142,7 @@ export default class pantallaDeCarga extends Phaser.Scene{
         this.load.spritesheet('arbol', './assets/combate/sprites_enemigos/arbol.png', {frameWidth:72, frameHeight:65});
         this.load.spritesheet('burro', './assets/combate/sprites_enemigos/burro.png', {frameWidth:75, frameHeight:90});
         this.load.spritesheet('topo', './assets/combate/sprites_enemigos/topo.png', {frameWidth:151, frameHeight:117});
+        this.load.spritesheet('profe1pleito', './assets/combate/sprites_enemigos/profe1Pleito.png', {frameWidth:32, frameHeight:64});
         this.load.spritesheet('chucopleito', './assets/combate/sprites_enemigos/chucoPleito.png', {frameWidth:62, frameHeight:76});
         this.load.spritesheet('mariapleito', './assets/combate/sprites_enemigos/mariaPleito.png', {frameWidth:69, frameHeight:75});
         this.load.spritesheet('viejopleito', './assets/combate/sprites_enemigos/viejoPleito.png', {frameWidth:54, frameHeight:93});

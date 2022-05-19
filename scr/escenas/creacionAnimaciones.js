@@ -148,6 +148,15 @@ create(){
     });
 
     this.anims.create({
+        key:'stallprofe1ow',
+        frames:this.anims.generateFrameNumbers('profe1Sprite',{
+            frames:[0,1,2,3]
+        }),
+        repeat:-1,
+        frameRate:1
+    });
+
+    this.anims.create({
         key:'stallchucoow',
         frames:this.anims.generateFrameNumbers('chucoSprite',{
             frames:[0,1,2]
@@ -258,6 +267,15 @@ create(){
     });
 
     //sprites de jefes en combate
+    this.anims.create({
+        key:'stallprofe1',
+        frames:this.anims.generateFrameNumbers('profe1pleito',{
+            frames:[0,1,2,3,4,5,6,7]
+        }),
+        repeat:-1,
+        frameRate:8
+    });
+
     this.anims.create({
         key:'stallchuco',
         frames:this.anims.generateFrameNumbers('chucopleito',{

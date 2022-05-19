@@ -32,7 +32,7 @@ export default class edificioAP1 extends Phaser.Scene{
         this.physics.add.collider(this.jugador, this.hitboxes);
 
         //prueba de progreso
-        this.jefePrueba = this.physics.add.staticSprite(29,29,'playersprite').setInteractive();
+        this.jefePrueba = this.physics.add.staticSprite(29,29,'profe1Sprite').setInteractive();
         this.jefePrueba.on('pointerdown',()=>{//atención, esto es importante para los demás jefes
             if(this.registry.values.playerStats.lvl >= 2 && this.registry.values.progreso == 2){//primero se comprueba tanto si el jugador alcanzó la bandera necesaria para poder enfrentarse a él como si cumple el nivel para ello
                 this.registry.events.emit('dialogarprejefe',this.scene.key,true, 1);//en caso de cumplir ambas, comienza un dialogoprejefe, enviando la key de esta escena, un true de que es true va a peliar y su ID

@@ -2,7 +2,7 @@
     "hp":300,
     "atk": 17,
     "xp":500,
-    "nombre":"playersprite",
+    "nombre":"profe1",
     "victoria":[
         "Has recuperado el bolso de Martha",
         "inserteAquiElNombreDelRegistry.valueQueSeVolveráTrueParaEntrarADichoLugar"
