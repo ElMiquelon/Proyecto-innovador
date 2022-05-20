@@ -2,15 +2,12 @@ var pelea;
 export default class overworld extends Phaser.Scene{
     constructor(){
         super({key: 'overworld'});
-    }
-    preload(){
-        //no estoy seguro si los sonidos será mejor cargarlos aquí o en la pantalla de carga.
-        //por ahora estan en la pantalla de carga 24/04/22
-    }
+    };
 
     create(){
         //detalles de la camara, limites del mundo, BG y BGM
         this.cameras.main.setBounds(0,0,2000,2000);
+        this.cameras.main.setZoom(1.5);
         //this.cameras.main.setZoom(.7); esta madre es mas que nada de debug
         this.add.image(0,0, 'polimapa').setOrigin(0,0);
         this.physics.world.setBounds(0,0,2000,2000);
