@@ -153,6 +153,7 @@ export default class edificioDP0 extends Phaser.Scene{
         this.events.on('transitioncomplete', (fromScene, duration)=>{
             this.cameras.main.fadeFrom(200, 0,0,0);
             this.input.keyboard.enabled = true;
+            this.registry.events.emit('resumirbgmd');
         });
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
