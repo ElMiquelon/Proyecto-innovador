@@ -45,20 +45,20 @@ export default class tutorial extends Phaser.Scene{
             if (i == 15){
                 this.tutoimg.setVisible(false);
             };
-            if (i == 21){
+            if (i == 18){
                 this.tutoimg.setVisible(true);
                 this.tutoimg.setTexture('tuto7');
             };
-            if (i == 22){
+            if (i == 19){
                 this.tutoimg.setTexture('tuto8');
             };
-            if (i == 25){
+            if (i == 22){
                 this.tutoimg.setTexture('tuto9');
             };
-            if (i == 28){
+            if (i == 25){
                 this.tutoimg.setTexture('tuto10');
             };
-            if(i == 31){
+            if(i == 28){
                 this.tutoimg.setVisible(false);
             };
     
