@@ -58,30 +58,35 @@ export default class edificioCP1 extends Phaser.Scene{
         this.puerta1 = this.add.rectangle(97,9,17,21).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al C1');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
         this.puerta2 = this.add.rectangle(217,9,17,21).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta2);
         this.puerta2.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al C2');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
         this.puerta3 = this.add.rectangle(371,9,17,21).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta3);
         this.puerta3.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al C3');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
         this.puerta4 = this.add.rectangle(428,9,17,21).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta4);
         this.puerta4.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al C4');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
         this.puerta5 = this.add.rectangle(489,9,17,21).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta5);
         this.puerta5.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Entraste al C5');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });

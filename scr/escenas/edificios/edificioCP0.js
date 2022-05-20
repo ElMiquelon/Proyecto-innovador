@@ -70,7 +70,12 @@ export default class edificioCP0 extends Phaser.Scene{
             this.input.keyboard.enabled = true;
         });
 
-        
+        this.backWalk1 = this.add.zone(40,99, 518,2).setOrigin(0,0);
+        this.physics.add.existing(this.backWalk1);
+        this.physics.add.collider(this.jugador, this.backWalk1, ()=>{
+            this.scene.transition({target:'overworld', duration:500, remove:true});
+            this.bgm.stop();
+        });
 
         //DETALLES DE LAS PUERTAS DE IZQUIERDA A DERECHA
 
@@ -109,6 +114,7 @@ export default class edificioCP0 extends Phaser.Scene{
         this.mov = this.input.keyboard.createCursorKeys();
         this.back = this.input.keyboard.addKey('X');
         this.back.on('down', ()=>{
+            this.bgm.stop();
             this.scene.transition({target:'overworld', duration:500, remove:true});
         });
     };

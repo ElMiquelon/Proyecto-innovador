@@ -54,7 +54,17 @@ export default class poliplaza1 extends Phaser.Scene{
             this.jugador.setPosition(288,38);
         });
 
-        //la puerta (al rato)
+        //la puerta
+        this.puerta1 = this.add.rectangle(108,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Los estudiantes no pueden entrar a Control Escolar');
+        });
+        this.aviso = this.add.zone(363,54,3,17).setOrigin(0,0);
+        this.physics.add.existing(this.aviso);
+        this.physics.add.overlap(this.jugador,this.aviso, ()=>{
+            this.registry.events.emit('aviso', 'La dirección, no se encuentra nadie');
+        });
 
         //input
         this.mov = this.input.keyboard.createCursorKeys();

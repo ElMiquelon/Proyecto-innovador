@@ -66,7 +66,17 @@ export default class poliplaza0 extends Phaser.Scene{
             this.jugador.setPosition(310,38);
         });
 
-        //la puerta (al rato)
+        //la puerta
+        this.puerta1 = this.add.rectangle(244,9,17,22).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.puerta1);
+        this.puerta1.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'Este es FabLab, pero recuerda que\nla curiosidad mato al gato');
+        });
+        this.maquina = this.add.rectangle(331,8,23,21).setOrigin(0,0).setInteractive();
+        this.physics.add.existing(this.maquina);
+        this.maquina.on('pointerdown', ()=>{
+            this.registry.events.emit('aviso', 'La máquina está vacía');
+        });
 
         //input
         this.mov = this.input.keyboard.createCursorKeys();

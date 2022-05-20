@@ -11,6 +11,9 @@ export default class ending extends Phaser.Scene{
     create(){
         //variable que almacena la información del JSON
         this.conversacion = this.cache.json.get('textoEnding');
+        
+        //fondo
+        this.fondo = this.add.image(0,0,'prologoFondo').setOrigin(0,0);
 
         //el rectangulo y texto 
         this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);
@@ -33,7 +36,6 @@ export default class ending extends Phaser.Scene{
         });
 
         this.events.on('cambiarexpresion', ()=>{
-            console.log(i);
             if(i == 1){
                 this.viejo.setTexture('viejo');
             };
@@ -51,6 +53,7 @@ export default class ending extends Phaser.Scene{
             };
 
             if(i == 10){
+                this.fondo.setVisible(false);
                 this.eli.setVisible(false);
                 this.viejo.setVisible(false);
             };

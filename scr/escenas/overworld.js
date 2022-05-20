@@ -1,4 +1,5 @@
 var pelea;
+var contador = 0;
 export default class overworld extends Phaser.Scene{
     constructor(){
         super({key: 'overworld'});
@@ -316,11 +317,13 @@ export default class overworld extends Phaser.Scene{
         //estructuracion del mapa.1 - zonas que llevarán al jugador a un escenario mas detallado del edificio.
         
         //poliplaza
-        this.aPoliplaza1 = this.add.zone(217,803,231,1).setOrigin(0,0);
-        this.physics.add.existing(this.aPoliplaza1,true);
-
-        this.aPoliplaza2 = this.add.zone(450,758,1,45).setOrigin(0,0);
-        this.physics.add.existing(this.aPoliplaza2,true);
+        this.aPoliplaza1 = this.add.rectangle(217,773,231,31).setOrigin(0,0);
+        this.physics.add.existing(this.aPoliplaza1);
+        this.aPoliplaza1.on('pointerdown', ()=>{
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionPP');
+            this.scene.transition({target:'poliplaza0', duration:300, sleep:true, moveBelow:true});
+        });
 
         //edificio A 
         this.alEdificioA1 = this.add.rectangle(538, 955, 44, 48, 0xffffff).setOrigin(0,0);
@@ -559,28 +562,17 @@ export default class overworld extends Phaser.Scene{
         this.physics.add.collider(this.jugador,this.edificios);
 
         //estructuracion del mapa.1.1 - el OVERLAP entre el jugador y los rectangulos de los edificios;
-        this.physics.add.collider(this.jugador, this.aPoliplaza1,() =>{
-            this.jugador.setPosition(this.jugador.getBounds().centerX, this.jugador.getBounds().centerY + 10);
-            this.registry.events.emit('aviso', 'Poliplaza, nada interesante ahí.');
-            /*this.bgm.pause();
-            this.registry.events.emit('reconstruccionPP');
-            this.scene.transition({target:'poliplaza0', duration:300, sleep:true, sleep:true, moveBelow:true});*/
-        });
-
-        this.physics.add.collider(this.jugador, this.aPoliplaza2,() =>{
-            this.jugador.setPosition(this.jugador.getBounds().centerX + 10, this.jugador.getBounds().centerY);
-            this.registry.events.emit('aviso', 'Poliplaza, nada interesante ahí.');
-            /*this.bgm.pause();
-            this.registry.events.emit('reconstruccionPP');
-            this.scene.transition({target:'poliplaza0', duration:300, sleep:true, moveBelow:true});*/
-        });
         this.physics.add.overlap(this.jugador,[this.alEdificioA1, this.alEdificioA2, this.alEdificioA3, this.alEdificioB1, this.alEdificioB2,this.alEdificioC,this.alEdificioD1, this.alEdificioD2,this.alEdificioE, this.alEdificioF]);
        
         //estructuración del mapa.2.1 - creacion del OVERLAP en las zonas de batalla y su funcion.
         /*explicacion: aqui, al momento del jugador estar sobre las zonas, se genera un numero y si cumple el if, se verifica que la 
         escena de combate exista, sino, llama a un evento que la crea*/
         this.physics.add.overlap(this.jugador, this.zonasDeBatalla, ()=>{
-            console.log('esta contando');
+            contador += 1;
+            if (contador == 60) {
+                console.log('Está tocando el piso');
+                contador = 0;
+            };
             pelea = Phaser.Math.Between(0,1250/*no se un buen numero*/) 
             if(pelea >= 40 && pelea <= 43){
                 if(this.scene.isActive('combate') != null){
@@ -631,7 +623,8 @@ export default class overworld extends Phaser.Scene{
         if(this.alEdificioA1.body.touching.none && !this.alEdificioA1.body.embedded.valueOf() && this.alEdificioA2.body.touching.none && !this.alEdificioA2.body.embedded.valueOf() && this.alEdificioA3.body.touching.none && !this.alEdificioA3.body.embedded.valueOf() && this.alEdificioB1.body.touching.none && !this.alEdificioB1.body.embedded.valueOf() && this.alEdificioB2.body.touching.none && !this.alEdificioB2.body.embedded.valueOf() && this.alEdificioC.body.touching.none && !this.alEdificioC.body.embedded.valueOf() && this.alEdificioD1.body.touching.none && !this.alEdificioD1.body.embedded.valueOf() && this.alEdificioD2.body.touching.none && !this.alEdificioD2.body.embedded.valueOf() && this.alEdificioE.body.touching.none && !this.alEdificioE.body.embedded.valueOf()&& this.alEdificioF.body.touching.none && !this.alEdificioF.body.embedded.valueOf()){
             this.polimapaOverlay.setAlpha(1);
         };
-        //Lineas relacionadas al transporte del jugador        
+        //Lineas relacionadas al transporte del jugador
+        this.aPoliplaza1.setVisible(true).setInteractive();        
         this.alEdificioA1.setVisible(true).setInteractive();
         this.alEdificioA2.setVisible(true).setInteractive();
         this.alEdificioA3.setVisible(true).setInteractive();
@@ -673,16 +666,16 @@ export default class overworld extends Phaser.Scene{
         //Cosas relacionadas al movimiento del jugador
         this.jugador.body.setVelocity(0);
         if (this.mov.right.isDown){
-            this.jugador.body.setVelocityX(500);
+            this.jugador.body.setVelocityX(120);
             this.jugador.anims.play('right_walk',true);
         }else if (this.mov.left.isDown){
-            this.jugador.body.setVelocityX(-500);
+            this.jugador.body.setVelocityX(-120);
             this.jugador.anims.play('left_walk', true);
         }else if (this.mov.up.isDown){
-            this.jugador.body.setVelocityY(-500);
+            this.jugador.body.setVelocityY(-120);
             this.jugador.anims.play('top_walk', true);
         }else if (this.mov.down.isDown){
-            this.jugador.body.setVelocityY(500);
+            this.jugador.body.setVelocityY(120);
             this.jugador.anims.play('bot_walk', true);
         }else{
             this.jugador.anims.pause();

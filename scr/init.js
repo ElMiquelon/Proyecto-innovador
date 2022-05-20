@@ -9,13 +9,13 @@ const config ={
     physics:{
         default: "arcade",
         arcade:{
-            debug: true,
+            /*debug: true,
             debugShowBody: true,
             debugShowStaticBody: true,
             debugShowVelocity: true,
             debugVelocityColor: 0xff0000,
             debugBodyColor: 0xff0000,
-            debugStaticBodyColor: 0xff00ff
+            debugStaticBodyColor: 0xff00ff*/
         }
     }
 }

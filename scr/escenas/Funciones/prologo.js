@@ -9,7 +9,7 @@ export default class prologo extends Phaser.Scene{
     }
 
     create(){
-        this.fondo = this.add.image(0,0,'prologoFondo').setOrigin(0,0).setScale(.7).setVisible(false);
+        this.fondo = this.add.image(0,0,'prologoFondo').setOrigin(0,0).setVisible(false);
 
         this.prologo = this.cache.json.get('textoPrologo');
         this.rectangulo = this.add.rectangle(0, this.sys.game.config.height, this.sys.game.config.width, 100, 0xaaaaaa, .5).setOrigin(0,1);

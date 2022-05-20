@@ -18,14 +18,15 @@ export default class menup extends Phaser.Scene{
         var lvlup = this.cache.json.get('lvlup');
         console.log(this.registry.get('playerStats'));
         this.op.on('down', ()=>{
-            for (let index = 0; index < 60; index++) {
+            for (let index = 0; index < 99; index++) {
                 this.registry.values.playerStats.hp += lvlup.hp[Phaser.Math.Between(0, lvlup.hp.length - 1)];
                 this.registry.values.playerStats.atk += lvlup.atk[Phaser.Math.Between(0, lvlup.atk.length - 1)];
                 this.registry.values.playerStats.def += lvlup.def[Phaser.Math.Between(0, lvlup.def.length - 1)];
                 this.registry.values.playerStats.nxtlvl = Math.round(this.registry.values.playerStats.nxtlvl * 1.25);
-                this.registry.values.playerStats.lvl += 1; 
-                console.log(this.registry.get('playerStats'));  
+                this.registry.values.playerStats.lvl += 1;  
             };
+            console.log('Ahora eres nivel 100'); 
+            console.log(this.registry.get('playerStats'));
         });
         this.alSalon = this.input.keyboard.addKey('S');
         this.alSalon.on('down', ()=>{
