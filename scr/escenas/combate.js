@@ -13,6 +13,7 @@ var palParry;
 var mirror = 0;
 var elEnemigoAtaco;
 var stillAlive;
+var enemyLoader
 
 var playerStats = {
     maxhp: 100,
@@ -564,12 +565,12 @@ export default class combate extends Phaser.Scene {
 
         //asignación de estadisticas al enemigo y jugador
         this.events.on('asignador', (toplevel) => { //Código para escribir enemigos y sus stats, toplevel es cuantos enemigos pueden aparecer.
-            this.enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, toplevel));
-                enemyStats.nombre = this.enemyLoader.nombre;
-                enemyStats.maxhp = this.enemyLoader.hp[Phaser.Math.Between(0, this.enemyLoader.hp.length - 1)];
+            enemyLoader = this.cache.json.get('enemigo' + Phaser.Math.Between(1, toplevel));
+                enemyStats.nombre = enemyLoader.nombre;
+                enemyStats.maxhp = enemyLoader.hp[Phaser.Math.Between(0, enemyLoader.hp.length - 1)];
                 enemyStats.hp = enemyStats.maxhp;
-                enemyStats.atk = this.enemyLoader.atk[Phaser.Math.Between(0, this.enemyLoader.atk.length - 1)];
-                enemyStats.xp = Phaser.Math.Between(this.enemyLoader.xp[0], this.enemyLoader.xp[1])
+                enemyStats.atk = enemyLoader.atk[Phaser.Math.Between(0, enemyLoader.atk.length - 1)];
+                enemyStats.xp = Phaser.Math.Between(enemyLoader.xp[0], enemyLoader.xp[1])
                 console.log(enemyStats);
         });
 
@@ -593,8 +594,8 @@ export default class combate extends Phaser.Scene {
             };
 
             //para que no se vea mal necesitaremos sprites del mismo tamaño, se pueden redimensionar estos no?
-            this.spriteEnemigo = this.add.sprite(249,143, this.enemyLoader.nombre);
-            this.spriteEnemigo.anims.play('stall' + this.enemyLoader.nombre);
+            this.spriteEnemigo = this.add.sprite(249,143);
+            this.spriteEnemigo.anims.play('stall' + enemyLoader.nombre);
             this.bgm = this.sound.add('BGMCombateNormal',{loop:true, volume:VOLUMEN});
         });
 
