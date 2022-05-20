@@ -6,7 +6,7 @@ export default class edificioCP1 extends Phaser.Scene{
         //detalles de la camara, limites del mundo
         this.cameras.main.setBounds(40,0,518,101);
         this.cameras.main.setZoom(1.5);
-        this.add.image(0,0, 'CP0').setOrigin(0,0);
+        this.add.image(0,0, 'CP1').setOrigin(0,0);
         this.physics.world.setBounds(40,0,518,101);
 
         //detalles del jugador
@@ -22,7 +22,7 @@ export default class edificioCP1 extends Phaser.Scene{
             this.add.rectangle(40,0,58,20).setOrigin(0),
             this.add.rectangle(98,0,16,10).setOrigin(0),
             this.add.rectangle(114,0,104,20).setOrigin(0),
-            this.add.rectangle(233,19,37,20).setOrigin(0),
+            this.add.rectangle(233,0,37,20).setOrigin(0),
             this.add.rectangle(218,0,15,10).setOrigin(0),
             this.add.rectangle(312,0,60,20).setOrigin(0),
             this.add.rectangle(387,0,42,20).setOrigin(0),
@@ -31,12 +31,14 @@ export default class edificioCP1 extends Phaser.Scene{
             this.add.rectangle(429,0,15,10).setOrigin(0),
             this.add.rectangle(505,0,53,20).setOrigin(0),
             this.add.rectangle(490,0,15,10).setOrigin(0),
+            this.add.rectangle(289,14,22,1).setOrigin(0),
+            this.add.rectangle(289,15,1,7).setOrigin(0)
         ]);
 
         this.physics.add.collider(this.jugador, this.hitboxes);
         
         //overlap de las escaleras
-        this.escalera = this.add.zone(288,0,24,32).setOrigin(0);
+        this.escalera = this.add.zone(270,0,20,20).setOrigin(0);
         this.physics.add.existing(this.escalera);
         this.physics.add.overlap(this.jugador, this.escalera, ()=>{
             console.log('bajaste por escalera ');
@@ -47,7 +49,7 @@ export default class edificioCP1 extends Phaser.Scene{
 
 
         //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
-        this.registry.events.on('subirescalera1C', ()=>{
+        this.registry.events.on('subirescalerac', ()=>{
             this.jugador.setPosition(272,56);
         });
 

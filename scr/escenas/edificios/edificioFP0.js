@@ -79,7 +79,7 @@ export default class edificioFP0 extends Phaser.Scene{
         this.puerta3 = this.add.rectangle(133,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta3);
         this.puerta3.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Es un alamcen, no tienes la llave');
+            this.registry.events.emit('aviso', '¿Qué es este lugar?');
         });
         this.puerta4 = this.add.rectangle(202,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta4);

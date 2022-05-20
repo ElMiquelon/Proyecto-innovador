@@ -32,7 +32,7 @@ export default class edificioCP0 extends Phaser.Scene{
             this.add.rectangle(98,0,15,10).setOrigin(0),
             this.add.rectangle(182,0,36,19).setOrigin(0),
             this.add.rectangle(167,0,15,10).setOrigin(0),
-            this.add.rectangle(233,0,38,19).setOrigin(0),
+            this.add.rectangle(233,0,58,19).setOrigin(0),
             this.add.rectangle(218,0,15,10).setOrigin(0),
             this.add.rectangle(312,0,61,19).setOrigin(0),
             this.add.rectangle(372,0,16,10).setOrigin(0),
@@ -46,13 +46,18 @@ export default class edificioCP0 extends Phaser.Scene{
         this.physics.add.collider(this.jugador, this.hitboxes);
 
         //OVERLAP de las escaleras
-        this.escalera = this.add.zone(292,0,21,32).setOrigin(0);//esta la de en medio que sube
+        this.escalera = this.add.zone(292,0,21,19).setOrigin(0);//esta la de en medio que sube
         this.physics.add.existing(this.escalera)
         this.physics.add.overlap(this.jugador, this.escalera, ()=>{
             console.log('subiste por la única escalera');
             this.registry.events.emit('subirescalerac');
             this.input.keyboard.enabled = false;
             this.scene.transition({target:'edificioCP1', duration:300, sleep:true, moveBelow:true});
+        });
+        
+        //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
+        this.registry.events.on('bajarescalerac', ()=>{
+            this.jugador.setPosition(269,48);
         });
 
         //detalles de las transiciones
@@ -65,10 +70,7 @@ export default class edificioCP0 extends Phaser.Scene{
             this.input.keyboard.enabled = true;
         });
 
-        //eventos que modificarán la posicion del jugador de acuerdo a la escalera que tome
-        this.registry.events.on('bajarescalera1C', ()=>{
-            this.jugador.setPosition(269,48);
-        });
+        
 
         //DETALLES DE LAS PUERTAS DE IZQUIERDA A DERECHA
 

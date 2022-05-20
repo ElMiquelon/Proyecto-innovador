@@ -369,7 +369,9 @@ export default class overworld extends Phaser.Scene{
         this.alEdificioC = this.add.rectangle(785,560, 340, 28, 0xffffff).setOrigin(0,0);
         this.physics.add.existing(this.alEdificioC);
         this.alEdificioC.on('pointerdown', ()=>{
-            console.log('aqui va el evento que te lleva al C. WIP');
+            this.bgm.pause();
+            this.registry.events.emit('reconstruccionC');
+            this.scene.transition({target:'edificioCP0', duration:300, sleep:true, moveBelow:true});
         });
 
         //edificio D, misma mierda que con el B

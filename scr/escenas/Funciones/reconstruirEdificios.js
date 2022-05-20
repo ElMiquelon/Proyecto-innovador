@@ -101,6 +101,10 @@ export default class reconstruirEdificios extends Phaser.Scene{
             this.scene.moveAbove('edificioCP0', 'transicionACombate').moveAbove('edificioCP1', 'transicionACombate')
         });
 
+        this.registry.events.on('destruccionedificioCP0', ()=>{
+            this.scene.remove('edificioCP1');
+        });
+
         this.registry.events.on('reconstruccionD'/*Cuiden las tildes, no las pongan*/, ()=>{
             this.scene.add('edificioDP0', new edificioDP0);
             this.scene.add('edificioDP1', new edificioDP1);

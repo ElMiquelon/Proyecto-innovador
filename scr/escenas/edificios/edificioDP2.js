@@ -112,12 +112,12 @@ export default class edificioDP2 extends Phaser.Scene{
         this.lockers = this.add.rectangle(611,37,17,85).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.lockers);
         this.lockers.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Un locker huele a flor de lavanda,\n ninguno se puede abrir');
+            this.registry.events.emit('aviso', 'Un locker huele a flor de lavanda.\nNinguno se puede abrir');
         });
         this.aviso = this.add.zone(748,47,2,19).setOrigin(0,0);
         this.physics.add.existing(this.aviso);
         this.physics.add.overlap(this.jugador,this.aviso, ()=>{
-            this.registry.events.emit('aviso', 'Es un baño, pero no tienes ganas de ir al baño');
+            this.registry.events.emit('aviso', 'Es un baño... De hombres');
         });
 
 

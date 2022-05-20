@@ -72,7 +72,6 @@ export default class edificioAP1 extends Phaser.Scene{
         this.puerta1 = this.add.rectangle(517,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta1);
         this.puerta1.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Entraste al A4');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
@@ -80,7 +79,6 @@ export default class edificioAP1 extends Phaser.Scene{
         this.puerta2 = this.add.rectangle(448,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta2);
         this.puerta2.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Entraste al A5');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
@@ -88,7 +86,6 @@ export default class edificioAP1 extends Phaser.Scene{
         this.puerta3 = this.add.rectangle(366,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta3);
         this.puerta3.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Entraste al A6');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
@@ -96,7 +93,6 @@ export default class edificioAP1 extends Phaser.Scene{
         this.puerta4 = this.add.rectangle(258,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta4);
         this.puerta4.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Entraste al A7');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
@@ -104,7 +100,6 @@ export default class edificioAP1 extends Phaser.Scene{
         this.puerta5 = this.add.rectangle(154,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta5);
         this.puerta5.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'Entraste al A8');
             this.registry.events.emit('reconstruccionsalon');
             this.scene.transition({target:'salon', duration:300, sleep:true, moveBelow:true});
         });
@@ -112,7 +107,7 @@ export default class edificioAP1 extends Phaser.Scene{
         this.puerta6 = this.add.rectangle(86,9,17,22).setOrigin(0,0).setInteractive();
         this.physics.add.existing(this.puerta6);
         this.puerta6.on('pointerdown', ()=>{
-            this.registry.events.emit('aviso', 'No deberías entrar al baño ahora');
+            this.registry.events.emit('aviso', 'No deberías entrar al baño ahora. \nMenos al de hombres.');
         });
 
         //detalles de las transiciones

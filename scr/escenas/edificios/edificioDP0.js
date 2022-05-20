@@ -44,7 +44,7 @@ export default class edificioDP0 extends Phaser.Scene{
         this.chuco.on('pointerdown',()=>{//atención, esto es importante para los demás jefes
             if(this.registry.values.playerStats.lvl >= 4 && this.registry.values.progreso == 4){//primero se comprueba tanto si el jugador alcanzó la bandera necesaria para poder enfrentarse a él como si cumple el nivel para ello
                 this.registry.events.emit('dialogarprejefe',this.scene.key,true, 2);//en caso de cumplir ambas, comienza un dialogoprejefe, enviando la key de esta escena, un true de que es true va a peliar y su ID
-                this.registry.events.emit('pausarbgma');
+                this.registry.events.emit('pausarbgmd');
                 this.time.delayedCall(200, ()=>{//y 200 ms despues de haber cerrado la caja 
                     this.registry.events.emit('transicionacombatejefe', this.scene.key, 2);//comienza el combate, dando la key de esta escena y el ID del jefe
                 });
